@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:julia/views/myads/components/ad_tile.dart';
+import 'package:julia/views/my_account/myads/components/ad_tile.dart';
 
 class MyAds extends StatelessWidget {
   const MyAds({super.key});
