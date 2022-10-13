@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:julia/views/post_products/post_products.dart';
 
 class Explore extends StatelessWidget {
   Explore({Key? key}) : super(key: key);

@@ -115,10 +115,11 @@ class _RegistrationState extends State<Registration> {
                         onPressed: () async {
                           final email = _emailController.text;
                           final password = _passwordController.text;
-                          final usercredential = await FirebaseAuth.instance
+                          await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                                   email: email, password: password);
 
+                          // ignore: use_build_context_synchronously
                           Navigator.of(context).pushAndRemoveUntil(
                               PageRouteBuilder(
                                 pageBuilder:

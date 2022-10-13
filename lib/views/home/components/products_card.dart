@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:julia/query/get_product.dart';
+import 'package:julia/query/getproducts_model.dart';
 
 final List<Map<String, String>> productData = [
   {
@@ -49,32 +51,56 @@ final List<Map<String, String>> productData = [
   },
 ];
 
-class Products extends StatelessWidget {
+class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
 
   @override
+  State<Products> createState() => _ProductsState();
+}
+
+class _ProductsState extends State<Products> {
+  late Future<List<AllProduct>> productsData;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      productsData = getProduct();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 700,
-      width: 300,
-      child: GridView.builder(
-          itemCount: productData.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-          ),
-          itemBuilder: (context, index) {
-            var currentItem = productData[index];
-            return ProductCard(
-              imageUrl: "${currentItem['imageUrl']}",
-              time: "${currentItem['time']}",
-              title: "${currentItem['title']}",
-              location: "${currentItem['location']}",
-              price: "${currentItem['price']}",
+    return FutureBuilder<List<AllProduct>>(
+        future: productsData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<AllProduct>? data = snapshot.data;
+            return GridView.builder(
+                itemCount: data!.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  var currentItem = data[index];
+                  return ProductCard(
+                    imageUrl: "${currentItem.postImage}",
+                    time: "${currentItem.postDate}",
+                    title: "${currentItem.postTitle}",
+                    location: "${currentItem.postLocation}",
+                    price: "${currentItem.postPrice}",
+                  );
+                });
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }),
-    );
+          }
+        });
   }
 }
 
