@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PostProductsView extends StatefulWidget {
   const PostProductsView({super.key});
@@ -38,6 +39,13 @@ class _PostProductsViewState extends State<PostProductsView> {
   // Initial Selected Value
   var _dropdownValue;
   var _locationValue;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController brandController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  XFile? image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,16 +74,18 @@ class _PostProductsViewState extends State<PostProductsView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Add Title*',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    controller: titleController,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ],
               ),
@@ -87,16 +97,18 @@ class _PostProductsViewState extends State<PostProductsView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Brand*',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    controller: brandController,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ],
               ),
@@ -141,19 +153,21 @@ class _PostProductsViewState extends State<PostProductsView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Description of what you sell*',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   TextField(
+                    controller: descController,
                     keyboardType: TextInputType.multiline,
                     minLines: 4,
                     maxLines: null,
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ],
               ),
@@ -165,16 +179,18 @@ class _PostProductsViewState extends State<PostProductsView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Price',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    controller: priceController,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ],
               ),
@@ -202,7 +218,14 @@ class _PostProductsViewState extends State<PostProductsView> {
                         ),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final ImagePicker _picker = ImagePicker();
+                      final img =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                      setState(() {
+                        image = img;
+                      });
+                    },
                   )
                 ],
               ),
@@ -221,7 +244,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                   ),
                   DropdownButton<String>(
                     enableFeedback: true,
-                    hint: const Text('Type'),
+                    hint: const Text('Location'),
                     isExpanded: true,
                     value: _locationValue,
                     items: location
@@ -241,16 +264,18 @@ class _PostProductsViewState extends State<PostProductsView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Your Name',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    controller: nameController,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
                   ),
                 ],
               ),

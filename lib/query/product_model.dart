@@ -1,4 +1,4 @@
-class AllProduct {
+class Product {
   String? sId;
   String? postCategory;
   String? postSubcategory;
@@ -16,7 +16,7 @@ class AllProduct {
   String? postDate;
   int? iV;
 
-  AllProduct(
+  Product(
       {this.sId,
       this.postCategory,
       this.postSubcategory,
@@ -34,7 +34,7 @@ class AllProduct {
       this.postDate,
       this.iV});
 
-  AllProduct.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     postCategory = json['post_category'];
     postSubcategory = json['post_subcategory'];

@@ -1,55 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:julia/query/get_product.dart';
-import 'package:julia/query/getproducts_model.dart';
-
-final List<Map<String, String>> productData = [
-  {
-    'imageUrl': 'assets/camera.png',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-  {
-    'imageUrl': 'assets/car1.webp',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-  {
-    'imageUrl':
-        'https://images.indianexpress.com/2022/09/iPhone-14-Pro-iPhone-14-Pro-Max-1.jpg',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-  {
-    'imageUrl':
-        'https://images.indianexpress.com/2022/09/iPhone-14-Pro-iPhone-14-Pro-Max-1.jpg',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-  {
-    'imageUrl':
-        'https://images.indianexpress.com/2022/09/iPhone-14-Pro-iPhone-14-Pro-Max-1.jpg',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-  {
-    'imageUrl':
-        'https://images.indianexpress.com/2022/09/iPhone-14-Pro-iPhone-14-Pro-Max-1.jpg',
-    'time': "10 min ago",
-    'title': "Apple Iphone 14 pro",
-    'location': 'Bengaluru,SaltLake',
-    'price': '\$8900',
-  },
-];
+import 'package:julia/query/product_model.dart';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -59,7 +10,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  late Future<List<AllProduct>> productsData;
+  late Future<List<Product>> productsData;
 
   @override
   void initState() {
@@ -71,26 +22,36 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<AllProduct>>(
+    return FutureBuilder<List<Product>>(
         future: productsData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<AllProduct>? data = snapshot.data;
+            List<Product>? data = snapshot.data;
             return GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: data!.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  mainAxisSpacing: 20,
                   crossAxisCount: 2,
                 ),
                 itemBuilder: (context, index) {
                   var currentItem = data[index];
-                  return ProductCard(
-                    imageUrl: "${currentItem.postImage}",
-                    time: "${currentItem.postDate}",
-                    title: "${currentItem.postTitle}",
-                    location: "${currentItem.postLocation}",
-                    price: "${currentItem.postPrice}",
+                  var str = data[index].postDate.toString();
+                  var parts = str.split('T');
+                  var prefix = parts[1].trim();
+                  var time = prefix.split('.');
+                  var timepre = time[0].trim();
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: ProductCard(
+                      imageUrl:
+                          "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                      time: timepre,
+                      title: currentItem.postTitle!,
+                      location: currentItem.postLocation.toString(),
+                      price: currentItem.postPrice.toString(),
+                    ),
                   );
                 });
           } else if (snapshot.hasError) {
@@ -104,7 +65,7 @@ class _ProductsState extends State<Products> {
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({
     Key? key,
     required this.imageUrl,
@@ -118,166 +79,104 @@ class ProductCard extends StatelessWidget {
   final String title;
   final String location;
   final String price;
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  @override
+  void initState() {
+    print("Image ------>${widget.imageUrl}");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 314,
-          width: 170,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
+    return Container(
+      height: 250,
+      width: 170,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey,
+          ),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(4, 8),
+              spreadRadius: -3,
+              blurRadius: 5,
+              color: Colors.grey,
+            )
+          ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: widget.imageUrl != []
+                ? Image.network(
+                    widget.imageUrl,
+                    height: 100,
+                    width: 160,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg',
+                    height: 100,
+                    width: 160,
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            widget.time,
+            style: const TextStyle(fontSize: 10, color: Colors.grey),
+          ),
+          Text(
+            widget.title,
+            softWrap: true,
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            "€${widget.price}",
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Row(
+            children: [
+              const Icon(
+                Icons.location_on_outlined,
+                size: 12,
                 color: Colors.grey,
               ),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(4, 8),
-                  spreadRadius: -3,
-                  blurRadius: 5,
-                  color: Colors.grey,
-                )
-              ]),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 190,
-                width: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  // color: Colors.grey,
-                ),
-                child: Image.network(imageUrl),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               Text(
-                time,
-                style: const TextStyle(fontSize: 10, color: Colors.grey),
-              ),
-              Text(
-                title,
-                softWrap: true,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_outlined,
-                    size: 12,
-                    color: Colors.grey,
-                  ),
-                  Text(
-                    location,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                ],
+                widget.location,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ],
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        // Container(
-        //   height: 314,
-        //   width: 170,
-        //   padding: const EdgeInsets.all(10),
-        //   decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(10),
-        //       border: Border.all(
-        //         color: Colors.grey,
-        //       ),
-        //       color: Colors.white,
-        //       boxShadow: const [
-        //         BoxShadow(
-        //           offset: Offset(4, 10),
-        //           spreadRadius: -3,
-        //           blurRadius: 5,
-        //           color: Colors.grey,
-        //         )
-        //       ]),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Container(
-        //         height: 190,
-        //         width: 160,
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(10),
-        //           color: Colors.grey,
-        //         ),
-        //         child: Image.network(imageUrl),
-        //       ),
-        //       const SizedBox(
-        //         height: 10,
-        //       ),
-        //       Text(
-        //         time,
-        //         style: const TextStyle(fontSize: 10, color: Colors.grey),
-        //       ),
-        //       Text(
-        //         title,
-        //         style: const TextStyle(
-        //           fontSize: 20,
-        //           color: Colors.black,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Text(
-        //         price,
-        //         style: const TextStyle(
-        //           fontSize: 20,
-        //           color: Colors.black,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 15,
-        //       ),
-        //       Row(
-        //         children: [
-        //           const Icon(
-        //             Icons.location_on_outlined,
-        //             size: 12,
-        //             color: Colors.grey,
-        //           ),
-        //           Text(
-        //             location,
-        //             style: const TextStyle(fontSize: 12, color: Colors.grey),
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
-      ],
+        ],
+      ),
     );
   }
 }
