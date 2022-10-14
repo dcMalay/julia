@@ -18,6 +18,8 @@ class ListTileChat extends StatelessWidget {
                     const Chatting(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
+                  //final tween = Tween(begin: 0.0, end: 1.0);
+                  //final fadeAnimation = animation.drive(tween);
                   return SlideTransition(
                     position: Tween<Offset>(
                             begin: const Offset(1, 0), end: Offset.zero)

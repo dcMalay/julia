@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/views/my_account/myads/myads.dart';
-import 'package:julia/views/my_account/settings/setting_screen.dart';
-import 'package:julia/views/my_account/ticket/ticket_screen.dart';
+import 'package:julia/views/myads/myads.dart';
+import 'package:julia/views/settings/setting_screen.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -13,6 +12,8 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   final user = FirebaseAuth.instance.currentUser;
+
+  //Get from gallery
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +157,7 @@ class _MyAccountState extends State<MyAccount> {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   transitionDuration: const Duration(milliseconds: 500),
+                  // reverseTransitionDuration: const Duration(seconds: 1),
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       const MyAds(),
                   transitionsBuilder:
@@ -213,44 +215,23 @@ class _MyAccountState extends State<MyAccount> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 30.0, top: 20),
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 500),
-                  // reverseTransitionDuration: const Duration(seconds: 1),
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const TicketScreen(),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                              begin: const Offset(1, 0), end: Offset.zero)
-                          .animate(animation),
-                      child: child,
-                    );
-                  },
+          child: Row(
+            children: const [
+              Icon(
+                Icons.settings_outlined,
+                color: Colors.grey,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Bought Ticket',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
                 ),
-              );
-            },
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.settings_outlined,
-                  color: Colors.grey,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  'Bought Ticket',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Padding(
