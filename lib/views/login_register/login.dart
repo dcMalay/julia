@@ -1,10 +1,10 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/firebase_options.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/registration.dart';
+import 'package:julia/views/login_register/verify.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -83,29 +83,29 @@ class _LoginState extends State<Login> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: _isObscure,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          border: const OutlineInputBorder(),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                            icon: Icon(
-                              _isObscure
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    //   child: TextField(
+                    //     controller: _passwordController,
+                    //     obscureText: _isObscure,
+                    //     decoration: InputDecoration(
+                    //       labelText: "Password",
+                    //       border: const OutlineInputBorder(),
+                    //       suffixIcon: IconButton(
+                    //         onPressed: () {
+                    //           setState(() {
+                    //             _isObscure = !_isObscure;
+                    //           });
+                    //         },
+                    //         icon: Icon(
+                    //           _isObscure
+                    //               ? Icons.visibility_off
+                    //               : Icons.visibility,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -114,33 +114,28 @@ class _LoginState extends State<Login> {
                         color: Colors.green,
                         child: const Text('Login'),
                         onPressed: () async {
-                          // final email = _emailController.text;
-                          // final password = _passwordController.text;
-                          // await FirebaseAuth.instance
-                          //     .signInWithEmailAndPassword(
-                          //   email: email,
-                          //   password: password,
-                          // );
-
-                          Navigator.of(context).pushAndRemoveUntil(
-                              PageRouteBuilder(
-                                transitionDuration:
-                                    const Duration(milliseconds: 500),
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        const Home(),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return SlideTransition(
-                                    position: Tween<Offset>(
-                                            begin: const Offset(1, 0),
-                                            end: Offset.zero)
-                                        .animate(animation),
-                                    child: child,
-                                  );
-                                },
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              transitionDuration:
+                                  const Duration(milliseconds: 500),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const VerifyScreen(
+                                phone: '8790465024',
+                                otp: 120390,
                               ),
-                              (route) => false);
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero)
+                                      .animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
                         },
                       ),
                     ),

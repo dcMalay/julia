@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/views/myads/components/ad_tile.dart';
 
 class MyAds extends StatelessWidget {
   const MyAds({super.key});
@@ -7,29 +8,31 @@ class MyAds extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text('My Ads'),
+        title: const Text(
+          'My Ads',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           shrinkWrap: true,
-          children: [
-            Container(
-              height: 100,
-              width: MediaQuery.of(context).size.width * 2 / 3,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 1),
-                    spreadRadius: 0,
-                    blurRadius: 10,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            )
+          children: const [
+            AdTile(),
+            AdTile(),
+            AdTile(),
+            AdTile(),
           ],
         ),
       ),

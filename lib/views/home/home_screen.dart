@@ -123,22 +123,19 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: 1200,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const ProductDetailsScreen(
-                      productName: 'Trucks',
-                      productprice: '€ 50000',
-                      productUrl:
-                          'https://julia.primeshaun.in/uploads/68a234d4d29065e0210e87c46f6ff6be2a1aec26.jpg',
-                      location: 'Nickerie',
-                    );
-                  }));
-                },
-                child: const Products(),
-              ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const ProductDetailsScreen(
+                    productName: 'Trucks',
+                    productprice: '€ 50000',
+                    productUrl:
+                        'https://julia.primeshaun.in/uploads/68a234d4d29065e0210e87c46f6ff6be2a1aec26.jpg',
+                    location: 'Nickerie',
+                  );
+                }));
+              },
+              child: const Products(),
             ),
             // Row(
             //   children: [
