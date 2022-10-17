@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:julia/query/get_product.dart';
-import 'package:julia/query/product_model.dart';
+import 'package:julia/data/model/product_model.dart';
+import 'package:julia/data/repository/best_recommended_products_repo.dart';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);

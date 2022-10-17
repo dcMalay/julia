@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:julia/views/home.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pinput/pinput.dart';
 
 class VerifyScreen extends StatefulWidget {
-  const VerifyScreen({super.key, required this.phone, required this.otp});
-  final String phone;
+  const VerifyScreen({super.key, required this.otp});
+
   final int otp;
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
@@ -107,7 +108,23 @@ class _VerifyScreenState extends State<VerifyScreen> {
         child: CupertinoButton(
           color: Colors.green,
           child: const Text('Verify'),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const Home(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                            begin: const Offset(1, 0), end: Offset.zero)
+                        .animate(animation),
+                    child: child,
+                  );
+                },
+              ),
+            );
+          },
         ),
       ),
     );
