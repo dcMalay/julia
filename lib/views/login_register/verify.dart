@@ -1,19 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:julia/data/model/verify_otp_model.dart';
+import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 class VerifyScreen extends StatefulWidget {
-  const VerifyScreen({super.key, required this.otp});
+  const VerifyScreen({super.key, required this.email});
+  final String email;
 
-  final int otp;
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
   OtpTimerButtonController controller = OtpTimerButtonController();
+
+  TextEditingController _otpController = TextEditingController();
 
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -32,7 +37,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
   late int otp;
   @override
   void initState() {
-    otp = widget.otp;
     focusedPinTheme = defaultPinTheme.copyDecorationWith(
       border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
       borderRadius: BorderRadius.circular(8),
@@ -49,6 +53,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authprovider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -72,6 +77,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
           ),
           const SizedBox(height: 20),
           Pinput(
+            controller: _otpController,
             length: 6,
             defaultPinTheme: defaultPinTheme,
             focusedPinTheme: focusedPinTheme,
@@ -88,7 +94,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
             child: OtpTimerButton(
               controller: controller,
               backgroundColor: Colors.green,
-              onPressed: () {},
+              onPressed: () {
+                authprovider.sentEmail(widget.email);
+                controller.startTimer();
+              },
               text: const Text('Resend OTP'),
               duration: 60,
             ),
@@ -109,21 +118,29 @@ class _VerifyScreenState extends State<VerifyScreen> {
           color: Colors.green,
           child: const Text('Verify'),
           onPressed: () {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const Home(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                            begin: const Offset(1, 0), end: Offset.zero)
-                        .animate(animation),
-                    child: child,
-                  );
-                },
-              ),
-            );
+            var otpresponse =
+                authprovider.verifyOtp(widget.email, _otpController.text);
+            print('otp response -------->$otpresponse');
+
+            if (otpresponse != null) {
+              Navigator.of(context).pushReplacement(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const Home(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                              begin: const Offset(1, 0), end: Offset.zero)
+                          .animate(animation),
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            } else {
+              throw Exception("Otp does not match");
+            }
           },
         ),
       ),

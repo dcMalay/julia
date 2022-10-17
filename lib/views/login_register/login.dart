@@ -128,8 +128,8 @@ class _LoginState extends State<Login> {
                           transitionDuration: const Duration(milliseconds: 500),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const VerifyScreen(
-                            otp: 120390,
+                                  VerifyScreen(
+                            email: _emailController.text,
                           ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {

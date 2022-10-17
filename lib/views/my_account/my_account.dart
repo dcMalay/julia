@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/myads/myads.dart';
@@ -12,8 +11,6 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
-  final user = FirebaseAuth.instance.currentUser;
-
   //Get from gallery
 
   @override
@@ -54,18 +51,18 @@ class _MyAccountState extends State<MyAccount> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
-                    "${user?.email}",
-                    style: const TextStyle(
+                    "Ramesh",
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 6,
                   ),
-                  const Text(
+                  Text(
                     '+91 9239489823',
                     style: TextStyle(
                       color: Colors.grey,
@@ -413,7 +410,6 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         TextButton(
                           onPressed: () {
-                            FirebaseAuth.instance.signOut();
                             Navigator.of(ctx).pop();
                           },
                           child: Container(

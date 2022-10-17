@@ -1,11 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/firebase_options.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
-import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +14,6 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  bool _isObscure = true;
   late final TextEditingController _emailController;
   //late final TextEditingController _passwordController;
 
@@ -83,32 +78,6 @@ class _RegistrationState extends State<Registration> {
                     input!.isValidEmail() ? null : "Check your email",
               ),
             ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //   child: TextField(
-            //     controller: _passwordController,
-            //     obscureText: _isObscure,
-            //     decoration: InputDecoration(
-            //       labelText: "Password",
-            //       border: const OutlineInputBorder(),
-            //       suffixIcon: IconButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             _isObscure = !_isObscure;
-            //           });
-            //         },
-            //         icon: Icon(
-            //           _isObscure
-            //               ? Icons.visibility_off
-            //               : Icons.visibility,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(
               height: 20,
             ),
@@ -132,8 +101,8 @@ class _RegistrationState extends State<Registration> {
                           transitionDuration: const Duration(milliseconds: 500),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const VerifyScreen(
-                            otp: 120390,
+                                  VerifyScreen(
+                            email: _emailController.text,
                           ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
@@ -155,14 +124,10 @@ class _RegistrationState extends State<Registration> {
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
                       PageRouteBuilder(
-                        // transitionDuration: const Duration(seconds: 1),
-                        // reverseTransitionDuration: const Duration(seconds: 1),
                         pageBuilder: (context, animation, secondaryAnimation) =>
                             const Login(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
-                          //final tween = Tween(begin: 0.0, end: 1.0);
-                          //final fadeAnimation = animation.drive(tween);
                           return SlideTransition(
                             position: Tween<Offset>(
                                     begin: const Offset(1, 0), end: Offset.zero)
