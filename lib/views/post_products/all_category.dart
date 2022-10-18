@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:julia/views/post_products/post_products.dart';
+import 'package:julia/data/model/all_category_model.dart';
+import 'package:julia/provider/category_provider.dart';
+import 'package:provider/provider.dart';
 
-class Categories extends StatelessWidget {
-  Categories({Key? key}) : super(key: key);
+class Categories extends StatefulWidget {
+  const Categories({Key? key}) : super(key: key);
+
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
   final List<Map<String, String>> categoryData = [
     {
       'Id': '1',
@@ -167,66 +175,94 @@ class Categories extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    final categoryMdl = Provider.of<CategoryProvider>(context, listen: false);
+    categoryMdl.getCategory(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text(
-            'Category',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          )),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: categoryData.length,
-          itemBuilder: (context, index) {
-            var currentItem = categoryData[index];
-            return InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 500),
-                    // reverseTransitionDuration: const Duration(seconds: 1),
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const PostProductsView(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                                begin: const Offset(1, 0), end: Offset.zero)
-                            .animate(animation),
-                        child: child,
-                      );
-                    },
-                  ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      child: Image.asset('${currentItem['imageUrl']}'),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text('${currentItem['title']}'),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: const Text(
+              'Category',
+              style: TextStyle(
+                color: Colors.black,
               ),
-            );
-          },
-        ),
-      ),
-    );
+            )),
+        body: Container());
   }
 }
+        // body: FutureBuilder<List<AllCategory>>(
+        //     future: categoryProvider.getCategory(),
+        //     builder: (context, snapshot) {
+        //       List<AllCategory>? data = snapshot.data;
+        //       if (snapshot.hasData) {
+        //         return Padding(
+        //           padding: const EdgeInsets.all(8),
+        //           child: ListView.builder(
+        //             scrollDirection: Axis.vertical,
+        //             itemCount: data!.length,
+        //             itemBuilder: (context, index) {
+        //               // var currentItem = categoryData[index];
+        //               var currentItem = data[index];
+        //               return InkWell(
+        //                 onTap: () {
+        //                   Navigator.of(context).push(
+        //                     PageRouteBuilder(
+        //                       transitionDuration:
+        //                           const Duration(milliseconds: 500),
+        //                       // reverseTransitionDuration: const Duration(seconds: 1),
+        //                       pageBuilder:
+        //                           (context, animation, secondaryAnimation) =>
+        //                               const PostProductsView(),
+        //                       transitionsBuilder: (context, animation,
+        //                           secondaryAnimation, child) {
+        //                         return SlideTransition(
+        //                           position: Tween<Offset>(
+        //                                   begin: const Offset(1, 0),
+        //                                   end: Offset.zero)
+        //                               .animate(animation),
+        //                           child: child,
+        //                         );
+        //                       },
+        //                     ),
+        //                   );
+        //                 },
+        //                 child: Padding(
+        //                   padding: const EdgeInsets.all(8.0),
+        //                   child: Row(
+        //                     mainAxisAlignment: MainAxisAlignment.start,
+        //                     children: [
+        //                       // CircleAvatar(
+        //                       //   backgroundColor: Colors.grey,
+        //                       //   child: Image.asset('${currentItem['imageUrl']}'),
+        //                       // ),
+        //                       const SizedBox(
+        //                         width: 20,
+        //                       ),
+        //                       Text(currentItem.postCategoryName),
+        //                       const SizedBox(
+        //                         width: 10,
+        //                       ),
+        //                     ],
+        //                   ),
+        //                 ),
+        //               );
+        //             },
+        //           ),
+        //         );
+        //       } else if (snapshot.hasError) {
+        //         return Text("${snapshot.error}");
+        //       } else {
+        //         return const Center(
+        //           child: CircularProgressIndicator(),
+        //         );
+        //       }
+        //     }),
+      
+

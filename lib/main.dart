@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:julia/provider/auth_provider.dart';
+import 'package:julia/provider/category_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => CategoryProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -83,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
     print(status);
     if (status) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 500),
           pageBuilder: (context, animation, secondaryAnimation) => const Home(),
@@ -99,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     } else {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 500),
           pageBuilder: (context, animation, secondaryAnimation) =>

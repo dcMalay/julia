@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/login_model.dart';
 import 'package:julia/data/model/verify_otp_model.dart';
-import 'package:julia/views/login_register/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _secureStorage = FlutterSecureStorage();
