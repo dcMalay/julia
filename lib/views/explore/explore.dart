@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:julia/views/login_register/login.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/auth_provider.dart';
 
 class Explore extends StatelessWidget {
   Explore({Key? key}) : super(key: key);

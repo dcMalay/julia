@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:julia/data/repository/auth_repo.dart';
-import 'package:julia/data/repository/verify_otp_repo.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _loading = false;
@@ -30,6 +29,19 @@ class AuthProvider with ChangeNotifier {
     _loading = true;
     try {
       await verifyEmailOtp(otp, email);
+      _loading = false;
+    } catch (e) {
+      print(e);
+    }
+    notifyListeners();
+  }
+
+//logout  function
+  logout() async {
+    _loading = true;
+    try {
+      logoutUser();
+      userLogout();
       _loading = false;
     } catch (e) {
       print(e);

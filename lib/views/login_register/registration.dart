@@ -125,7 +125,7 @@ class _RegistrationState extends State<Registration> {
                   Navigator.of(context).pushAndRemoveUntil(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            const Login(),
+                            const LoginScreen(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return SlideTransition(

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:julia/main.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/myads/myads.dart';
 import 'package:julia/views/settings/setting_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/auth_provider.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -12,9 +17,13 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   //Get from gallery
+  XFile? image;
+  final TextEditingController _userName = TextEditingController();
+  final TextEditingController _phoneNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
           elevation: 2,
@@ -86,7 +95,14 @@ class _MyAccountState extends State<MyAccount> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () async {
+                              final ImagePicker _picker = ImagePicker();
+                              final img = await _picker.pickImage(
+                                  source: ImageSource.gallery);
+                              setState(() {
+                                image = img;
+                              });
+                            },
                             child: const CircleAvatar(
                               radius: 40,
                               backgroundColor: Colors.grey,
@@ -95,13 +111,15 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                             ),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _userName,
+                            decoration: const InputDecoration(
                               hintText: 'Edit Name',
                             ),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _phoneNumber,
+                            decoration: const InputDecoration(
                               hintText: 'Edit Phone No.',
                             ),
                           )
@@ -195,7 +213,6 @@ class _MyAccountState extends State<MyAccount> {
             Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 500),
-                // reverseTransitionDuration: const Duration(seconds: 1),
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     BuyBusiness(),
                 transitionsBuilder:
@@ -287,7 +304,6 @@ class _MyAccountState extends State<MyAccount> {
               Navigator.of(context).push(
                 PageRouteBuilder(
                   transitionDuration: const Duration(milliseconds: 500),
-                  // reverseTransitionDuration: const Duration(seconds: 1),
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       const SettingScreen(),
                   transitionsBuilder:
@@ -356,7 +372,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   ),
                   Text(
-                    ' Get helpwith account',
+                    ' Get help with account',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
@@ -409,8 +425,13 @@ class _MyAccountState extends State<MyAccount> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
+                          onPressed: () async {
+                            await authProvider.logout();
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) {
+                              return const SplashScreen();
+                            }));
                           },
                           child: Container(
                             height: 30,

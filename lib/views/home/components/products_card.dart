@@ -96,14 +96,14 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   void initState() {
-    print("Image ------>${widget.imageUrl}");
+    //print("Image ------>${widget.imageUrl}");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
+      height: 450,
       width: 170,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -121,25 +121,16 @@ class _ProductCardState extends State<ProductCard> {
             )
           ]),
       child: Column(
-        // mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: widget.imageUrl != []
-                ? Image.network(
-                    widget.imageUrl,
-                    height: 100,
-                    width: 160,
-                    fit: BoxFit.cover,
-                  )
-                : Image.network(
-                    'https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg',
-                    height: 100,
-                    width: 160,
-                    fit: BoxFit.cover,
-                  ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                widget.imageUrl,
+                height: 100,
+                width: 160,
+                fit: BoxFit.cover,
+              )),
           const SizedBox(
             height: 10,
           ),
