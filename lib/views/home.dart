@@ -3,10 +3,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:julia/views/chat/chat_screen.dart';
 import 'package:julia/views/explore/explore.dart';
 import 'package:julia/views/home/home_screen.dart';
-import 'package:julia/views/login_register/login.dart';
 import 'package:julia/views/my_account/my_account.dart';
 import 'package:julia/views/post_products/all_category.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class _HomeState extends State<Home> {
   List<Widget> currentWidget = [
     const HomeScreen(),
     const ChatScreen(),
-    Categories(),
+    const Categories(),
     Explore(),
     const MyAccount(),
   ];
@@ -31,6 +29,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: currentWidget[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 10,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
         onTap: (index) => setState(() {

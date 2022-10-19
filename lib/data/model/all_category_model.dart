@@ -12,14 +12,14 @@ String allCategoryToJson(List<AllCategory> data) =>
 
 class AllCategory {
   AllCategory({
-    required this.id,
-    required this.postCategoryName,
-    required this.v,
+    this.id,
+    this.postCategoryName,
+    this.v,
   });
 
-  String id;
-  String postCategoryName;
-  int v;
+  String? id;
+  String? postCategoryName;
+  int? v;
 
   factory AllCategory.fromJson(Map<String, dynamic> json) => AllCategory(
         id: json["_id"],
