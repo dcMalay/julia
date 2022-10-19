@@ -186,13 +186,12 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
-            'Category',
+            'Select Your Category',
             style: TextStyle(
               color: Colors.black,
             ),
@@ -231,9 +230,9 @@ class _CategoriesState extends State<Categories> {
                             transitionDuration:
                                 const Duration(milliseconds: 500),
                             // reverseTransitionDuration: const Duration(seconds: 1),
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const PostProductsView(),
+                            pageBuilder: (context, animation,
+                                    secondaryAnimation) =>
+                                PostProductsView(categoryId: currentItem.id!),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(

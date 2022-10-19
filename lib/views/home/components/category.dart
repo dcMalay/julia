@@ -68,7 +68,7 @@ class CategoryIcons extends StatelessWidget {
             transitionDuration: const Duration(milliseconds: 500),
             // reverseTransitionDuration: const Duration(seconds: 1),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                Categories(),
+                const Categories(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               //final tween = Tween(begin: 0.0, end: 1.0);

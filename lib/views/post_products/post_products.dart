@@ -3,15 +3,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:julia/data/model/sub_category_model.dart';
+import 'package:julia/data/repository/sub_category_repo.dart';
 
 class PostProductsView extends StatefulWidget {
-  const PostProductsView({super.key});
-
+  const PostProductsView({super.key, required this.categoryId});
+  final String categoryId;
   @override
   State<PostProductsView> createState() => _PostProductsViewState();
 }
 
 class _PostProductsViewState extends State<PostProductsView> {
+  late Future<List<SubCategories>> subCategory;
+
   //List of items in our dropdown menu
   var issueCategory = [
     'Cars',
@@ -46,6 +50,14 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   XFile? image;
+
+  @override
+  void initState() {
+    subCategory = getSubcategory(widget.categoryId);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,240 +78,244 @@ class _PostProductsViewState extends State<PostProductsView> {
               color: Colors.black,
             ),
           )),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            Padding(
+      body: FutureBuilder<List<SubCategories>>(
+          future: subCategory,
+          builder: (context, snapshot) {
+            return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: [
-                  const Text(
-                    'Add Title*',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: titleController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Brand*',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: brandController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Type',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  DropdownButton<String>(
-                    enableFeedback: true,
-                    hint: const Text('Type'),
-                    isExpanded: true,
-                    value: _dropdownValue,
-                    items: issueCategory
-                        .map((String item) =>
-                            DropdownMenuItem(value: item, child: Text(item)))
-                        .toList(),
-                    onChanged: (String? d) {
-                      setState(() {
-                        _dropdownValue = d!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Description of what you sell*',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: descController,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 4,
-                    maxLines: null,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Price',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextField(
-                    controller: priceController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Upload Photo',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  CupertinoButton(
-                    color: Colors.green,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.image),
-                        Text(
-                          'Upload Image',
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Add Title*',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
                         ),
                       ],
                     ),
-                    onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
-                      final img =
-                          await _picker.pickImage(source: ImageSource.gallery);
-                      setState(() {
-                        image = img;
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Location',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 6,
                   ),
-                  DropdownButton<String>(
-                    enableFeedback: true,
-                    hint: const Text('Location'),
-                    isExpanded: true,
-                    value: _locationValue,
-                    items: location
-                        .map((String item) =>
-                            DropdownMenuItem(value: item, child: Text(item)))
-                        .toList(),
-                    onChanged: (String? d) {
-                      setState(() {
-                        _dropdownValue = d!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Your Name',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Brand*',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: brandController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 6,
                   ),
-                  TextField(
-                    controller: nameController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Type',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        DropdownButton<String>(
+                          enableFeedback: true,
+                          hint: const Text('Type'),
+                          isExpanded: true,
+                          value: _dropdownValue,
+                          items: issueCategory
+                              .map((String item) => DropdownMenuItem(
+                                  value: item, child: Text(item)))
+                              .toList(),
+                          onChanged: (String? d) {
+                            setState(() {
+                              _dropdownValue = d!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Description of what you sell*',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: descController,
+                          keyboardType: TextInputType.multiline,
+                          minLines: 4,
+                          maxLines: null,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Price',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: priceController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Upload Photo',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CupertinoButton(
+                          color: Colors.green,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.image),
+                              Text(
+                                'Upload Image',
+                              ),
+                            ],
+                          ),
+                          onPressed: () async {
+                            final ImagePicker _picker = ImagePicker();
+                            final img = await _picker.pickImage(
+                                source: ImageSource.gallery);
+                            setState(() {
+                              image = img;
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Location',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        DropdownButton<String>(
+                          enableFeedback: true,
+                          hint: const Text('Location'),
+                          isExpanded: true,
+                          value: _locationValue,
+                          items: location
+                              .map((String item) => DropdownMenuItem(
+                                  value: item, child: Text(item)))
+                              .toList(),
+                          onChanged: (String? d) {
+                            setState(() {
+                              _dropdownValue = d!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Your Name',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: CupertinoButton(
+                        color: Colors.green,
+                        child: const Text(
+                          'Next One',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-            const Divider(
-              color: Colors.grey,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  color: Colors.green,
-                  child: const Text(
-                    'Next One',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }
