@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
-import 'package:julia/provider/category_provider.dart';
 import 'package:julia/views/post_products/post_products.dart';
-import 'package:provider/provider.dart';
+import 'package:julia/views/post_products/sub_category.dart';
 
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
@@ -176,6 +175,7 @@ class _CategoriesState extends State<Categories> {
   //   },
   // ];
   late Future<List<AllCategory>> apidata;
+
   @override
   void initState() {
     super.initState();
@@ -232,7 +232,7 @@ class _CategoriesState extends State<Categories> {
                             // reverseTransitionDuration: const Duration(seconds: 1),
                             pageBuilder: (context, animation,
                                     secondaryAnimation) =>
-                                PostProductsView(categoryId: currentItem.id!),
+                                SubCategoryScreen(categoryId: currentItem.id!),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               return SlideTransition(
@@ -263,6 +263,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 }
+
         // body: FutureBuilder<List<AllCategory>>(
         //     future: categoryProvider.getCategory(),
         //     builder: (context, snapshot) {

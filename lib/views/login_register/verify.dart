@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/data/model/verify_otp_model.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';

@@ -1,33 +1,21 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:julia/data/model/sub_category_model.dart';
-import 'package:julia/data/repository/sub_category_repo.dart';
+import 'package:julia/data/model/dynamic_form_model.dart';
+import 'package:julia/data/repository/dynamic_form_repo.dart';
 
 class PostProductsView extends StatefulWidget {
-  const PostProductsView({super.key, required this.categoryId});
+  const PostProductsView(
+      {super.key, required this.categoryId, required this.subCategoryId});
   final String categoryId;
+  final String subCategoryId;
   @override
   State<PostProductsView> createState() => _PostProductsViewState();
 }
 
 class _PostProductsViewState extends State<PostProductsView> {
-  late Future<List<SubCategories>> subCategory;
-
   //List of items in our dropdown menu
-  var issueCategory = [
-    'Cars',
-    'Bikes',
-    'Electroniocs',
-    'Fashion',
-    'Pets',
-    'Mobile',
-    'Books',
-    'Sports',
-    'Others',
-  ];
+
   var location = [
     'Brokopondo',
     'Commewijne',
@@ -41,7 +29,7 @@ class _PostProductsViewState extends State<PostProductsView> {
     'Wanica',
   ];
   // Initial Selected Value
-  var _dropdownValue;
+
   var _locationValue;
 
   TextEditingController titleController = TextEditingController();
@@ -50,10 +38,10 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   XFile? image;
-
+  late Future<List<DynamicForm>> dynamicFormData;
   @override
   void initState() {
-    subCategory = getSubcategory(widget.categoryId);
+    dynamicFormData = getDynamicForm(widget.subCategoryId);
     // TODO: implement initState
     super.initState();
   }
@@ -78,8 +66,8 @@ class _PostProductsViewState extends State<PostProductsView> {
               color: Colors.black,
             ),
           )),
-      body: FutureBuilder<List<SubCategories>>(
-          future: subCategory,
+      body: FutureBuilder<List<DynamicForm>>(
+          future: dynamicFormData,
           builder: (context, snapshot) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -128,39 +116,39 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Type',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        DropdownButton<String>(
-                          enableFeedback: true,
-                          hint: const Text('Type'),
-                          isExpanded: true,
-                          value: _dropdownValue,
-                          items: issueCategory
-                              .map((String item) => DropdownMenuItem(
-                                  value: item, child: Text(item)))
-                              .toList(),
-                          onChanged: (String? d) {
-                            setState(() {
-                              _dropdownValue = d!;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   height: 6,
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       const Text(
+                  //         'Type',
+                  //         style: TextStyle(color: Colors.black, fontSize: 16),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 5,
+                  //       ),
+                  //       DropdownButton<String>(
+                  //         enableFeedback: true,
+                  //         hint: const Text('Type'),
+                  //         isExpanded: true,
+                  //         value: _dropdownValue,
+                  //         items: issueCategory
+                  //             .map((String item) => DropdownMenuItem(
+                  //                 value: item, child: Text(item)))
+                  //             .toList(),
+                  //         onChanged: (String? d) {
+                  //           setState(() {
+                  //             _dropdownValue = d!;
+                  //           });
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 6,
                   ),
@@ -268,7 +256,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                               .toList(),
                           onChanged: (String? d) {
                             setState(() {
-                              _dropdownValue = d!;
+                              _locationValue = d!;
                             });
                           },
                         ),
@@ -298,6 +286,87 @@ class _PostProductsViewState extends State<PostProductsView> {
                   const Divider(
                     color: Colors.grey,
                   ),
+                  FutureBuilder<List<DynamicForm>>(
+                      future: dynamicFormData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<DynamicForm>? data = snapshot.data;
+                          return SizedBox(
+                            height: 500,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.builder(
+                                itemCount: data!.length,
+                                itemBuilder: (context, index) {
+                                  var currentItem = data[index];
+                                  List<String> options =
+                                      currentItem.schema.fielddata.split(',');
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        currentItem.schema.field,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: 550,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: options.length,
+                                            itemBuilder: (context, index) {
+                                              return SizedBox(
+                                                height: 20,
+                                                width: 100,
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 20,
+                                                      width: 100,
+                                                      child: RadioListTile(
+                                                        title: Text(
+                                                            options[index]),
+                                                        value: options[index],
+                                                        groupValue: options,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            options[index] =
+                                                                value
+                                                                    .toString();
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                              // return SizedBox(
+                                              //   height: 30,
+                                              //   width: 100,
+                                              //   child: ListTile(
+                                              //     leading: Icon(Icons.add),
+                                              //     title: Text(options[index]),
+                                              //   ),
+                                              // );
+                                              // return Text(options[index]);
+                                            }),
+                                      )
+                                    ],
+                                  );
+                                }),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                  const Divider(
+                    color: Colors.grey,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -305,7 +374,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                       child: CupertinoButton(
                         color: Colors.green,
                         child: const Text(
-                          'Next One',
+                          'Submit',
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {},
