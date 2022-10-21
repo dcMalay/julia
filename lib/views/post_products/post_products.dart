@@ -1,13 +1,17 @@
-import 'dart:html';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
 class PostProductsView extends StatefulWidget {
@@ -46,7 +50,7 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController nameController = TextEditingController();
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
-
+  final _secureStorage = FlutterSecureStorage();
   List<Asset> images = <Asset>[];
   List<Asset> resultList = <Asset>[];
   String error = 'No Error Dectected';
@@ -82,7 +86,28 @@ class _PostProductsViewState extends State<PostProductsView> {
         images[i].name!,
         imageData,
       );
-     
+      var authToken = await _secureStorage.read(key: 'token');
+      var authUser = await _secureStorage.read(key: 'userId');
+      print(authToken);
+      print(_locationValue);
+      var response = http.post(Uri.parse('$baseUrl/user/create/new/ad'),
+          headers: {
+            HttpHeaders.authorizationHeader: authToken!,
+            HttpHeaders.contentTypeHeader: "application/json"
+          },
+          body: jsonEncode(<String, dynamic>{
+            "post_category": widget.categoryId,
+            "post_subcategory": widget.subCategoryId,
+            "post_user_id": authUser,
+            "fields": '',
+            "post_location": _locationValue,
+            "post_title": titleController.text,
+            "post_image": multipartFile,
+            "post_price": priceController.text,
+            "post_description": descController.text,
+            "auth_name": nameController.text,
+          }));
+      return response;
     }
   }
 
@@ -172,39 +197,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
-                  // const SizedBox(
-                  //   height: 6,
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       const Text(
-                  //         'Type',
-                  //         style: TextStyle(color: Colors.black, fontSize: 16),
-                  //       ),
-                  //       const SizedBox(
-                  //         height: 5,
-                  //       ),
-                  //       DropdownButton<String>(
-                  //         enableFeedback: true,
-                  //         hint: const Text('Type'),
-                  //         isExpanded: true,
-                  //         value: _dropdownValue,
-                  //         items: issueCategory
-                  //             .map((String item) => DropdownMenuItem(
-                  //                 value: item, child: Text(item)))
-                  //             .toList(),
-                  //         onChanged: (String? d) {
-                  //           setState(() {
-                  //             _dropdownValue = d!;
-                  //           });
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   const SizedBox(
                     height: 6,
                   ),
@@ -333,87 +325,78 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  FutureBuilder<List<DynamicForm>>(
-                      future: dynamicFormData,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<DynamicForm>? data = snapshot.data;
-                          return SizedBox(
-                            height: 500,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                                itemCount: data!.length,
-                                itemBuilder: (context, index) {
-                                  var currentItem = data[index];
-                                  List<String> options =
-                                      currentItem.schema.fielddata.split(',');
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        currentItem.schema.field,
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        height: 550,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: options.length,
-                                            itemBuilder: (context, index) {
-                                              return SizedBox(
-                                                height: 20,
-                                                width: 100,
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 20,
-                                                      width: 100,
-                                                      child: RadioListTile(
-                                                        title: Text(
-                                                            options[index]),
-                                                        value: options[index],
-                                                        groupValue: options,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            options[index] =
-                                                                value
-                                                                    .toString();
-                                                          });
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                              // return SizedBox(
-                                              //   height: 30,
-                                              //   width: 100,
-                                              //   child: ListTile(
-                                              //     leading: Icon(Icons.add),
-                                              //     title: Text(options[index]),
-                                              //   ),
-                                              // );
-                                              // return Text(options[index]);
-                                            }),
-                                      )
-                                    ],
-                                  );
-                                }),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }),
+                  // const Divider(
+                  //   color: Colors.grey,
+                  // ),
+                  // FutureBuilder<List<DynamicForm>>(
+                  //     future: dynamicFormData,
+                  //     builder: (context, snapshot) {
+                  //       if (snapshot.hasData) {
+                  //         List<DynamicForm>? data = snapshot.data;
+                  //         return SizedBox(
+                  //           height: 500,
+                  //           width: MediaQuery.of(context).size.width,
+                  //           child: ListView.builder(
+                  //               itemCount: data!.length,
+                  //               itemBuilder: (context, index) {
+                  //                 var currentItem = data[index];
+                  //                 List<String> options =
+                  //                     currentItem.schema.fielddata.split(',');
+                  //                 return Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     Text(
+                  //                       currentItem.schema.field,
+                  //                       style: const TextStyle(fontSize: 16),
+                  //                     ),
+                  //                     SizedBox(
+                  //                       height: 550,
+                  //                       width:
+                  //                           MediaQuery.of(context).size.width,
+                  //                       child: ListView.builder(
+                  //                           scrollDirection: Axis.horizontal,
+                  //                           itemCount: options.length,
+                  //                           itemBuilder: (context, index) {
+                  //                             return SizedBox(
+                  //                               height: 20,
+                  //                               width: 100,
+                  //                               child: Row(
+                  //                                 children: [
+                  //                                   SizedBox(
+                  //                                     height: 20,
+                  //                                     width: 100,
+                  //                                     child: RadioListTile(
+                  //                                       title: Text(
+                  //                                           options[index]),
+                  //                                       value: options[index],
+                  //                                       groupValue: options,
+                  //                                       onChanged: (value) {
+                  //                                         setState(() {
+                  //                                           options[index] =
+                  //                                               value
+                  //                                                   .toString();
+                  //                                         });
+                  //                                       },
+                  //                                     ),
+                  //                                   ),
+                  //                                 ],
+                  //                               ),
+                  //                             );
+                  //                           }),
+                  //                     )
+                  //                   ],
+                  //                 );
+                  //               }),
+                  //         );
+                  //       } else if (snapshot.hasError) {
+                  //         return Text("${snapshot.error}");
+                  //       } else {
+                  //         return const Center(
+                  //           child: CircularProgressIndicator(),
+                  //         );
+                  //       }
+                  //     }),
                   const Divider(
                     color: Colors.grey,
                   ),
@@ -427,7 +410,9 @@ class _PostProductsViewState extends State<PostProductsView> {
                           'Submit',
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          postProductData();
+                        },
                       ),
                     ),
                   ),
