@@ -1,14 +1,21 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
+// ignore: must_be_immutable
 class PostProductsView extends StatefulWidget {
   const PostProductsView(
       {super.key, required this.categoryId, required this.subCategoryId});
   final String categoryId;
   final String subCategoryId;
+
   @override
   State<PostProductsView> createState() => _PostProductsViewState();
 }
@@ -39,10 +46,59 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController nameController = TextEditingController();
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
+
+  List<Asset> images = <Asset>[];
+  List<Asset> resultList = <Asset>[];
+  String error = 'No Error Dectected';
+  Future<void> loadAssets() async {
+    try {
+      resultList = await MultiImagePicker.pickImages(
+          maxImages: 20,
+          enableCamera: true,
+          selectedAssets: images,
+          cupertinoOptions: const CupertinoOptions(takePhotoIcon: 'Chat'),
+          materialOptions: const MaterialOptions(
+            actionBarColor: '#abcdef',
+            actionBarTitle: 'Example App',
+            allViewTitle: "All Photes",
+            useDetailsView: false,
+            selectCircleStrokeColor: '#000000',
+          ));
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+    if (!mounted) return;
+    setState(() {
+      images = resultList;
+    });
+  }
+
+  postProductData() async {
+    for (var i = 0; i < images.length; i++) {
+      ByteData byteData = await images[i].getByteData();
+      List<int> imageData = byteData.buffer.asInt8List();
+
+      MultipartFile multipartFile = MultipartFile.fromBytes(
+        images[i].name!,
+        imageData,
+      );
+     
+    }
+  }
+
+  Widget buildGridView() {
+    return GridView.count(
+      crossAxisCount: 3,
+      children: List.generate(images.length, (index) {
+        Asset asset = images[index];
+        return AssetThumb(asset: asset, width: 300, height: 300);
+      }),
+    );
+  }
+
   @override
   void initState() {
     dynamicFormData = getDynamicForm(widget.subCategoryId);
-    // TODO: implement initState
     super.initState();
   }
 
@@ -198,6 +254,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
+                  SizedBox(height: 200, child: buildGridView()),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -212,6 +269,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                         ),
                         CupertinoButton(
                           color: Colors.green,
+                          onPressed: loadAssets,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: const [
@@ -221,14 +279,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                               ),
                             ],
                           ),
-                          onPressed: () async {
-                            final ImagePicker _picker = ImagePicker();
-                            final img = await _picker.pickImage(
-                                source: ImageSource.gallery);
-                            setState(() {
-                              image = img;
-                            });
-                          },
                         )
                       ],
                     ),
