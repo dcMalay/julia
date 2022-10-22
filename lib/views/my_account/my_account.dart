@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/main.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
+import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/myads/myads.dart';
 import 'package:julia/views/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +21,7 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   //Get from gallery
   XFile? image;
+
   final TextEditingController _userName = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
 
@@ -42,16 +46,42 @@ class _MyAccountState extends State<MyAccount> {
                 top: 15.0,
                 left: 20,
               ),
-              child: InkWell(
-                onTap: () {},
-                child: const CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(
-                    'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
-                  ),
-                ),
-              ),
+              child: image == null
+                  ? InkWell(
+                      onTap: () async {
+                        final ImagePicker _picker = ImagePicker();
+                        final img = await _picker.pickImage(
+                            source: ImageSource.gallery);
+                        setState(() {
+                          image = img;
+                        });
+                      },
+                      child: const CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: NetworkImage(
+                          'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                        ),
+                      ),
+                    )
+                  : InkWell(
+                      onTap: () async {
+                        final ImagePicker _picker = ImagePicker();
+                        final img = await _picker.pickImage(
+                            source: ImageSource.gallery);
+                        setState(() {
+                          image = img;
+                        });
+                      },
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: Image.file(
+                          File(image!.path),
+                          fit: BoxFit.cover,
+                        ).image,
+                      ),
+                    ),
             ),
             Container(
               margin: const EdgeInsets.only(
@@ -87,70 +117,21 @@ class _MyAccountState extends State<MyAccount> {
               ),
               child: IconButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: const Text("Edit Profile"),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              final ImagePicker _picker = ImagePicker();
-                              final img = await _picker.pickImage(
-                                  source: ImageSource.gallery);
-                              setState(() {
-                                image = img;
-                              });
-                            },
-                            child: const CircleAvatar(
-                              radius: 40,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: NetworkImage(
-                                'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
-                              ),
-                            ),
-                          ),
-                          TextField(
-                            controller: _userName,
-                            decoration: const InputDecoration(
-                              hintText: 'Edit Name',
-                            ),
-                          ),
-                          TextField(
-                            controller: _phoneNumber,
-                            decoration: const InputDecoration(
-                              hintText: 'Edit Phone No.',
-                            ),
-                          )
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 50,
-                            padding: const EdgeInsets.only(
-                              top: 6,
-                              left: 10,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(4)),
-                            child: const Text(
-                              "Save",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  Navigator.of(context).push(PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 500),
+                    // reverseTransitionDuration: const Duration(seconds: 1),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const EditProfileScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                                begin: const Offset(1, 0), end: Offset.zero)
+                            .animate(animation),
+                        child: child,
+                      );
+                    },
+                  ));
                 },
                 icon: const Icon(
                   Icons.edit_note_outlined,

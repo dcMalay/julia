@@ -66,13 +66,10 @@ class CategoryIcons extends StatelessWidget {
         Navigator.of(context).push(
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
-            // reverseTransitionDuration: const Duration(seconds: 1),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                Categories(),
+                const Categories(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
-              //final tween = Tween(begin: 0.0, end: 1.0);
-              //final fadeAnimation = animation.drive(tween);
               return SlideTransition(
                 position:
                     Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)

@@ -23,7 +23,7 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1000,
+      height: 1400,
       child: FutureBuilder<List<Product>>(
           future: productsData,
           builder: (context, snapshot) {
@@ -33,10 +33,11 @@ class _ProductsState extends State<Products> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 10,
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5.0,
-                    mainAxisSpacing: 5.0,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 2 / 3,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
                   ),
                   itemBuilder: (context, index) {
                     var currentItem = data![index];
