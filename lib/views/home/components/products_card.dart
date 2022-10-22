@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/product_model.dart';
 import 'package:julia/data/repository/best_recommended_products_repo.dart';
+import 'package:julia/views/home/products_details_screen.dart';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -50,15 +51,26 @@ class _ProductsState extends State<Products> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                        child: ProductCard(
-                          // imageUrl:
-                          //   'https://media.istockphoto.com/photos/stylish-blue-headphones-on-multi-colored-duo-tone-background-lighting-picture-id1175355990?k=20&m=1175355990&s=612x612&w=0&h=LX5kcpZKWyJQA_Kh5Ub9EwDNpGtAimGr2AePNQJPYxE=',
-                          imageUrl:
-                              "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
-                          time: timepre,
-                          title: currentItem.postTitle!,
-                          location: currentItem.postLocation.toString(),
-                          price: currentItem.postPrice.toString(),
+                        child: InkWell(
+                          onTap: () {
+                            print(" post ID ------->${currentItem.sId}");
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ProductDetailsScreen(
+                                productID: currentItem.sId!,
+                              );
+                            }));
+                          },
+                          child: ProductCard(
+                            // imageUrl:
+                            //   'https://media.istockphoto.com/photos/stylish-blue-headphones-on-multi-colored-duo-tone-background-lighting-picture-id1175355990?k=20&m=1175355990&s=612x612&w=0&h=LX5kcpZKWyJQA_Kh5Ub9EwDNpGtAimGr2AePNQJPYxE=',
+                            imageUrl:
+                                "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                            time: timepre,
+                            title: currentItem.postTitle!,
+                            location: currentItem.postLocation.toString(),
+                            price: currentItem.postPrice.toString(),
+                          ),
                         ),
                       ),
                     );
