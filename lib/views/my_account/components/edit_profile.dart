@@ -33,6 +33,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  // Future<void> uploadImage(String filename, String url) async {
+  //   var request = http.MultipartRequest('POST', Uri.parse(url));
+
+  //   request.files.add(
+  //     await http.MultipartFile.fromPath('picture', filename),
+  //   );
+
+  //   var res = await request.send();
+  // }
   Future<void> uploadImage() async {
     setState(() {
       showSpinner = true;
@@ -55,7 +64,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     var response = await request.send();
 
-    print("response----------->$response");
+    print("response----------->${response.statusCode}");
     if (response.statusCode == 200) {
       setState(() {
         showSpinner = false;
@@ -74,7 +83,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     var authUser = await _secureStorage.read(key: 'userId');
     print(authToken);
     print(authUser);
-    final response = http.post(
+    final response = await http.post(
       Uri.parse('$baseUrl/user/newprofile/$authUser'),
       headers: {
         HttpHeaders.authorizationHeader: authToken!,
@@ -87,12 +96,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
       ),
     );
+    if (response.statusCode == 200) {
+      print("response from send profile name------->${response.body}");
+    } else {
+      print('getting error');
+    }
+  }
+
+  @override
+  void dispose() {
+    _userName.clear();
+    _phoneNumber.clear();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Profile')),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Colors.white,
+          title: const Text(
+            'Edit Profile',
+            style: TextStyle(color: Colors.black),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -155,6 +191,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   print('save pressed');
                   uploadImage();
                   editProfileDetails();
+                  Navigator.pop(context);
                 },
               ),
             ),

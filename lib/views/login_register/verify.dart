@@ -22,7 +22,7 @@ class VerifyScreen extends StatefulWidget {
 
 class _VerifyScreenState extends State<VerifyScreen> {
   OtpTimerButtonController controller = OtpTimerButtonController();
-  final _secureStorage = FlutterSecureStorage();
+  final _secureStorage = const FlutterSecureStorage();
   TextEditingController _otpController = TextEditingController();
   late Future<dynamic> _otpRes;
 
