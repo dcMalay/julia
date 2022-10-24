@@ -58,7 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     // request.fields['title'] = "Static title";
 
-    var multiport = http.MultipartFile('image', stream, length);
+    var multiport = http.MultipartFile('file', stream, length);
 
     request.files.add(multiport);
 
