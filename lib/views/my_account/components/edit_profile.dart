@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -18,9 +20,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   File? image;
   final _picker = ImagePicker();
   bool showSpinner = false;
-  final TextEditingController _userName = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
+  TextEditingController userName = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
   final _secureStorage = const FlutterSecureStorage();
+  //function to get the image from gallery
   Future getImage() async {
     final pickedFile =
         await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
@@ -33,6 +36,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+//function to upload the image to php server
+  void _upload(File file) async {
+    String fileName = file.path.split('/').last;
+    FormData data = FormData.fromMap({
+      "file": await MultipartFile.fromFile(
+        file.path,
+        filename: fileName,
+      ),
+    });
+
+    Dio dio = Dio();
+
+    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+      return editProfileDetails(response.data);
+    }).catchError((error) => print(error));
+  }
   // Future<void> uploadImage(String filename, String url) async {
   //   var request = http.MultipartRequest('POST', Uri.parse(url));
 
@@ -42,47 +61,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   //   var res = await request.send();
   // }
-  Future<void> uploadImage() async {
-    setState(() {
-      showSpinner = true;
-    });
+  // Future<void> uploadImage() async {
+  //   setState(() {
+  //     showSpinner = true;
+  //   });
 
-    var stream = http.ByteStream(image!.openRead());
-    stream.cast();
+  //   var stream = http.ByteStream(image!.openRead());
+  //   stream.cast();
 
-    var length = await image!.length();
+  //   var length = await image!.length();
 
-    //   var uri = Uri.parse('$baseUrl/user/addprofilepicture/$userId');
-    var uri = Uri.parse('http://mouldstaging.com/upload.php');
-    var request = http.MultipartRequest('POST', uri);
+  //   //   var uri = Uri.parse('$baseUrl/user/addprofilepicture/$userId');
+  //   var uri = Uri.parse('http://mouldstaging.com/upload.php');
+  //   var request = http.MultipartRequest('POST', uri);
 
-    // request.fields['title'] = "Static title";
+  //   // request.fields['title'] = "Static title";
 
-    var multiport = http.MultipartFile('file', stream, length);
+  //   var multiport = http.MultipartFile('file', stream, length);
 
-    request.files.add(multiport);
+  //   request.files.add(multiport);
 
-    var response = await request.send();
+  //   var response = await request.send();
 
-    print("response----------->${response.statusCode}");
-    if (response.statusCode == 200) {
-      setState(() {
-        showSpinner = false;
-      });
-      print('image uploaded');
-    } else {
-      print('failed');
-      setState(() {
-        showSpinner = false;
-      });
-    }
-  }
+  //   print("response----------->${response.statusCode}");
+  //   if (response.statusCode == 200) {
+  //     setState(() {
+  //       showSpinner = false;
+  //     });
+  //     print('image uploaded');
+  //   } else {
+  //     print('failed');
+  //     setState(() {
+  //       showSpinner = false;
+  //     });
+  //   }
+  // }
 
-  editProfileDetails() async {
+  editProfileDetails(String imageName) async {
     var authToken = await _secureStorage.read(key: 'token');
     var authUser = await _secureStorage.read(key: 'userId');
-    print(authToken);
-    print(authUser);
+
     final response = await http.post(
       Uri.parse('$baseUrl/user/newprofile/$authUser'),
       headers: {
@@ -91,11 +109,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       },
       body: json.encode(
         {
-          "user_name": _userName.text,
-          "user_phone": _phoneNumber.text,
+          "user_name": userName.text,
+          "user_phone": phoneNumber.text,
+          "user_image": imageName
         },
       ),
     );
+    print(phoneNumber.text);
+    print(userName.text);
     if (response.statusCode == 200) {
       print("response from send profile name------->${response.body}");
     } else {
@@ -104,10 +125,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   @override
-  void dispose() {
-    _userName.clear();
-    _phoneNumber.clear();
-    super.dispose();
+  void initState() {
+    setState(() {});
+    super.initState();
   }
 
   @override
@@ -171,13 +191,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
             ),
             TextField(
-              controller: _userName,
+              controller: userName,
               decoration: const InputDecoration(
                 hintText: 'Edit Name',
               ),
             ),
             TextField(
-              controller: _phoneNumber,
+              controller: phoneNumber,
               decoration: const InputDecoration(
                 hintText: 'Edit Phone No.',
               ),
@@ -189,9 +209,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: const Text("save"),
                 onPressed: () {
                   print('save pressed');
-                  uploadImage();
-                  editProfileDetails();
-                  Navigator.pop(context);
+                  _upload(File(image!.path));
+                  // uploadImage();
+                  Timer(const Duration(seconds: 1), () {
+                    Navigator.pop(context);
+                  });
                 },
               ),
             ),

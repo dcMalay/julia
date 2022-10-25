@@ -50,6 +50,8 @@ dependencies:
   multi_image_picker: ^4.8.01
   path_provider: ^2.0.11
   modal_progress_hud_nsn: ^0.3.0
+  dio: ^4.0.6
+  flutter_phoenix: ^1.1.0
   
 
 dev_dependencies:
