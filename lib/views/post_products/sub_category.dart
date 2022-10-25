@@ -15,7 +15,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   void initState() {
     sCategory = getSubcategory(widget.categoryId);
-    // TODO: implement initState
+
     super.initState();
   }
 

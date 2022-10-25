@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
-import 'package:julia/views/post_products/post_products.dart';
 import 'package:julia/views/post_products/sub_category.dart';
 
 class Categories extends StatefulWidget {
