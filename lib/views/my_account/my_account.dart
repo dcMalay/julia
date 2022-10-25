@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
@@ -396,11 +397,8 @@ class _MyAccountState extends State<MyAccount> {
                                 TextButton(
                                   onPressed: () async {
                                     await authProvider.logout();
+                                    Phoenix.rebirth(context);
                                     // ignore: use_build_context_synchronously
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) {
-                                      return const SplashScreen();
-                                    }));
                                   },
                                   child: Container(
                                     height: 30,
