@@ -55,7 +55,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
-
+  List imageNames = [];
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
@@ -77,10 +77,15 @@ class _PostProductsViewState extends State<PostProductsView> {
 
     Dio dio = Dio();
 
-    dio
-        .post("http://mouldstaging.com/upload.php", data: data)
-        .then((response) => postProductData(response.data))
-        .catchError((error) => print(error));
+    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+      imageNames.add(response.data);
+      print('image list -------->$imageNames');
+      postProductData(imageNames[0]);
+      // for (var i = 0; i < imageNames.length; i++) {
+      //   postProductData(imageNames[i]);
+      //   print('Image names------->${imageNames[i]}');
+      // }
+    }).catchError((error) => print(error));
   }
 
   postProductData(String imageName) async {

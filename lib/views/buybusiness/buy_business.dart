@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:julia/data/model/plans_model.dart';
+import 'package:julia/data/repository/all_plans_repo.dart';
 import 'package:julia/views/buybusiness/components/buyad_tile.dart';
 
 class BuyBusiness extends StatefulWidget {
@@ -11,6 +13,14 @@ class BuyBusiness extends StatefulWidget {
 }
 
 class _BuyBusinessState extends State<BuyBusiness> {
+  late Future<List<Plans>> planDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    planDetails = getallPlans();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,13 +108,11 @@ class _BuyBusinessState extends State<BuyBusiness> {
                 ),
               ),
               const Center(
-                child: BuyAdTile(),
-              ),
-              const Center(
-                child: BuyAdTile(),
-              ),
-              const Center(
-                child: BuyAdTile(),
+                child: SizedBox(
+                  height: 400,
+                  width: 200,
+                  child: BuyAdTile(),
+                ),
               ),
               const SizedBox(
                 height: 20,
