@@ -3,7 +3,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
-import 'package:julia/main.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/myads/myads.dart';

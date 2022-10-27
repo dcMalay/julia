@@ -33,7 +33,7 @@ Future verifyEmailOtp(String otp, String email) async {
 
     return userData;
   } else if (response.statusCode == 400) {
-    return ;
+    return;
   } else {
     throw Exception('getting error while otp verification');
   }

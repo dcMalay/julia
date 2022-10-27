@@ -91,8 +91,6 @@ class _PostProductsViewState extends State<PostProductsView> {
   postProductData(String imageName) async {
     var authToken = await _secureStorage.read(key: 'token');
     var authUser = await _secureStorage.read(key: 'userId');
-    print(authToken);
-    print(_locationValue);
     var response = http.post(Uri.parse('$baseUrl/user/create/new/ad'),
         headers: {
           HttpHeaders.authorizationHeader: authToken!,
@@ -105,22 +103,12 @@ class _PostProductsViewState extends State<PostProductsView> {
           "fields": '',
           "post_location": _locationValue,
           "post_title": titleController.text,
-          "post_image": imageName,
+          "post_image": json.encode(imageName),
           "post_price": priceController.text,
           "post_description": descController.text,
           "auth_name": nameController.text,
         }));
     return response;
-  }
-
-  Widget buildGridView() {
-    return GridView.count(
-      crossAxisCount: 3,
-      children: List.generate(images.length, (index) {
-        Asset asset = images[index];
-        return AssetThumb(asset: asset, width: 300, height: 300);
-      }),
-    );
   }
 
   @override
