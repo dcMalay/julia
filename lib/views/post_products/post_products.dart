@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
@@ -39,6 +38,7 @@ class _PostProductsViewState extends State<PostProductsView> {
   ];
   // Initial Selected Value
 
+  // ignore: prefer_typing_uninitialized_variables
   var _locationValue;
 
   TextEditingController titleController = TextEditingController();
@@ -46,9 +46,10 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController descController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
-  final _secureStorage = FlutterSecureStorage();
+  final _secureStorage = const FlutterSecureStorage();
 
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
@@ -316,6 +317,26 @@ class _PostProductsViewState extends State<PostProductsView> {
                               _locationValue = d!;
                             });
                           },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'City',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: cityController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
                         ),
                       ],
                     ),
