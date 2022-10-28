@@ -49,9 +49,6 @@ class _PostProductsViewState extends State<PostProductsView> {
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
   final _secureStorage = FlutterSecureStorage();
-  List<Asset> images = <Asset>[];
-  List<Asset> resultList = <Asset>[];
-  String error = 'No Error Dectected';
 
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
@@ -62,7 +59,6 @@ class _PostProductsViewState extends State<PostProductsView> {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState(() {});
   }
 
 //function to upload the image to php server
@@ -80,18 +76,14 @@ class _PostProductsViewState extends State<PostProductsView> {
     dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
       imageNames.add(response.data);
       print('image list -------->$imageNames');
-      postProductData(imageNames[0]);
-      // for (var i = 0; i < imageNames.length; i++) {
-      //   postProductData(imageNames[i]);
-      //   print('Image names------->${imageNames[i]}');
-      // }
+      postProductData(imageNames);
     }).catchError((error) => print(error));
   }
 
-  postProductData(String imageName) async {
+  postProductData(List imageName) async {
     var authToken = await _secureStorage.read(key: 'token');
     var authUser = await _secureStorage.read(key: 'userId');
-    var response = http.post(Uri.parse('$baseUrl/user/create/new/ad'),
+    var response = await http.post(Uri.parse('$baseUrl/user/create/new/ad'),
         headers: {
           HttpHeaders.authorizationHeader: authToken!,
           HttpHeaders.contentTypeHeader: "application/json"
@@ -100,15 +92,23 @@ class _PostProductsViewState extends State<PostProductsView> {
           "post_category": widget.categoryId,
           "post_subcategory": widget.subCategoryId,
           "post_user_id": authUser,
-          "fields": '',
-          "post_location": _locationValue,
+          "fields": '{}',
+          "location": _locationValue,
+          'city': 'kolkata',
           "post_title": titleController.text,
           "post_image": json.encode(imageName),
           "post_price": priceController.text,
           "post_description": descController.text,
           "auth_name": nameController.text,
         }));
-    return response;
+    print('json encoded data------>${json.encode(imageName)}');
+    if (response.statusCode == 200) {
+      print('status code 200 is ---->${response.body}');
+      return response;
+    } else {
+      print('location----->$_locationValue');
+      print('getting error ------>${response.body}');
+    }
   }
 
   @override
@@ -264,13 +264,18 @@ class _PostProductsViewState extends State<PostProductsView> {
                                 }),
                           ),
                         ),
+                        TextButton(
+                            onPressed: () {
+                              selectImages();
+                            },
+                            child: const Text('pick Image')),
                         const SizedBox(
                           height: 5,
                         ),
                         CupertinoButton(
                           color: Colors.green,
                           onPressed: () {
-                            selectImages();
+                            //selectImages();
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
