@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
-import 'package:julia/main.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/myads/myads.dart';
@@ -22,7 +22,7 @@ class _MyAccountState extends State<MyAccount> {
   //Get from gallery
   XFile? image;
   late Future<Userdetails> getUserData;
-
+  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
@@ -141,7 +141,7 @@ class _MyAccountState extends State<MyAccount> {
                           transitionDuration: const Duration(milliseconds: 500),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const MyAds(),
+                                  const MyAdsScreen(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(
@@ -155,23 +155,46 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                       );
                     },
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.settings_outlined,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'My Ads',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const MyAdsScreen(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero)
+                                    .animate(animation),
+                                child: child,
+                              );
+                            },
                           ),
-                        ),
-                      ],
+                        );
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.settings_outlined,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'My Ads',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -397,6 +420,8 @@ class _MyAccountState extends State<MyAccount> {
                                 TextButton(
                                   onPressed: () async {
                                     await authProvider.logout();
+
+                                    ///using phoenix to restart the app after log out
                                     Phoenix.rebirth(context);
                                     // ignore: use_build_context_synchronously
                                   },

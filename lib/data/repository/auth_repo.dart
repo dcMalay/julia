@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';
@@ -34,7 +33,7 @@ Future verifyEmailOtp(String otp, String email) async {
 
     return userData;
   } else if (response.statusCode == 400) {
-    return ;
+    return;
   } else {
     throw Exception('getting error while otp verification');
   }

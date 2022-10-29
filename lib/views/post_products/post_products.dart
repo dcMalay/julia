@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:http/http.dart' as http;
 
 // ignore: must_be_immutable
@@ -39,6 +38,7 @@ class _PostProductsViewState extends State<PostProductsView> {
   ];
   // Initial Selected Value
 
+  // ignore: prefer_typing_uninitialized_variables
   var _locationValue;
 
   TextEditingController titleController = TextEditingController();
@@ -46,23 +46,20 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController descController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
-  final _secureStorage = FlutterSecureStorage();
-  List<Asset> images = <Asset>[];
-  List<Asset> resultList = <Asset>[];
-  String error = 'No Error Dectected';
+  final _secureStorage = const FlutterSecureStorage();
 
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
-
+  List imageNames = [];
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
     print("Image List Length:" + imageFileList!.length.toString());
-    setState(() {});
   }
 
 //function to upload the image to php server
@@ -77,18 +74,17 @@ class _PostProductsViewState extends State<PostProductsView> {
 
     Dio dio = Dio();
 
-    dio
-        .post("http://mouldstaging.com/upload.php", data: data)
-        .then((response) => postProductData(response.data))
-        .catchError((error) => print(error));
+    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+      imageNames.add(response.data);
+      print('image list -------->$imageNames');
+      postProductData(imageNames);
+    }).catchError((error) => print(error));
   }
 
-  postProductData(String imageName) async {
+  postProductData(List imageName) async {
     var authToken = await _secureStorage.read(key: 'token');
     var authUser = await _secureStorage.read(key: 'userId');
-    print(authToken);
-    print(_locationValue);
-    var response = http.post(Uri.parse('$baseUrl/user/create/new/ad'),
+    var response = await http.post(Uri.parse('$baseUrl/user/create/new/ad'),
         headers: {
           HttpHeaders.authorizationHeader: authToken!,
           HttpHeaders.contentTypeHeader: "application/json"
@@ -97,25 +93,23 @@ class _PostProductsViewState extends State<PostProductsView> {
           "post_category": widget.categoryId,
           "post_subcategory": widget.subCategoryId,
           "post_user_id": authUser,
-          "fields": '',
-          "post_location": _locationValue,
+          "fields": '{}',
+          "location": _locationValue,
+          'city': 'kolkata',
           "post_title": titleController.text,
-          "post_image": imageName,
+          "post_image": json.encode(imageName),
           "post_price": priceController.text,
           "post_description": descController.text,
           "auth_name": nameController.text,
         }));
-    return response;
-  }
-
-  Widget buildGridView() {
-    return GridView.count(
-      crossAxisCount: 3,
-      children: List.generate(images.length, (index) {
-        Asset asset = images[index];
-        return AssetThumb(asset: asset, width: 300, height: 300);
-      }),
-    );
+    print('json encoded data------>${json.encode(imageName)}');
+    if (response.statusCode == 200) {
+      print('status code 200 is ---->${response.body}');
+      return response;
+    } else {
+      print('location----->$_locationValue');
+      print('getting error ------>${response.body}');
+    }
   }
 
   @override
@@ -271,13 +265,18 @@ class _PostProductsViewState extends State<PostProductsView> {
                                 }),
                           ),
                         ),
+                        TextButton(
+                            onPressed: () {
+                              selectImages();
+                            },
+                            child: const Text('pick Image')),
                         const SizedBox(
                           height: 5,
                         ),
                         CupertinoButton(
                           color: Colors.green,
                           onPressed: () {
-                            selectImages();
+                            //selectImages();
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -318,6 +317,26 @@ class _PostProductsViewState extends State<PostProductsView> {
                               _locationValue = d!;
                             });
                           },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'City',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        TextField(
+                          controller: cityController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder()),
                         ),
                       ],
                     ),

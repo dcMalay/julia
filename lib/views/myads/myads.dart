@@ -1,8 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/views/myads/components/ad_tile.dart';
+import 'package:julia/data/model/my_ads_model.dart';
+import 'package:julia/data/repository/my_ads_repo.dart';
 
-class MyAds extends StatelessWidget {
-  const MyAds({super.key});
+class MyAdsScreen extends StatefulWidget {
+  const MyAdsScreen({super.key});
+
+  @override
+  State<MyAdsScreen> createState() => _MyAdsScreenState();
+}
+
+class _MyAdsScreenState extends State<MyAdsScreen> {
+  late Future<List<Myads>> getads;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      getads = getAdsData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +40,103 @@ class MyAds extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          shrinkWrap: true,
-          children: const [
-            AdTile(),
-            AdTile(),
-            AdTile(),
-            AdTile(),
-          ],
-        ),
-      ),
+      body: FutureBuilder<List<Myads>>(
+          future: getads,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Myads> data = snapshot.data!;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      var currentItem = data[index];
+                      return Container(
+                        height: 150,
+                        margin: const EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width * 2 / 3,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, 1),
+                              spreadRadius: 0,
+                              blurRadius: 10,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 360,
+                              height: 60,
+                              child: ListTile(
+                                leading: Image.network(
+                                    '${currentItem.postImage[0]}'),
+                                title: Text('${currentItem.postTitle}'),
+                                subtitle: Text('${currentItem.postDate}'),
+                                // const Text('19 Sep 2022 - 06:00 PM'),
+                                trailing: Text(
+                                  '${currentItem.postPrice}',
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              color: Colors.grey,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 35,
+                                    width: 90,
+                                    child: CupertinoButton(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        color: Colors.green,
+                                        child: const Text(
+                                          'Get More Views',
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                        onPressed: () {}),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 35,
+                                    width: 90,
+                                    child: CupertinoButton(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        color: Colors.green,
+                                        child: const Text(
+                                          'Mark As Sold',
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                        onPressed: () {}),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }
