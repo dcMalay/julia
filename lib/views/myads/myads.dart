@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/my_ads_model.dart';
+import 'package:julia/data/repository/get_ads_status_repo.dart';
 import 'package:julia/data/repository/my_ads_repo.dart';
 import 'package:julia/views/myads/components/all_boost_screen.dart';
 
@@ -52,14 +53,15 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
+                      //modifing date and time getting from response
                       var str = data[index].postDate.toString();
                       var parts = str.split(' ');
                       var date = parts[0].trim();
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
                       var timepre = time[0].trim();
-
                       var subcateogry = currentItem.postSubcategory;
+
                       return Container(
                         height: 150,
                         margin: const EdgeInsets.all(10),
@@ -148,12 +150,24 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     child: CupertinoButton(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
-                                        color: Colors.green,
-                                        child: const Text(
-                                          'Mark As Sold',
-                                          style: TextStyle(fontSize: 11),
+                                        color:
+                                            currentItem.postSold == 1.toString()
+                                                ? Colors.grey
+                                                : Colors.green,
+                                        child: Text(
+                                          currentItem.postSold == 1.toString()
+                                              ? "Repost"
+                                              : 'Mark As Sold',
+                                          style: const TextStyle(fontSize: 11),
                                         ),
-                                        onPressed: () {}),
+                                        onPressed: () {
+                                          currentItem.postSold == 1.toString()
+                                              ? changeAdStatus(currentItem.id)
+                                              : getadStatus(currentItem.id);
+                                          setState(() {
+                                            getads = getAdsData();
+                                          });
+                                        }),
                                   ),
                                 ),
                               ],
