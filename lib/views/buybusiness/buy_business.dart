@@ -66,7 +66,6 @@ class _BuyBusinessState extends State<BuyBusiness> {
       print(payres.data.url);
       openUrl(payres.data.url);
     }).catchError((error) => print(error));
-    print('Status code ------->${response.statusCode}');
   }
 
   @override

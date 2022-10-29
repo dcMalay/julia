@@ -1,16 +1,3 @@
-// To parse this JSON data, do
-//
-//     final productDetails = productDetailsFromJson(jsonString);
-
-import 'dart:convert';
-
-List<ProductDetails> productDetailsFromJson(String str) =>
-    List<ProductDetails>.from(
-        json.decode(str).map((x) => ProductDetails.fromJson(x)));
-
-String productDetailsToJson(List<ProductDetails> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class ProductDetails {
   ProductDetails({
     required this.id,

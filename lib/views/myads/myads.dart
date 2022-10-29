@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/my_ads_model.dart';
 import 'package:julia/data/repository/my_ads_repo.dart';
+import 'package:julia/views/myads/components/all_boost_screen.dart';
 
 class MyAdsScreen extends StatefulWidget {
   const MyAdsScreen({super.key});
@@ -51,6 +52,14 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
+                      var str = data[index].postDate.toString();
+                      var parts = str.split(' ');
+                      var date = parts[0].trim();
+                      var prefix = parts[1].trim();
+                      var time = prefix.split('.');
+                      var timepre = time[0].trim();
+
+                      var subcateogry = currentItem.postSubcategory;
                       return Container(
                         height: 150,
                         margin: const EdgeInsets.all(10),
@@ -74,12 +83,12 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                               height: 60,
                               child: ListTile(
                                 leading: Image.network(
-                                    '${currentItem.postImage[0]}'),
-                                title: Text('${currentItem.postTitle}'),
-                                subtitle: Text('${currentItem.postDate}'),
+                                    'http://52.67.149.51/uploads/${currentItem.postImage[0]}'),
+                                title: Text(currentItem.postTitle),
+                                subtitle: Text("$date  - $timepre"),
                                 // const Text('19 Sep 2022 - 06:00 PM'),
                                 trailing: Text(
-                                  '${currentItem.postPrice}',
+                                  '\$ ${currentItem.postPrice}',
                                   style: const TextStyle(color: Colors.black),
                                 ),
                               ),
@@ -103,7 +112,32 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                           'Get More Views',
                                           style: TextStyle(fontSize: 11),
                                         ),
-                                        onPressed: () {}),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .push(PageRouteBuilder(
+                                            transitionDuration: const Duration(
+                                                milliseconds: 500),
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                AllBoostScreen(
+                                              subcategoryId: subcateogry,
+                                              postId: currentItem.id,
+                                            ),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              return SlideTransition(
+                                                position: Tween<Offset>(
+                                                        begin:
+                                                            const Offset(1, 0),
+                                                        end: Offset.zero)
+                                                    .animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                          ));
+                                        }),
                                   ),
                                 ),
                                 Padding(

@@ -10,6 +10,8 @@ const _secureStorage = FlutterSecureStorage();
 Future<List<Myads>> getAdsData() async {
   var authToken = await _secureStorage.read(key: 'token');
   var authUser = await _secureStorage.read(key: 'userId');
+  print('userid------->$authUser');
+  print('token-------->$authToken');
   final response = await http.get(
     Uri.parse('$baseUrl/user/getMyads/$authUser'),
     headers: {
