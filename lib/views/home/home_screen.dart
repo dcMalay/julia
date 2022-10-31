@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
-import 'package:julia/views/home/products_details_screen.dart';
 import 'package:julia/views/post_products/all_category.dart';
+import 'package:julia/views/search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -63,8 +63,27 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 15,
             ),
-            const TextField(
-              decoration: InputDecoration(
+            TextFormField(
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 500),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const SearchScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                                begin: const Offset(1, 0), end: Offset.zero)
+                            .animate(animation),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              readOnly: true,
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.search_rounded),
                   hintText: 'Find Vehicles,Furniture and more ... '),
@@ -87,14 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           transitionDuration: const Duration(milliseconds: 500),
-                          // reverseTransitionDuration: const Duration(seconds: 1),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  Categories(),
+                                  const Categories(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
-                            //final tween = Tween(begin: 0.0, end: 1.0);
-                            //final fadeAnimation = animation.drive(tween);
                             return SlideTransition(
                               position: Tween<Offset>(
                                       begin: const Offset(1, 0),
