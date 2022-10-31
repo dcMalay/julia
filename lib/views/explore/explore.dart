@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:julia/data/model/all_category_model.dart';
+import 'package:julia/data/repository/all_category_repo.dart';
+import 'package:julia/views/explore/category_search_screen.dart';
 
-class Explore extends StatelessWidget {
-  Explore({Key? key}) : super(key: key);
+class Explore extends StatefulWidget {
+  const Explore({Key? key}) : super(key: key);
+
+  @override
+  State<Explore> createState() => _ExploreState();
+}
+
+class _ExploreState extends State<Explore> {
   final List<Map<String, String>> categoryData = [
     {
       'Id': '1',
@@ -164,51 +173,97 @@ class Explore extends StatelessWidget {
       'title': 'Zwaarmateriaal',
     },
   ];
+  late Future<List<AllCategory>> apidata;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      apidata = getAllCategory();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Category',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: categoryData.length,
-          itemBuilder: (context, index) {
-            var currentItem = categoryData[index];
-            return InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      child: Image.asset('${currentItem['imageUrl']}'),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text('${currentItem['title']}'),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
+    return FutureBuilder<List<AllCategory>>(
+        future: apidata,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<AllCategory>? data = snapshot.data;
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                title: const Text(
+                  'Category',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: data!.length,
+                  itemBuilder: (context, index) {
+                    var titleData = data[index];
+                    var currentItem = categoryData[index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            // reverseTransitionDuration: const Duration(seconds: 1),
+                            pageBuilder: (context, animation,
+                                    secondaryAnimation) =>
+                                CategorySearchScreen(categoryId: titleData.id!),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero)
+                                    .animate(animation),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              child: currentItem['imageUrl'] == null
+                                  ? Image.asset('')
+                                  : Image.asset('${currentItem['imageUrl']}'),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(titleData.postCategoryName!),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             );
-          },
-        ),
-      ),
-    );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }
