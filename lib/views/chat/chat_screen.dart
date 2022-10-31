@@ -21,7 +21,7 @@ class ChatScreen extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const ClampingScrollPhysics(),
-            itemCount: 10,
+            itemCount: 1,
             itemBuilder: (context, index) {
               return const ListTileChat();
             },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/post_products/all_category.dart';
@@ -108,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           transitionDuration: const Duration(milliseconds: 500),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
-                                  const Categories(),
+                                  const CategoryscreenforSearch(),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                             return SlideTransition(

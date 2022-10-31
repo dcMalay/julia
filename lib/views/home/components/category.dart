@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/post_products/all_category.dart';
 
 // ignore: must_be_immutable
@@ -67,7 +68,7 @@ class CategoryIcons extends StatelessWidget {
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const Categories(),
+                const CategoryscreenforSearch(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(

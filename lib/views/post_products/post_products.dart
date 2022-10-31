@@ -265,18 +265,13 @@ class _PostProductsViewState extends State<PostProductsView> {
                                 }),
                           ),
                         ),
-                        TextButton(
-                            onPressed: () {
-                              selectImages();
-                            },
-                            child: const Text('pick Image')),
                         const SizedBox(
                           height: 5,
                         ),
                         CupertinoButton(
                           color: Colors.green,
                           onPressed: () {
-                            //selectImages();
+                            selectImages();
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

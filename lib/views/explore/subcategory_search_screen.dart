@@ -1,47 +1,44 @@
-// ignore_for_file: unrelated_type_equality_checks
-
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/product_model.dart';
-import 'package:julia/data/repository/product_search_bycategory.dart';
+import 'package:julia/data/repository/product_search_bysubcategoty.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
-class CategorySearchScreen extends StatefulWidget {
-  const CategorySearchScreen({super.key, required this.categoryId});
-  final String categoryId;
+class SubcategorySearchScreen extends StatefulWidget {
+  const SubcategorySearchScreen({super.key, required this.subcategoryId});
+  final String subcategoryId;
   @override
-  State<CategorySearchScreen> createState() => _CategorySearchScreenState();
+  State<SubcategorySearchScreen> createState() =>
+      _SubcategorySearchScreenState();
 }
 
-class _CategorySearchScreenState extends State<CategorySearchScreen> {
-  late Future<List<Product>> categorywiseData;
+class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
+  late Future<List<Product>> subcategorywiseData;
   @override
   void initState() {
     super.initState();
-    categorywiseData = getProductBycategory(widget.categoryId);
-    print(widget.categoryId);
+    subcategorywiseData = getproductBySubcategory(widget.subcategoryId);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.black,
-        ),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Category wise Products",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.black,
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          title: const Text(
+            'Subcategory wise Products',
+            style: TextStyle(color: Colors.black),
+          )),
       body: FutureBuilder<List<Product>>(
-          future: categorywiseData,
+          future: subcategorywiseData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Product>? data = snapshot.data;

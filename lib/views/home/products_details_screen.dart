@@ -262,7 +262,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       // reverseTransitionDuration: const Duration(seconds: 1),
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
-                                          const Chatting(),
+                                          Chatting(
+                                        sellerName: currentItem.authName,
+                                      ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         return SlideTransition(

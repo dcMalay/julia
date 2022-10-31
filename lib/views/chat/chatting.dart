@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class Chatting extends StatefulWidget {
-  const Chatting({Key? key}) : super(key: key);
-
+  const Chatting({Key? key, required this.sellerName}) : super(key: key);
+  final String sellerName;
   @override
   State<Chatting> createState() => _ChattingState();
 }
@@ -44,7 +44,7 @@ class _ChattingState extends State<Chatting> {
       date: DateTime.now().subtract(const Duration(days: 1, minutes: 8)),
       isSendByMe: true,
     ),
-  ].reversed.toList();
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,8 @@ class _ChattingState extends State<Chatting> {
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            Expanded(
+          children: [
+            const Expanded(
               flex: 0,
               child: CircleAvatar(
                 radius: 20,
@@ -74,8 +74,8 @@ class _ChattingState extends State<Chatting> {
             ),
             Expanded(
               child: ListTile(
-                title: Text('Babu Rao'),
-                subtitle: Text('2BHk flat for sale'),
+                title: Text(widget.sellerName),
+                // subtitle: Text('2BHk flat for sale'),
               ),
             ),
           ],
