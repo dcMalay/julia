@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/intl.dart';
+import 'package:julia/data/model/get_all_messages_model.dart';
 
 // ignore: must_be_immutable
 class Chatting extends StatefulWidget {
@@ -12,39 +13,8 @@ class Chatting extends StatefulWidget {
 
 class _ChattingState extends State<Chatting> {
   TextEditingController messageController = TextEditingController();
-
-  List<Message> messages = [
-    Message(
-      text: 'Hi, harvey where are you now a days?',
-      date: DateTime.now().subtract(const Duration(days: 6, minutes: 3)),
-      isSendByMe: false,
-    ),
-    Message(
-      text: 'I am in USA',
-      date: DateTime.now().subtract(const Duration(days: 5, minutes: 10)),
-      isSendByMe: true,
-    ),
-    Message(
-      text: 'okk, what about your product?',
-      date: DateTime.now().subtract(const Duration(days: 4, minutes: 11)),
-      isSendByMe: true,
-    ),
-    Message(
-      text: 'i was purchased the product a month ago',
-      date: DateTime.now().subtract(const Duration(days: 3, minutes: 2)),
-      isSendByMe: false,
-    ),
-    Message(
-      text: 'But I have some problen with the product',
-      date: DateTime.now().subtract(const Duration(days: 2, minutes: 3)),
-      isSendByMe: false,
-    ),
-    Message(
-      text: 'Ok then tell about the problems',
-      date: DateTime.now().subtract(const Duration(days: 1, minutes: 8)),
-      isSendByMe: true,
-    ),
-  ];
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  List<Allmessage> messages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -93,36 +63,33 @@ class _ChattingState extends State<Chatting> {
               const PopupMenuItem(value: 2, child: Text("Report User")),
               const PopupMenuItem(value: 3, child: Text("Block User")),
             ],
-            // offset: const Offset(0, 100),
-            // color: Colors.grey,
-            // elevation: 2,
           ),
         ],
       ),
-
       body: Column(children: [
         Expanded(
-          child: GroupedListView<Message, DateTime>(
+          child: GroupedListView<Allmessage, DateTime>(
             padding: const EdgeInsets.all(8),
-            reverse: true,
+            reverse: false,
             useStickyGroupSeparators: true,
             floatingHeader: true,
             elements: messages,
             groupBy: (message) => DateTime(
-              message.date.year,
-              message.date.month,
-              message.date.day,
+              message.time.year,
+              message.time.month,
+              message.time.day,
             ),
-            groupHeaderBuilder: (Message message) => SizedBox(
+            groupHeaderBuilder: (Allmessage message) => const SizedBox(
               height: 40,
               child: Center(
                 child: Card(
                   color: Colors.green,
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
                     child: Text(
-                      DateFormat.yMMMd().format(message.date),
-                      style: const TextStyle(
+                      '31/10/2022',
+                      // DateFormat.yMMMd().format(message.date),
+                      style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
@@ -130,15 +97,16 @@ class _ChattingState extends State<Chatting> {
                 ),
               ),
             ),
-            itemBuilder: (context, Message message) => Align(
-              alignment: message.isSendByMe
+            itemBuilder: (context, Allmessage message) => Align(
+              alignment: message.reciverId !=
+                      _secureStorage.read(key: 'userId').toString()
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
               child: Card(
                 elevation: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: Text(message.text),
+                  child: Text(message.message),
                 ),
               ),
             ),
@@ -169,8 +137,10 @@ class _ChattingState extends State<Chatting> {
                     border: InputBorder.none,
                   ),
                   onSubmitted: (text) {
-                    final message = Message(
-                        text: text, date: DateTime.now(), isSendByMe: true);
+                    final message = Allmessage(
+                      message: text,
+                      time: DateTime.now(),
+                    );
                     setState(
                       () => messages.add(message),
                     );
@@ -180,15 +150,22 @@ class _ChattingState extends State<Chatting> {
               const SizedBox(
                 width: 12,
               ),
-              const CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.green,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5.0),
-                  child: Icon(
-                    Icons.send,
-                    size: 30,
-                    color: Colors.white,
+              InkWell(
+                onTap: () {
+                  setState(
+                    () => messages.add(messageController.text as Allmessage),
+                  );
+                },
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.green,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 5.0),
+                    child: Icon(
+                      Icons.send,
+                      size: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               )
@@ -196,65 +173,6 @@ class _ChattingState extends State<Chatting> {
           ),
         )
       ]),
-
-      // body: Stack(children: [
-
-      //   Container(
-      //     alignment: Alignment.bottomCenter,
-      //     width: MediaQuery.of(context).size.width,
-      //     child: Container(
-      //       padding: const EdgeInsets.symmetric(
-      //         horizontal: 10,
-      //         vertical: 10,
-      //       ),
-      //       width: MediaQuery.of(context).size.width,
-      //       decoration: const BoxDecoration(
-      //           border: Border(top: BorderSide(color: Colors.grey))),
-      //       child: Row(children: [
-      //         Expanded(
-      //             child: TextField(
-      //           style: const TextStyle(fontSize: 20),
-      //           controller: messageController,
-      //           decoration: const InputDecoration(
-      //             hintText: 'Type Your message',
-      //             hintStyle: TextStyle(
-      //               color: Colors.grey,
-      //               fontSize: 20,
-      //             ),
-      //             border: InputBorder.none,
-      //           ),
-      //         )),
-      //         const SizedBox(
-      //           width: 12,
-      //         ),
-      //         const CircleAvatar(
-      //           radius: 20,
-      //           backgroundColor: Colors.green,
-      //           child: Padding(
-      //             padding: EdgeInsets.only(left: 5.0),
-      //             child: Icon(
-      //               Icons.send,
-      //               size: 30,
-      //               color: Colors.white,
-      //             ),
-      //           ),
-      //         )
-      //       ]),
-      //     ),
-      //   )
-      // ]),
     );
   }
-}
-
-class Message {
-  final String text;
-  final DateTime date;
-  final bool isSendByMe;
-
-  Message({
-    required this.text,
-    required this.date,
-    required this.isSendByMe,
-  });
 }

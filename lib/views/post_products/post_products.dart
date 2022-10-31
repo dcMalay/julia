@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -110,6 +111,12 @@ class _PostProductsViewState extends State<PostProductsView> {
       print('location----->$_locationValue');
       print('getting error ------>${response.body}');
     }
+  }
+
+  void startTimer() {
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pop(context); //It will redirect  after 3 seconds
+    });
   }
 
   @override
@@ -239,7 +246,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -356,78 +362,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                       ],
                     ),
                   ),
-                  // const Divider(
-                  //   color: Colors.grey,
-                  // ),
-                  // FutureBuilder<List<DynamicForm>>(
-                  //     future: dynamicFormData,
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         List<DynamicForm>? data = snapshot.data;
-                  //         return SizedBox(
-                  //           height: 500,
-                  //           width: MediaQuery.of(context).size.width,
-                  //           child: ListView.builder(
-                  //               itemCount: data!.length,
-                  //               itemBuilder: (context, index) {
-                  //                 var currentItem = data[index];
-                  //                 List<String> options =
-                  //                     currentItem.schema.fielddata.split(',');
-                  //                 return Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Text(
-                  //                       currentItem.schema.field,
-                  //                       style: const TextStyle(fontSize: 16),
-                  //                     ),
-                  //                     SizedBox(
-                  //                       height: 550,
-                  //                       width:
-                  //                           MediaQuery.of(context).size.width,
-                  //                       child: ListView.builder(
-                  //                           scrollDirection: Axis.horizontal,
-                  //                           itemCount: options.length,
-                  //                           itemBuilder: (context, index) {
-                  //                             return SizedBox(
-                  //                               height: 20,
-                  //                               width: 100,
-                  //                               child: Row(
-                  //                                 children: [
-                  //                                   SizedBox(
-                  //                                     height: 20,
-                  //                                     width: 100,
-                  //                                     child: RadioListTile(
-                  //                                       title: Text(
-                  //                                           options[index]),
-                  //                                       value: options[index],
-                  //                                       groupValue: options,
-                  //                                       onChanged: (value) {
-                  //                                         setState(() {
-                  //                                           options[index] =
-                  //                                               value
-                  //                                                   .toString();
-                  //                                         });
-                  //                                       },
-                  //                                     ),
-                  //                                   ),
-                  //                                 ],
-                  //                               ),
-                  //                             );
-                  //                           }),
-                  //                     )
-                  //                   ],
-                  //                 );
-                  //               }),
-                  //         );
-                  //       } else if (snapshot.hasError) {
-                  //         return Text("${snapshot.error}");
-                  //       } else {
-                  //         return const Center(
-                  //           child: CircularProgressIndicator(),
-                  //         );
-                  //       }
-                  //     }),
                   const Divider(
                     color: Colors.grey,
                   ),
@@ -446,7 +380,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                           for (var i = 0; i < imageFileList!.length; i++) {
                             _upload(File(imageFileList![i].path));
                           }
-                          // postProductData();
+                          startTimer();
                         },
                       ),
                     ),

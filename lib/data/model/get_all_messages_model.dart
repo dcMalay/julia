@@ -12,20 +12,20 @@ String allmessageToJson(List<Allmessage> data) =>
 
 class Allmessage {
   Allmessage({
-    required this.id,
-    required this.senderId,
+    this.id,
+    this.senderId,
     required this.message,
-    required this.reciverId,
+    this.reciverId,
     required this.time,
-    required this.v,
+    this.v,
   });
 
-  String id;
-  String senderId;
+  String? id;
+  String? senderId;
   String message;
-  String reciverId;
+  String? reciverId;
   DateTime time;
-  int v;
+  int? v;
 
   factory Allmessage.fromJson(Map<String, dynamic> json) => Allmessage(
         id: json["_id"],

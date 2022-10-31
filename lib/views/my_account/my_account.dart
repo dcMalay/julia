@@ -22,7 +22,7 @@ class _MyAccountState extends State<MyAccount> {
   //Get from gallery
   XFile? image;
   late Future<Userdetails> getUserData;
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();

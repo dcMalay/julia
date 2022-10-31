@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/views/chat/chatting.dart';
+import 'package:julia/views/chat/chatting_screen.dart';
 
 class ListTileChat extends StatefulWidget {
   const ListTileChat({Key? key}) : super(key: key);
@@ -33,9 +34,8 @@ class _ListTileChatState extends State<ListTileChat> {
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            Chatting(
-                          sellerName: seller!.data[0].userName,
-                        ),
+                            ChattingScreen(
+                                sellerName: seller!.data[0].userName),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return SlideTransition(
@@ -66,7 +66,7 @@ class _ListTileChatState extends State<ListTileChat> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text("Click to see the message",
-                          style: TextStyle(color: Colors.black)),
+                          style: TextStyle(color: Colors.grey)),
                       // Text(
                       //   "Hi, I am looking for a new house in the south of the city",
                       //   style: TextStyle(fontSize: 12),
@@ -83,7 +83,9 @@ class _ListTileChatState extends State<ListTileChat> {
             return Text("${snapshot.error}");
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.green,
+              ),
             );
           }
         });
