@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/views/chat/chat_screen.dart';
 import 'package:julia/views/explore/explore.dart';
 import 'package:julia/views/home/home_screen.dart';
@@ -48,8 +49,8 @@ class _HomeState extends State<Home> {
           onTap: (index) => setState(() {
             _selectedIndex = index;
           }),
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.home,
                 size: 28,
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
               ),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.message,
                 size: 28,
@@ -77,9 +78,9 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               icon: CircleAvatar(
-                backgroundColor: Colors.green,
+                backgroundColor: greenColor,
                 radius: 30,
-                child: Icon(
+                child: const Icon(
                   Ionicons.add,
                   color: Colors.white,
                   size: 35,
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> {
               ),
               label: 'Create Post',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               activeIcon: Icon(
                 Ionicons.planet,
                 size: 35,
@@ -100,7 +101,7 @@ class _HomeState extends State<Home> {
               ),
               label: 'Explore',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.person,
                 size: 35,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
 import 'package:julia/views/post_products/sub_category.dart';
@@ -187,12 +188,12 @@ class _CategoriesState extends State<Categories> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           centerTitle: true,
           title: const Text(
             'Select Your Category',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
             ),
           )),
       body: FutureBuilder<List<AllCategory>>(
@@ -254,7 +255,9 @@ class _CategoriesState extends State<Categories> {
             return Text("${snapshot.error}");
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.green,
+              ),
             );
           }
         },

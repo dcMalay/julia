@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/views/chat/components/chat_tile.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -8,11 +9,11 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
         centerTitle: true,
         title: const Text(
           'Chat',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: ListView(

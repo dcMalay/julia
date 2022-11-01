@@ -138,11 +138,11 @@ class _PostProductsViewState extends State<PostProductsView> {
               color: Colors.black,
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           title: const Text(
             'Sell Your Products',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
             ),
           )),
       body: FutureBuilder<List<DynamicForm>>(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
@@ -38,11 +38,11 @@ class _MyAccountState extends State<MyAccount> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
         centerTitle: true,
         title: const Text(
           'Profile',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: FutureBuilder<Userdetails>(
@@ -422,8 +422,8 @@ class _MyAccountState extends State<MyAccount> {
                                     await authProvider.logout();
 
                                     ///using phoenix to restart the app after log out
-                                    Phoenix.rebirth(context);
                                     // ignore: use_build_context_synchronously
+                                    Phoenix.rebirth(context);
                                   },
                                   child: Container(
                                     height: 30,
@@ -474,8 +474,10 @@ class _MyAccountState extends State<MyAccount> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
               );
             }
           }),

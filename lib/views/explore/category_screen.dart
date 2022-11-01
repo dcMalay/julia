@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
 import 'package:julia/views/explore/subcategory_screen.dart';
@@ -191,18 +192,18 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           centerTitle: true,
           title: const Text(
             'Select Your Category to search',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
             ),
           )),
       body: FutureBuilder<List<AllCategory>>(
@@ -222,7 +223,7 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
                       border: Border.all(
                         color: Colors.grey,
                       ),
-                      color: Colors.white,
+                      color: greenColor,
                       boxShadow: const [
                         BoxShadow(
                           offset: Offset(4, 8),
@@ -256,7 +257,10 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
                           ),
                         );
                       },
-                      title: Text(currentItem.postCategoryName!),
+                      title: Text(
+                        currentItem.postCategoryName!,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                   );
                   // return Text(currentItem.postCategoryName!);

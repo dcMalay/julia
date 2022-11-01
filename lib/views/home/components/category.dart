@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
+import 'package:julia/data/model/all_category_model.dart';
+import 'package:julia/data/repository/all_category_repo.dart';
 import 'package:julia/views/explore/category_screen.dart';
-import 'package:julia/views/post_products/all_category.dart';
 
 // ignore: must_be_immutable
-class Category extends StatelessWidget {
-  Category({Key? key}) : super(key: key);
+class Category extends StatefulWidget {
+  const Category({Key? key}) : super(key: key);
+
+  @override
+  State<Category> createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
   List imageurl = [
-    'assets/category/Brommer_Motorfiets.png',
+    'assets/motorcycle.png',
+    // 'assets/category/Brommer_Motorfiets.png',
     'assets/category/Computers en Software.png',
     'assets/category/Kleding Dames.png',
     'assets/category/Kantoorbenodigdheden.png',
@@ -22,6 +31,7 @@ class Category extends StatelessWidget {
     // 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fG1vYmlsZSUyMHBob25lfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
     // 'https://image.shutterstock.com/image-photo/closeup-books-stacked-on-tablebeside-260nw-1088861939.jpg',
   ];
+
   List categories = const [
     'Brommer_Motorfiets',
     'Computers en Software',
@@ -32,25 +42,48 @@ class Category extends StatelessWidget {
     'Hobby en Vrije Tijd',
     'Muziek',
   ];
+
+  late Future<List<AllCategory>> categorydata;
+  @override
+  void initState() {
+    super.initState();
+    categorydata = getAllCategory();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      width: 300,
-      child: Expanded(
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 5, mainAxisSpacing: 5, crossAxisCount: 4),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return CategoryIcons(
-              categoryTitle: categories[index],
-              image: imageurl[index],
+    return FutureBuilder<List<AllCategory>>(
+        future: categorydata,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<AllCategory>? data = snapshot.data;
+            return SizedBox(
+              height: 100,
+              child: Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    var curentItem = data![index];
+                    return CategoryIcons(
+                      categoryTitle: curentItem.postCategoryName!,
+                      image: imageurl[index],
+                    );
+                  },
+                ),
+              ),
             );
-          },
-        ),
-      ),
-    );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                color: greenColor,
+              ),
+            );
+          }
+        });
   }
 }
 
@@ -86,14 +119,21 @@ class CategoryIcons extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25,
-            backgroundColor: Colors.grey,
+            backgroundColor: const Color.fromARGB(255, 236, 233, 233),
             child: Image.asset(
               image,
               height: 40,
               width: 40,
             ),
           ),
-          Text(categoryTitle),
+          SizedBox(
+            width: 80,
+            child: Text(
+              categoryTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/views/chat/chatting.dart';
@@ -30,27 +31,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
           child: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Colors.white,
           ),
+        ),
+        title: const Text(
+          'Ads Details',
+          style: TextStyle(color: Colors.white),
         ),
         actions: const [
           Icon(
             Icons.favorite_border_outlined,
-            color: Colors.black,
+            color: Colors.white,
           ),
           SizedBox(
             width: 15,
           ),
           Icon(
             Icons.share_outlined,
-            color: Colors.black,
+            color: Colors.white,
           ),
           SizedBox(
             width: 15,
@@ -86,7 +91,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               }),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                          padding: const EdgeInsets.only(
+                              left: 10.0, top: 20.0, right: 10),
                           child: SizedBox(
                             height: 68,
                             child: Text(
@@ -98,7 +104,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 20.0, top: 10.0, right: 20),
+                              left: 10.0, top: 10.0, right: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -121,73 +127,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         const Divider(
                           color: Colors.grey,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 10.0, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.edit_note_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Brand',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 20),
-                                  ),
-                                  Text(
-                                    currentItem.postSubcategory,
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 14),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 10.0, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.security_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Warranty',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 20),
-                                  ),
-                                  Text(
-                                    '2 months warrenty',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 14),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 10.0, right: 20),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          height: 290,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,24 +149,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 20),
                                   ),
-                                  Text(
-                                    currentItem.postDescription,
-                                    style: const TextStyle(
-                                        color: Colors.grey, fontSize: 14),
-                                  ),
-                                  const SizedBox(
-                                    width: 200,
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        4 /
+                                        5,
                                     child: Text(
-                                      'Extended warranty plans starting at ₹1699(Approx ₹566/mo.)',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 300,
-                                    child: Text(
-                                      'Extended protection for your device beyond the manufacturer warranty with coverage against all manufacturing defects. Know More',
-                                      style: TextStyle(
+                                      currentItem.postDescription,
+                                      style: const TextStyle(
                                           color: Colors.grey, fontSize: 14),
                                     ),
                                   ),
@@ -238,17 +172,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 30, left: 20, right: 20),
+                              top: 10, left: 20, right: 20, bottom: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "\$ ${data[index].postPrice.toString()}",
+                                "SRD ${data[index].postPrice.toString()}",
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 30),
                               ),
                               CupertinoButton(
-                                color: Colors.green,
+                                color: greenColor,
                                 child: const Text(
                                   'Chat',
                                   style: TextStyle(
@@ -288,8 +222,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
               );
             }
           }),

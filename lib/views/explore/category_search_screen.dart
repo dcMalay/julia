@@ -90,6 +90,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                   title: currentItem.postTitle!,
                                   location: currentItem.postLocation.toString(),
                                   price: currentItem.postPrice.toString(),
+                                  postStatus: currentItem.postStatus!,
                                 ),
                         ),
                       ),

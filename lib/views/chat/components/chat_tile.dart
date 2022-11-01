@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/views/chat/chatting.dart';
@@ -82,9 +83,9 @@ class _ListTileChatState extends State<ListTileChat> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           } else {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: Colors.green,
+                color: greenColor,
               ),
             );
           }

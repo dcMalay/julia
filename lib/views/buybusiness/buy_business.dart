@@ -106,7 +106,7 @@ class _BuyBusinessState extends State<BuyBusiness> {
                       Container(
                         height: 150,
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(color: Colors.green),
+                        decoration: BoxDecoration(color: greenColor),
                         child: Column(
                           children: [
                             Padding(
@@ -269,7 +269,7 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                       CupertinoButton(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 0, horizontal: 5),
-                                          color: Colors.green,
+                                          color: greenColor,
                                           child: const Text(
                                             'Get active \n your package',
                                             style: TextStyle(fontSize: 14),
@@ -293,8 +293,10 @@ class _BuyBusinessState extends State<BuyBusiness> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: greenColor,
+              ),
             );
           }
         });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/get_all_messages_model.dart';
 
 // ignore: must_be_immutable
@@ -79,12 +80,12 @@ class _ChattingState extends State<Chatting> {
               message.time.month,
               message.time.day,
             ),
-            groupHeaderBuilder: (Allmessage message) => const SizedBox(
+            groupHeaderBuilder: (Allmessage message) => SizedBox(
               height: 40,
               child: Center(
                 child: Card(
-                  color: Colors.green,
-                  child: Padding(
+                  color: greenColor,
+                  child: const Padding(
                     padding: EdgeInsets.all(8),
                     child: Text(
                       '31/10/2022',
@@ -122,7 +123,10 @@ class _ChattingState extends State<Chatting> {
             ),
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.grey))),
+              border: Border(
+                top: BorderSide(color: Colors.grey),
+              ),
+            ),
             child: Row(children: [
               Expanded(
                 child: TextField(
@@ -156,10 +160,10 @@ class _ChattingState extends State<Chatting> {
                     () => messages.add(messageController.text as Allmessage),
                   );
                 },
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 20,
-                  backgroundColor: Colors.green,
-                  child: Padding(
+                  backgroundColor: greenColor,
+                  child: const Padding(
                     padding: EdgeInsets.only(left: 5.0),
                     child: Icon(
                       Icons.send,

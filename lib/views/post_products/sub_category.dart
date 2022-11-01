@@ -99,7 +99,9 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               return Text("${snapshot.error}");
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.green,
+                ),
               );
             }
           }),

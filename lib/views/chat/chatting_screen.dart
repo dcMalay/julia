@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/get_all_messages_model.dart';
 import 'package:julia/data/repository/messages_repo.dart';
 
@@ -110,8 +111,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
               } else if (snapshot.hasError) {
                 return const Center(child: Text("Error occur"));
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: greenColor,
+                  ),
                 );
               }
             }));

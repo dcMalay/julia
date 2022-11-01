@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/sub_category_model.dart';
 import 'package:julia/data/repository/sub_category_repo.dart';
 import 'package:julia/views/explore/subcategory_search_screen.dart';
@@ -28,17 +29,17 @@ class _SubCategoryScreenforSearchState
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           centerTitle: true,
           title: const Text(
             "Choose Subcategory",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           )),
       body: FutureBuilder<List<SubCategories>>(
           future: sCategory,
@@ -57,7 +58,7 @@ class _SubCategoryScreenforSearchState
                         border: Border.all(
                           color: Colors.grey,
                         ),
-                        color: Colors.white,
+                        color: greenColor,
                         boxShadow: const [
                           BoxShadow(
                             offset: Offset(4, 8),
@@ -90,15 +91,22 @@ class _SubCategoryScreenforSearchState
                             ),
                           );
                         },
-                        title: Text(currentItem.postSubcategoryName),
+                        title: Text(
+                          currentItem.postSubcategoryName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     );
                   });
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
               );
             }
           }),
