@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
-import 'package:julia/views/chat/chatting.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
 
 class ListTileChat extends StatefulWidget {
@@ -36,7 +35,9 @@ class _ListTileChatState extends State<ListTileChat> {
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (context, animation, secondaryAnimation) =>
                             ChattingScreen(
-                                sellerName: seller!.data[0].userName),
+                          sellerName: seller!.data[0].userName,
+                          sellerId:'6357b4a7e7a43f3066b007b7',
+                        ),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return SlideTransition(

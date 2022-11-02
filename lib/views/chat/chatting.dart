@@ -58,9 +58,7 @@ class _ChattingState extends State<Chatting> {
               color: Colors.black,
             ),
             itemBuilder: (context) => [
-              // popupmenu item 1
               const PopupMenuItem(value: 1, child: Text("Delete Chat")),
-              // popupmenu item 2
               const PopupMenuItem(value: 2, child: Text("Report User")),
               const PopupMenuItem(value: 3, child: Text("Block User")),
             ],
