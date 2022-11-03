@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/location_model.dart';
+import 'package:julia/data/model/product_details_model.dart';
+import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/get_location_repo.dart';
+import 'package:julia/data/repository/products_details_repo.dart';
+import 'package:julia/views/addtowishlist/addtowishlist_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
@@ -17,12 +21,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Location>> allLocation;
-
+  late Future<List<ProductDetails>> productDetails;
   @override
   void initState() {
     super.initState();
     allLocation = getallLocation();
     getlocationJsonData();
+    getWishListProducts().then((value) {
+      for (var i = 0; i < value.length; i++) {
+        productDetails = getProductDetails(value[i].wishProductId);
+      }
+    });
   }
 
   @override
@@ -55,7 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        const NotificationScreen(),
+                        AddtoWishlistScreen(
+                      productDetails: productDetails,
+                    ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return SlideTransition(

@@ -18,36 +18,37 @@ class _ChattingScreenState extends State<ChattingScreen> {
   late Future<List<Allmessage>> allMessage;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   TextEditingController messageController = TextEditingController();
+  final ScrollController _controller = ScrollController();
   var user;
+
+  //store the user in user variable
   void getuserid() async {
     var authUser = await _secureStorage.read(key: 'userId');
     setState(() {
       user = authUser;
     });
-    print(user);
+    print('User ------->$user');
   }
 
   @override
   void initState() {
     super.initState();
 
-    allMessage = getallMessages();
+    allMessage = getallMessages(widget.sellerId);
 
     getuserid();
   }
 
-  // void startTimer() {
-  //   Timer(const Duration(seconds: 2), () {
-  //     print('run');
-  //     setState(() {
-  //       allMessage = getallMessages();
-  //     }); //It will redirect  after 3 seconds
-  //   });
-  // }
+  void _scrollDown() {
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: const Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('koefornf');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -106,6 +107,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                   List<Allmessage>? data = snapshot.data;
                   if (snapshot.hasData) {
                     return ListView.builder(
+                        controller: _controller,
                         scrollDirection: Axis.vertical,
                         itemCount: data!.length,
                         itemBuilder: (context, index) {
@@ -121,8 +123,8 @@ class _ChattingScreenState extends State<ChattingScreen> {
                             children: [
                               Align(
                                 alignment: currentItem.reciverId == user
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
+                                    ? Alignment.centerLeft
+                                    : Alignment.centerRight,
                                 child: Stack(
                                   children: [
                                     Card(
@@ -190,12 +192,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
                       ),
                       border: InputBorder.none,
                     ),
-                    onSubmitted: (text) {
-                      final message = Allmessage(
-                        message: text,
-                        time: DateTime.now(),
-                      );
-                    },
                   ),
                 ),
                 const SizedBox(
@@ -206,8 +202,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
                     print('send');
                     sendMessages(widget.sellerId, user, messageController.text);
                     messageController.clear();
+                    _scrollDown();
                     setState(() {
-                      allMessage = getallMessages();
+                      allMessage = getallMessages(widget.sellerId);
                     });
                   },
                   child: CircleAvatar(

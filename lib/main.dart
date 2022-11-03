@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:julia/provider/add_to_favorite_provider.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => PlanProider()),
+        ChangeNotifierProvider(create: (context) => AddToFavorite()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
-import 'package:julia/views/chat/chatting.dart';
+import 'package:julia/views/chat/chatting_screen.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
@@ -196,8 +196,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       // reverseTransitionDuration: const Duration(seconds: 1),
                                       pageBuilder: (context, animation,
                                               secondaryAnimation) =>
-                                          Chatting(
+                                          ChattingScreen(
                                         sellerName: currentItem.authName,
+                                        sellerId: currentItem.postUserId,
                                       ),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {

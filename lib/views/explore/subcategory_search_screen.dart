@@ -93,6 +93,7 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                                         currentItem.postLocation.toString(),
                                     price: currentItem.postPrice.toString(),
                                     postStatus: currentItem.postStatus!,
+                                    productId: currentItem.sId!,
                                   ),
                           ),
                         ),
