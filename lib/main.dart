@@ -4,7 +4,9 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:julia/provider/add_to_favorite_provider.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
+import 'package:julia/provider/is_in_wish_list_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
+import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +38,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => PlanProider()),
         ChangeNotifierProvider(create: (context) => AddToFavorite()),
+        ChangeNotifierProvider(create: (context) => IsInWishListProvider()),
+        ChangeNotifierProvider(create: (context) => ProducrDetailsProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

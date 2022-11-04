@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
+import 'package:julia/data/model/wishlist_model.dart';
+import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/views/home/components/products_card.dart';
 
 class AddtoWishlistScreen extends StatefulWidget {
-  const AddtoWishlistScreen({
+  AddtoWishlistScreen({
     super.key,
-    required this.productDetails,
+    this.productDetails,
+    required this.inWishList,
   });
 
-  final Future<List<ProductDetails>> productDetails;
-
+  Future<List<ProductDetails>>? productDetails;
+  final Future<List<WishList>> inWishList;
   @override
   State<AddtoWishlistScreen> createState() => _AddtoWishlistScreenState();
 }
 
 class _AddtoWishlistScreenState extends State<AddtoWishlistScreen> {
-  // var productId;
-  // var wishlistLength = '';
+  late final Future<List<ProductDetails>> details;
   @override
   void initState() {
+    widget.inWishList.then((value) {
+      for (var i = 0; i < value.length; i++) {
+        details = getProductDetails(value[i].wishProductId);
+      }
+    });
     // widget.inWishList.then((value) {
     //   setState(() {
     //     wishlistLength = value.length.toString();
