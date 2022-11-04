@@ -3,6 +3,8 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
 import 'package:julia/views/explore/category_screen.dart';
+import 'package:julia/views/explore/subcategory_screen.dart';
+import 'package:julia/views/explore/subcategory_search_screen.dart';
 
 // ignore: must_be_immutable
 class Category extends StatefulWidget {
@@ -69,6 +71,7 @@ class _CategoryState extends State<Category> {
                     return CategoryIcons(
                       categoryTitle: curentItem.postCategoryName!,
                       image: imageurl[index],
+                      categoryId: curentItem.id!,
                     );
                   },
                 ),
@@ -89,10 +92,14 @@ class _CategoryState extends State<Category> {
 
 class CategoryIcons extends StatelessWidget {
   const CategoryIcons(
-      {Key? key, required this.categoryTitle, required this.image})
+      {Key? key,
+      required this.categoryTitle,
+      required this.image,
+      required this.categoryId})
       : super(key: key);
   final String categoryTitle;
   final String image;
+  final String categoryId;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -101,7 +108,7 @@ class CategoryIcons extends StatelessWidget {
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 500),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const CategoryscreenforSearch(),
+                SubCategoryScreenforSearch(categoryId: categoryId),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(

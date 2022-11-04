@@ -4,54 +4,77 @@ import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/views/home/components/products_card.dart';
 
 class AddtoWishlistScreen extends StatefulWidget {
-  const AddtoWishlistScreen({super.key, required this.productDetails});
+  const AddtoWishlistScreen({
+    super.key,
+    required this.productDetails,
+  });
 
   final Future<List<ProductDetails>> productDetails;
+
   @override
   State<AddtoWishlistScreen> createState() => _AddtoWishlistScreenState();
 }
 
 class _AddtoWishlistScreenState extends State<AddtoWishlistScreen> {
+  // var productId;
+  // var wishlistLength = '';
   @override
   void initState() {
+    // widget.inWishList.then((value) {
+    //   setState(() {
+    //     wishlistLength = value.length.toString();
+    //   });
+    // });
+
+    // for (var i = 0; i < int.parse(wishlistLength); i++) {
+    //   widget.productDetails.then((value) {
+    //     setState(() {
+    //       productId = value[i].id;
+    //     });
+    //   });
+    // }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.white,
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.white,
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: greenColor,
+          centerTitle: true,
+          title: const Text(
+            "Wishlist",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-        automaticallyImplyLeading: false,
-        backgroundColor: greenColor,
-        centerTitle: true,
-        title: const Text(
-          "WishList",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      body: FutureBuilder<List<ProductDetails>>(
-        future: widget.productDetails,
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return Center(
-              child: CircularProgressIndicator(
+        body: FutureBuilder<List<ProductDetails>>(
+          future: widget.productDetails,
+          builder: (context, snapshot) {
+            if (snapshot.data == null) {
+              return Center(
+                  child: CircularProgressIndicator(
                 color: greenColor,
-              ),
-            );
-          } else if (snapshot.hasData) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GridView.builder(
+              ));
+            } else if (snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text('No Data found'),
+              );
+            } else if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
-                    childAspectRatio: 3 / 4.7,
+                    childAspectRatio: 3 / 4.3,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                   ),
@@ -73,19 +96,19 @@ class _AddtoWishlistScreenState extends State<AddtoWishlistScreen> {
                       postStatus: currentItem.postStatus,
                       productId: currentItem.id,
                     );
-                  }),
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
-            );
-          }
-        },
-      ),
-    );
+                  },
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
+              );
+            }
+          },
+        ));
   }
 }

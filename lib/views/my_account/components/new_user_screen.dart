@@ -102,7 +102,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
     if (response.statusCode == 200) {
       print("response from send profile name------->${response.body}");
     } else {
-      print('getting error');
+      print('getting error--->${response.statusCode}');
     }
   }
 
