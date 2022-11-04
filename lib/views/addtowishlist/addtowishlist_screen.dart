@@ -12,15 +12,8 @@ class AddtoWishlistScreen extends StatefulWidget {
 }
 
 class _AddtoWishlistScreenState extends State<AddtoWishlistScreen> {
-  //late Future<List<ProductDetails>> productDetails;
   @override
   void initState() {
-    // getWishListProducts().then((value) {
-    //   for (var i = 0; i < value.length; i++) {
-    //     productDetails = getProductDetails(value[i].wishProductId);
-    //   }
-    // });
-
     super.initState();
   }
 
