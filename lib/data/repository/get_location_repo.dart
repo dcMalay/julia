@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';
-import 'package:julia/data/location/location_json_data.dart';
+import 'package:julia/data/saved_json_data/stored_location/location_json_data.dart';
 import 'package:julia/data/model/location_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +24,7 @@ Future<void> getlocationJsonData() async {
   final prefs = await SharedPreferences.getInstance();
   var temp = prefs.getString('jsonData') ?? jsonEncode(defaultData);
   print('Data receied------>$temp');
-  var data = Location.fromJson(jsonDecode(temp.toString())); 
+  var data = Location.fromJson(jsonDecode(temp.toString()));
   print('location--->${data.locationName}');
   print('id ----->${data.id}');
 }
