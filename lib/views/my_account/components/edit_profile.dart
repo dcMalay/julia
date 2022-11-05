@@ -52,50 +52,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       return editProfileDetails(response.data);
     }).catchError((error) => print(error));
   }
-  // Future<void> uploadImage(String filename, String url) async {
-  //   var request = http.MultipartRequest('POST', Uri.parse(url));
-
-  //   request.files.add(
-  //     await http.MultipartFile.fromPath('picture', filename),
-  //   );
-
-  //   var res = await request.send();
-  // }
-  // Future<void> uploadImage() async {
-  //   setState(() {
-  //     showSpinner = true;
-  //   });
-
-  //   var stream = http.ByteStream(image!.openRead());
-  //   stream.cast();
-
-  //   var length = await image!.length();
-
-  //   //   var uri = Uri.parse('$baseUrl/user/addprofilepicture/$userId');
-  //   var uri = Uri.parse('http://mouldstaging.com/upload.php');
-  //   var request = http.MultipartRequest('POST', uri);
-
-  //   // request.fields['title'] = "Static title";
-
-  //   var multiport = http.MultipartFile('file', stream, length);
-
-  //   request.files.add(multiport);
-
-  //   var response = await request.send();
-
-  //   print("response----------->${response.statusCode}");
-  //   if (response.statusCode == 200) {
-  //     setState(() {
-  //       showSpinner = false;
-  //     });
-  //     print('image uploaded');
-  //   } else {
-  //     print('failed');
-  //     setState(() {
-  //       showSpinner = false;
-  //     });
-  //   }
-  // }
 
   editProfileDetails(String imageName) async {
     var authToken = await _secureStorage.read(key: 'token');

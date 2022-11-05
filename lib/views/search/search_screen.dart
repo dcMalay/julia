@@ -93,6 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             location: currentItem.postLocation.toString(),
                             price: currentItem.postPrice.toString(),
                             postStatus: currentItem.postStatus!,
+                            productId: currentItem.sId!,
                           ),
                         ),
                       ),

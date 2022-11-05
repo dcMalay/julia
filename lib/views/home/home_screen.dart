@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/location_model.dart';
+import 'package:julia/data/model/product_details_model.dart';
+import 'package:julia/data/model/wishlist_model.dart';
+import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/get_location_repo.dart';
+import 'package:julia/data/repository/products_details_repo.dart';
+import 'package:julia/provider/is_in_wish_list_provider.dart';
+import 'package:julia/provider/product_details_provider.dart';
+import 'package:julia/views/addtowishlist/wish_list_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/notification/notification_screen.dart';
 import 'package:julia/views/search/search_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,15 +25,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Location>> allLocation;
-
+  late Future<List<ProductDetails>> productDetails;
+  late Future<List<WishList>> inWishList;
+  List wishProductId = [];
   @override
   void initState() {
     super.initState();
     allLocation = getallLocation();
+    getlocationJsonData();
+    inWishList = getWishListProducts();
+    getWishListProducts().then((value) {
+      for (var i = 0; i < value.length; i++) {
+        wishProductId.add(value[i].wishProductId);
+        print("wish product id ----->$wishProductId");
+        productDetails = getProductDetails(wishProductId[i]);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final wishlistdata = Provider.of<IsInWishListProvider>(context);
+    final pDetails = Provider.of<ProducrDetailsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -50,11 +71,19 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
+                wishlistdata.isInWishList();
+              
+                  pDetails.pDetais(wishlistdata.wishedProductIds[0]);
+                
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        const NotificationScreen(),
+                        const WishListScreen(),
+                    //     AddtoWishlistScreen(
+                    //   productDetails: productDetails,
+                    //   inWishList: inWishList,
+                    // ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return SlideTransition(
@@ -87,10 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: const Icon(
-              Icons.notifications_rounded,
-              size: 30,
-              color: Colors.white,
+            child: const Padding(
+              padding: EdgeInsets.only(right: 14.0),
+              child: Icon(
+                Icons.notifications_rounded,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -172,11 +204,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       bottom: 5, // Space between underline and text
                     ),
                     decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      color: greenColor,
-                      width: 1.0, // Underline thickness
-                    ))),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: greenColor,
+                          width: 1.0, // Underline thickness
+                        ),
+                      ),
+                    ),
                     child: Text(
                       "See All",
                       style: TextStyle(

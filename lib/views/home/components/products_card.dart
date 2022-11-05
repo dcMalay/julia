@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
+import 'package:julia/data/model/wishlist_model.dart';
+import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/best_recommended_products_repo.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
@@ -17,6 +19,7 @@ class _ProductsState extends State<Products> {
   @override
   void initState() {
     super.initState();
+
     setState(() {
       productsData = getProduct();
     });
@@ -72,6 +75,7 @@ class _ProductsState extends State<Products> {
                             price: currentItem.postPrice.toString(),
                             postStatus: postStatus!,
                             isfeatured: isFeatured,
+                            productId: currentItem.sId!,
                           ),
                         ),
                       ),
@@ -93,16 +97,18 @@ class _ProductsState extends State<Products> {
 
 // ignore: must_be_immutable
 class ProductCard extends StatefulWidget {
-  ProductCard(
-      {Key? key,
-      required this.imageUrl,
-      required this.time,
-      required this.title,
-      required this.location,
-      required this.price,
-      required this.postStatus,
-      this.isfeatured})
-      : super(key: key);
+  ProductCard({
+    Key? key,
+    required this.imageUrl,
+    required this.time,
+    required this.title,
+    required this.location,
+    required this.price,
+    required this.postStatus,
+    this.isfeatured,
+    required this.productId,
+    this.userId,
+  }) : super(key: key);
   final String imageUrl;
   final String time;
   final String title;
@@ -110,18 +116,21 @@ class ProductCard extends StatefulWidget {
   final String price;
   int? isfeatured;
   final String postStatus;
+  final String productId;
+  String? userId;
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
+  late Future<List<WishList>> inWishList;
+
   @override
   void initState() {
+    inWishList = isInWishlist(widget.productId);
     //print("Image ------>${widget.imageUrl}");
     super.initState();
   }
-
-  var isFav = false;
 
   @override
   Widget build(BuildContext context) {
@@ -217,22 +226,64 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                   ),
-                  IconButton(
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        setState(() {
-                          isFav = !isFav;
-                        });
-                      },
-                      icon: isFav
-                          ? Icon(
-                              Icons.favorite,
-                              color: redColor,
-                            )
-                          : Icon(
+                  FutureBuilder<List<WishList>>(
+                      future: isInWishlist(widget.productId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<WishList>? data = snapshot.data;
+                          return data![0].id != 0.toString()
+                              ? IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () {
+                                    removefromFavorite(data[0].id);
+                                    setState(() {
+                                      inWishList =
+                                          isInWishlist(widget.productId);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: redColor,
+                                  ))
+                              : IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () {
+                                    print('add to favotire');
+                                    addtoFavorite(widget.productId);
+                                    setState(() {
+                                      inWishList =
+                                          isInWishlist(widget.productId);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.favorite_border,
+                                    color: redColor,
+                                  ),
+                                );
+                        } else if (snapshot.hasError) {
+                          // return Text("${snapshot.error}");
+                          return IconButton(
+                            padding: const EdgeInsets.all(0),
+                            onPressed: () {
+                              print('add to favotire');
+                              addtoFavorite(widget.productId);
+                              setState(() {
+                                inWishList = isInWishlist(widget.productId);
+                              });
+                            },
+                            icon: Icon(
                               Icons.favorite_border,
                               color: redColor,
-                            ))
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: greenColor,
+                            ),
+                          );
+                        }
+                      })
                 ],
               ),
               const SizedBox(
@@ -257,22 +308,23 @@ class _ProductCardState extends State<ProductCard> {
         widget.isfeatured == 1
             ? Positioned(
                 child: Container(
-                    height: 20,
-                    width: 50,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                    decoration: BoxDecoration(
-                        color: yellowColor,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: const Center(
-                      child: Text(
-                        'Featured',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
+                  height: 20,
+                  width: 50,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                  decoration: BoxDecoration(
+                      color: yellowColor,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: const Center(
+                    child: Text(
+                      'Featured',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               )
             : Container()
       ],
