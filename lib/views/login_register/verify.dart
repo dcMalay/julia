@@ -75,7 +75,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
   late int otp;
   @override
   void initState() {
-    _otpRes = verifyEmailOtp(_otpController.text, widget.email);
     focusedPinTheme = defaultPinTheme.copyDecorationWith(
       border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
       borderRadius: BorderRadius.circular(8),
@@ -155,56 +154,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CupertinoButton(
               color: Colors.green,
-              child: Text("Verify Otp"),
+              child: const Text("Verify Otp"),
               onPressed: () async {
                 print('verify otp pressed ');
                 print('otp--->${_otpController.text}');
                 print(widget.email);
                 verifyEmailOtp(_otpController.text, widget.email);
-                // ignore: use_build_context_synchronously
-                // Navigator.of(context).pushReplacement(PageRouteBuilder(
-                //   pageBuilder: (context, animation, secondaryAnimation) =>
-                //       const Home(),
-                //   transitionsBuilder:
-                //       (context, animation, secondaryAnimation, child) {
-                //     return SlideTransition(
-                //       position: Tween<Offset>(
-                //               begin: const Offset(1, 0), end: Offset.zero)
-                //           .animate(animation),
-                //       child: child,
-                //     );
-                //   },
-                // ));
-
-                // try {
-                //   var otpresponse =
-                //       authprovider.verifyOtp(widget.email, _otpController.text);
-                //   print(otpresponse);
-                // } on Exception catch (e) {
-                //   print('error ------>$e');
-                // }
-
-                // print('otp response -------->$otpresponse');
-                // print('otp  -------->$_otpRes');
-                // if (otpresponse != null) {
-                //   Navigator.of(context).pushReplacement(
-                //     PageRouteBuilder(
-                //       pageBuilder: (context, animation, secondaryAnimation) =>
-                //           const Home(),
-                //       transitionsBuilder:
-                //           (context, animation, secondaryAnimation, child) {
-                //         return SlideTransition(
-                //           position: Tween<Offset>(
-                //                   begin: const Offset(1, 0), end: Offset.zero)
-                //               .animate(animation),
-                //           child: child,
-                //         );
-                //       },
-                //     ),
-                //   );
-                // } else {
-                //   throw Exception("Otp does not match");
-                // }
               },
             )));
   }

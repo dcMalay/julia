@@ -13,7 +13,8 @@ Future<Email> login(String email) async {
     Uri.parse("$baseUrl/user/getprofile/email/$email"),
   );
   final jsonResponse = Email.fromJson(json.decode(response.body));
-
+  print("status code -------->${response.statusCode}");
+  print("login ------------ >${jsonResponse.emailSent}");
   return jsonResponse;
 }
 
@@ -21,9 +22,9 @@ Future verifyEmailOtp(String otp, String email) async {
   final url = '$baseUrl/user/getprofile/email/$email/$otp';
 
   final response = await http.get(Uri.parse(url));
+  print("status code -------->${response.statusCode}");
   if (response.statusCode == 200) {
     final jsonResponse = json.decode(response.body);
-    print(jsonResponse);
     final userData = VerifyOtp.fromJson(jsonResponse);
     await _secureStorage.write(key: 'token', value: userData.token);
     await _secureStorage.write(key: 'userId', value: userData.userId);
@@ -35,7 +36,7 @@ Future verifyEmailOtp(String otp, String email) async {
   } else if (response.statusCode == 400) {
     return;
   } else {
-    throw Exception('getting error while otp verification');
+    throw Exception('getting error');
   }
 }
 

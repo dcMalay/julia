@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:julia/data/repository/auth_repo.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/login_register/registration.dart';
@@ -14,21 +15,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //bool _isObscure = true;
   late final TextEditingController _emailController;
-  // late final TextEditingController _passwordController;
 
   @override
   void initState() {
     _emailController = TextEditingController();
-    // _passwordController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
     _emailController = TextEditingController();
-    // _passwordController = TextEditingController();
     super.dispose();
   }
 
@@ -82,29 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20,
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //   child: TextField(
-            //     controller: _passwordController,
-            //     obscureText: _isObscure,
-            //     decoration: InputDecoration(
-            //       labelText: "Password",
-            //       border: const OutlineInputBorder(),
-            //       suffixIcon: IconButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             _isObscure = !_isObscure;
-            //           });
-            //         },
-            //         icon: Icon(
-            //           _isObscure
-            //               ? Icons.visibility_off
-            //               : Icons.visibility,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(
               height: 20,
             ),
@@ -124,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                     authProvider.sentEmail(_emailController.text);
+
                     Navigator.of(context).pushReplacement(
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
@@ -143,24 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   }
-                  // // ignore: use_build_context_synchronously
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: const Text('Email send successfully'),
-                  //     behavior: SnackBarBehavior.floating,
-                  //     backgroundColor: Colors.green,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //     ),
-                  //     margin: EdgeInsets.only(
-                  //       bottom:
-                  //           // ignore: use_build_context_synchronously
-                  //           MediaQuery.of(context).size.height - 150,
-                  //       right: 20,
-                  //       left: 20,
-                  //     ),
-                  //   ),
-                  // );
                 },
               ),
             ),

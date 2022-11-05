@@ -96,7 +96,7 @@ class _RegistrationState extends State<Registration> {
                             content: Text('Email Send Successfully')),
                       );
                       authProvider.sentEmail(_emailController.text);
-                      Navigator.of(context).push(
+                      Navigator.of(context).pushReplacement(
                         PageRouteBuilder(
                           transitionDuration: const Duration(milliseconds: 500),
                           pageBuilder:
