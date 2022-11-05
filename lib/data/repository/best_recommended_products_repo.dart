@@ -7,8 +7,16 @@ Future<List<Product>> getProduct() async {
   final res = await http.get(Uri.parse('$baseUrl/user/all/ads/0'));
   if (res.statusCode == 200) {
     List jsonResponse = json.decode(res.body);
+    return jsonResponse
+        .map((dynamic item) => Product.fromJson(item))
+        .fold<Map<String, Product>>({}, (map, element) {
+          map.putIfAbsent(element.sId!, () => element);
+          return map;
+        })
+        .values
+        .toList();
 
-    return jsonResponse.map((e) => Product.fromJson(e)).toList();
+    // return jsonResponse.map((e) => Product.fromJson(e)).toList();
   } else {
     throw Exception('Unexpected error occured!');
   }

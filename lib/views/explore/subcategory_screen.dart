@@ -46,7 +46,13 @@ class _SubCategoryScreenforSearchState
           builder: (context, snapshot) {
             List<SubCategories>? data = snapshot.data;
             if (snapshot.hasData) {
-              return ListView.builder(
+              return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 130,
+                    childAspectRatio: .1 / .1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
                   itemCount: data!.length,
                   itemBuilder: (context, index) {
                     var currentItem = data[index];
@@ -58,7 +64,7 @@ class _SubCategoryScreenforSearchState
                         border: Border.all(
                           color: Colors.grey,
                         ),
-                        color: greenColor,
+                        color: Colors.white,
                         boxShadow: const [
                           BoxShadow(
                             offset: Offset(4, 8),
@@ -68,33 +74,36 @@ class _SubCategoryScreenforSearchState
                           )
                         ],
                       ),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              transitionDuration:
-                                  const Duration(milliseconds: 500),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      SubcategorySearchScreen(
-                                          subcategoryId: currentItem.id),
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return SlideTransition(
-                                  position: Tween<Offset>(
-                                          begin: const Offset(1, 0),
-                                          end: Offset.zero)
-                                      .animate(animation),
-                                  child: child,
-                                );
-                              },
+                      child: Center(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        SubcategorySearchScreen(
+                                            subcategoryId: currentItem.id),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero)
+                                        .animate(animation),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          title: Text(
+                            currentItem.postSubcategoryName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.black,
                             ),
-                          );
-                        },
-                        title: Text(
-                          currentItem.postSubcategoryName,
-                          style: const TextStyle(
-                            color: Colors.white,
                           ),
                         ),
                       ),

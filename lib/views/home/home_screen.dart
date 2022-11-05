@@ -8,6 +8,7 @@ import 'package:julia/data/repository/get_location_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/provider/is_in_wish_list_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
+import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/addtowishlist/wish_list_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
@@ -72,14 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               onPressed: () {
                 wishlistdata.isInWishList();
-              
-                  pDetails.pDetais(wishlistdata.wishedProductIds[0]);
-                
+
+                pDetails.pDetais(wishlistdata.wishedProductIds[0]);
+
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        const WishListScreen(),
+                        const WishListProductsScreen(),
                     //     AddtoWishlistScreen(
                     //   productDetails: productDetails,
                     //   inWishList: inWishList,
@@ -138,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 15,
             ),
             SizedBox(
-              height: 50,
               child: TextFormField(
                 onTap: () {
                   Navigator.of(context).push(
@@ -161,6 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.start,
                 readOnly: true,
                 decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.search_rounded),
                   hintText: 'Find Vehicles,Furniture and more ... ',

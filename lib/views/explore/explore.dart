@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
@@ -204,53 +206,81 @@ class _ExploreState extends State<Explore> {
             List<AllCategory>? data = snapshot.data;
             return Padding(
               padding: const EdgeInsets.all(8),
-              child: ListView.builder(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 130,
+                  childAspectRatio: .1 / .1,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                ),
                 scrollDirection: Axis.vertical,
                 itemCount: data!.length,
                 itemBuilder: (context, index) {
                   var titleData = data[index];
                   var currentItem = categoryData[index];
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
-                          // reverseTransitionDuration: const Duration(seconds: 1),
-                          pageBuilder: (context, animation,
-                                  secondaryAnimation) =>
-                              CategorySearchScreen(categoryId: titleData.id!),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                      begin: const Offset(1, 0),
-                                      end: Offset.zero)
-                                  .animate(animation),
-                              child: child,
-                            );
-                          },
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            // reverseTransitionDuration: const Duration(seconds: 1),
+                            pageBuilder: (context, animation,
+                                    secondaryAnimation) =>
+                                CategorySearchScreen(categoryId: titleData.id!),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero)
+                                    .animate(animation),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                offset: Offset(4, 8),
+                                spreadRadius: -3,
+                                blurRadius: 5,
+                                color: Colors.grey,
+                              )
+                            ]),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            currentItem['imageUrl'] == null
+                                ? const Text(
+                                    'no Image',
+                                    style: TextStyle(fontSize: 10),
+                                  )
+                                : Image.asset(
+                                    '${currentItem['imageUrl']}',
+                                    height: 40,
+                                  ),
+                            ListTile(
+                              title: Text(
+                                titleData.postCategoryName!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            child: currentItem['imageUrl'] == null
-                                ? Image.asset('')
-                                : Image.asset('${currentItem['imageUrl']}'),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Text(titleData.postCategoryName!),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
                       ),
                     ),
                   );
