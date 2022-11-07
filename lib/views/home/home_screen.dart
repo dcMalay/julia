@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    allLocation = getallLocation();
+    allLocation = getLocation();
     getlocationJsonData();
     getSenderList();
     inWishList = getWishListProducts();
@@ -100,6 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               icon: const Icon(Icons.favorite)),
+          const SizedBox(
+            width: 15,
+          ),
           InkWell(
             onTap: () {
               Navigator.of(context).push(

@@ -245,9 +245,8 @@ class _ProductCardState extends State<ProductCard> {
                                     Icons.favorite,
                                     color: redColor,
                                   ))
-                              : IconButton(
-                                  padding: const EdgeInsets.all(0),
-                                  onPressed: () {
+                              : InkWell(
+                                  onTap: () {
                                     print('add to favotire');
                                     addtoFavorite(widget.productId);
                                     setState(() {
@@ -255,7 +254,7 @@ class _ProductCardState extends State<ProductCard> {
                                           isInWishlist(widget.productId);
                                     });
                                   },
-                                  icon: Icon(
+                                  child: Icon(
                                     Icons.favorite_border,
                                     color: redColor,
                                   ),

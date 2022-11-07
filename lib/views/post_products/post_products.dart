@@ -2,14 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
+import 'package:julia/data/model/location_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:http/http.dart' as http;
+import 'package:julia/data/saved_json_data/stored_location/location_json_data.dart';
+import 'package:julia/provider/location_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class PostProductsView extends StatefulWidget {
@@ -23,24 +29,7 @@ class PostProductsView extends StatefulWidget {
 }
 
 class _PostProductsViewState extends State<PostProductsView> {
-  //List of items in our dropdown menu
-
-  var location = [
-    'Brokopondo',
-    'Commewijne',
-    'Coronie',
-    'Marowijne',
-    'Nickerie',
-    'Para',
-    'Paramaribo',
-    'Saramacca',
-    'Sipaliwini',
-    'Wanica',
-  ];
-  // Initial Selected Value
-
   // ignore: prefer_typing_uninitialized_variables
-  var _locationValue;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController brandController = TextEditingController();
@@ -48,6 +37,8 @@ class _PostProductsViewState extends State<PostProductsView> {
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
   final _secureStorage = const FlutterSecureStorage();
@@ -60,7 +51,8 @@ class _PostProductsViewState extends State<PostProductsView> {
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
-    print("Image List Length:" + imageFileList!.length.toString());
+    setState(() {});
+    print("Image List Length:  ${imageFileList!.length.toString()}");
   }
 
 //function to upload the image to php server
@@ -95,8 +87,8 @@ class _PostProductsViewState extends State<PostProductsView> {
           "post_subcategory": widget.subCategoryId,
           "post_user_id": authUser,
           "fields": '{}',
-          "location": _locationValue,
-          'city': 'kolkata',
+          "location": locationController.text,
+          'city': cityController.text,
           "post_title": titleController.text,
           "post_image": json.encode(imageName),
           "post_price": priceController.text,
@@ -108,7 +100,7 @@ class _PostProductsViewState extends State<PostProductsView> {
       print('status code 200 is ---->${response.body}');
       return response;
     } else {
-      print('location----->$_locationValue');
+      print('location----->${locationController.text}');
       print('getting error ------>${response.body}');
     }
   }
@@ -122,11 +114,14 @@ class _PostProductsViewState extends State<PostProductsView> {
   @override
   void initState() {
     dynamicFormData = getDynamicForm(widget.subCategoryId);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final location = Provider.of<LocationProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
           leading: InkWell(
@@ -135,7 +130,7 @@ class _PostProductsViewState extends State<PostProductsView> {
             },
             child: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           backgroundColor: greenColor,
@@ -298,27 +293,24 @@ class _PostProductsViewState extends State<PostProductsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Location',
+                          'District',
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        DropdownButton<String>(
-                          enableFeedback: true,
-                          hint: const Text('Location'),
-                          isExpanded: true,
-                          value: _locationValue,
-                          items: location
-                              .map((String item) => DropdownMenuItem(
-                                  value: item, child: Text(item)))
-                              .toList(),
-                          onChanged: (String? d) {
-                            setState(() {
-                              _locationValue = d!;
-                            });
-                          },
-                        ),
+                        EasyAutocomplete(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            //isDense: true,
+                            //contentPadding: EdgeInsets.all(13),
+                            // hintStyle: TextStyle(fontSize: 12),
+                          ),
+                          controller: locationController,
+                          suggestions: location.data,
+                          onChanged: (value) {},
+                          onSubmitted: (value) {},
+                        )
                       ],
                     ),
                   ),
@@ -328,17 +320,21 @@ class _PostProductsViewState extends State<PostProductsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'City',
+                          'Area',
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        TextField(
-                          controller: cityController,
+                        EasyAutocomplete(
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
-                        ),
+                            border: OutlineInputBorder(),
+                          ),
+                          controller: cityController,
+                          suggestions: location.cityData,
+                          onChanged: (value) {},
+                          onSubmitted: (value) {},
+                        )
                       ],
                     ),
                   ),

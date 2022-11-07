@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/data/model/sub_category_model.dart';
 import 'package:julia/data/repository/sub_category_repo.dart';
+import 'package:julia/provider/location_provider.dart';
 import 'package:julia/views/post_products/post_products.dart';
+import 'package:provider/provider.dart';
 
 class SubCategoryScreen extends StatefulWidget {
   const SubCategoryScreen({super.key, required this.categoryId});
@@ -21,23 +24,25 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final location = Provider.of<LocationProvider>(context);
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
           ),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "Choose Subcategory",
-            style: TextStyle(color: Colors.black),
-          )),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: greenColor,
+        centerTitle: true,
+        title: const Text(
+          "Choose Subcategory",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: FutureBuilder<List<SubCategories>>(
           future: sCategory,
           builder: (context, snapshot) {
@@ -67,6 +72,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       ),
                       child: ListTile(
                         onTap: () {
+                          location.getallLocation();
                           Navigator.of(context).push(
                             PageRouteBuilder(
                               transitionDuration:

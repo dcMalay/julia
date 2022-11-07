@@ -5,7 +5,7 @@ import 'package:julia/data/saved_json_data/stored_location/location_json_data.da
 import 'package:julia/data/model/location_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<List<Location>> getallLocation() async {
+Future<List<Location>> getLocation() async {
   final response = await http.get(Uri.parse('$baseUrl/user/all/location'));
 //storing the data to the sharedpreferances
   final prefs = await SharedPreferences.getInstance();
