@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
-import 'package:julia/helper/email_checker.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/my_account/components/new_user_screen.dart';

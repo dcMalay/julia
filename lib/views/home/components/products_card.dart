@@ -71,7 +71,46 @@ class _ProductsState extends State<Products> {
                                 "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
                             time: timepre,
                             title: currentItem.postTitle!,
-                            location: currentItem.postLocation.toString(),
+                            location: currentItem.postLocation.toString() ==
+                                    "6353d8ede596901482a5b1e0"
+                                ? 'Brokopondo'
+                                : currentItem.postLocation.toString() ==
+                                        '6353d8fce596901482a5b1e4'
+                                    ? 'Commewijne'
+                                    : currentItem.postLocation.toString() ==
+                                            '6353d90fe596901482a5b1e8'
+                                        ? 'Coronie'
+                                        : currentItem.postLocation.toString() ==
+                                                '6353d923e596901482a5b1ed'
+                                            ? 'Marowijne'
+                                            : currentItem.postLocation
+                                                        .toString() ==
+                                                    '6353d934e596901482a5b1ef'
+                                                ? 'Nickerie'
+                                                : currentItem.postLocation
+                                                            .toString() ==
+                                                        '6353e63ee596901482a5b1f7'
+                                                    ? 'Para'
+                                                    : currentItem.postLocation
+                                                                .toString() ==
+                                                            '6353e647e596901482a5b1fb'
+                                                        ? 'Paramaribo'
+                                                        : currentItem
+                                                                    .postLocation
+                                                                    .toString() ==
+                                                                '6353e650e596901482a5b1fd'
+                                                            ? "Saramacca"
+                                                            : currentItem
+                                                                        .postLocation
+                                                                        .toString() ==
+                                                                    "6353e659e596901482a5b1ff"
+                                                                ? 'Sipaliwini'
+                                                                : currentItem
+                                                                            .postLocation
+                                                                            .toString() ==
+                                                                        '6353e663e596901482a5b201'
+                                                                    ? 'Wanica'
+                                                                    : "no location",
                             price: currentItem.postPrice.toString(),
                             postStatus: postStatus!,
                             isfeatured: isFeatured,
@@ -235,8 +274,8 @@ class _ProductCardState extends State<ProductCard> {
                               ? IconButton(
                                   padding: const EdgeInsets.all(0),
                                   onPressed: () {
-                                    removefromFavorite(data[0].id);
                                     setState(() {
+                                      removefromFavorite(data[0].id);
                                       inWishList =
                                           isInWishlist(widget.productId);
                                     });

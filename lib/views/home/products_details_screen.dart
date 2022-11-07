@@ -4,6 +4,7 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
@@ -45,19 +46,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           'Ads Details',
           style: TextStyle(color: Colors.white),
         ),
-        actions: const [
-          Icon(
+        actions: [
+          const Icon(
             Icons.favorite_border_outlined,
             color: Colors.white,
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
-          Icon(
-            Icons.share_outlined,
-            color: Colors.white,
+          InkWell(
+            onTap: () async {
+              await Share.share('');
+            },
+            child: const Icon(
+              Icons.share_outlined,
+              color: Colors.white,
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
         ],
@@ -153,10 +159,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     width: MediaQuery.of(context).size.width *
                                         4 /
                                         5,
-                                    child: Text(
-                                      currentItem.postDescription,
-                                      style: const TextStyle(
-                                          color: Colors.grey, fontSize: 14),
+                                    height: 267,
+                                    child: ListView(
+                                      children: [
+                                        Text(
+                                          currentItem.postDescription,
+                                          style: const TextStyle(
+                                              color: Colors.grey, fontSize: 14),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],

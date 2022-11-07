@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
+import 'package:julia/const/location_data.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/model/location_model.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:http/http.dart' as http;
-import 'package:julia/data/saved_json_data/stored_location/location_json_data.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class PostProductsView extends StatefulWidget {
@@ -42,15 +41,18 @@ class _PostProductsViewState extends State<PostProductsView> {
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
   final _secureStorage = const FlutterSecureStorage();
-
+  var _dropDownValue;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   List imageNames = [];
+
+//function to select image and add the images to the imageFileList array
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
+//using set state to refresh the page to show the image to the grid
     setState(() {});
     print("Image List Length:  ${imageFileList!.length.toString()}");
   }
@@ -87,7 +89,7 @@ class _PostProductsViewState extends State<PostProductsView> {
           "post_subcategory": widget.subCategoryId,
           "post_user_id": authUser,
           "fields": '{}',
-          "location": locationController.text,
+          "location": _dropDownValue,
           'city': cityController.text,
           "post_title": titleController.text,
           "post_image": json.encode(imageName),
@@ -111,10 +113,21 @@ class _PostProductsViewState extends State<PostProductsView> {
     });
   }
 
+  // late Future<List<Location>> districts;
+
+  fetchdistrictFromApi() async {
+    List<dynamic> myList = [];
+    var data =
+        await http.get(Uri.parse('$baseUrl/user/all/location')).then((value) {
+      List response = jsonDecode(value.body);
+      response.map((e) => myList.add(e));
+    });
+  }
+
   @override
   void initState() {
     dynamicFormData = getDynamicForm(widget.subCategoryId);
-
+    // districts = fetchdistrictFromApi();
     super.initState();
   }
 
@@ -123,285 +136,311 @@ class _PostProductsViewState extends State<PostProductsView> {
     final location = Provider.of<LocationProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        appBar: AppBar(
+            leading: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
             ),
-          ),
-          backgroundColor: greenColor,
-          title: const Text(
-            'Sell Your Products',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          )),
-      body: FutureBuilder<List<DynamicForm>>(
-          future: dynamicFormData,
-          builder: (context, snapshot) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Add Title*',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: titleController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
+            backgroundColor: greenColor,
+            title: const Text(
+              'Sell Your Products',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Add Title*',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Brand*',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: brandController,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 5,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Description of what you sell*',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: descController,
-                          keyboardType: TextInputType.multiline,
-                          minLines: 4,
-                          maxLines: null,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Price',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: priceController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 200,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GridView.builder(
-                                itemCount: imageFileList!.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  mainAxisSpacing: 3.0,
-                                  crossAxisSpacing: 3.0,
-                                ),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Image.file(
-                                    File(imageFileList![index].path),
-                                    fit: BoxFit.cover,
-                                  );
-                                }),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        CupertinoButton(
-                          color: Colors.green,
-                          onPressed: () {
-                            selectImages();
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(Icons.image),
-                              Text(
-                                'Upload Image',
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'District',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        EasyAutocomplete(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            //isDense: true,
-                            //contentPadding: EdgeInsets.all(13),
-                            // hintStyle: TextStyle(fontSize: 12),
-                          ),
-                          controller: locationController,
-                          suggestions: location.data,
-                          onChanged: (value) {},
-                          onSubmitted: (value) {},
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Area',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        EasyAutocomplete(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: cityController,
-                          suggestions: location.cityData,
-                          onChanged: (value) {},
-                          onSubmitted: (value) {},
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Your Name',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        TextField(
-                          controller: nameController,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: CupertinoButton(
-                        color: Colors.green,
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          print('save button pressed');
-                          for (var i = 0; i < imageFileList!.length; i++) {
-                            _upload(File(imageFileList![i].path));
-                          }
-                          startTimer();
-                        },
+                    TextField(
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            );
-          }),
-    );
+              const SizedBox(
+                height: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Brand*',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextField(
+                      controller: brandController,
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Description of what you sell*',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextField(
+                      controller: descController,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 4,
+                      maxLines: null,
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Price',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextField(
+                      controller: priceController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GridView.builder(
+                            itemCount: imageFileList!.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 3.0,
+                              crossAxisSpacing: 3.0,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.file(
+                                File(imageFileList![index].path),
+                                fit: BoxFit.cover,
+                              );
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    CupertinoButton(
+                      color: Colors.green,
+                      onPressed: () {
+                        selectImages();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.image),
+                          Text(
+                            'Upload Image',
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'District',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+
+                    DropdownButton(
+                      value: _dropDownValue,
+                      items: [
+                        DropdownMenuItem<String>(
+                            value: '${locationData[0]["_id"]}',
+                            child: Text('${locationData[0]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[1]["_id"]}',
+                            child: Text('${locationData[1]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[2]["_id"]}',
+                            child: Text('${locationData[2]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[3]["_id"]}',
+                            child: Text('${locationData[3]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[4]["_id"]}',
+                            child: Text('${locationData[4]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[5]["_id"]}',
+                            child: Text('${locationData[5]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[6]["_id"]}',
+                            child: Text('${locationData[6]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[7]["_id"]}',
+                            child: Text('${locationData[7]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[8]["_id"]}',
+                            child: Text('${locationData[8]["location_name"]}')),
+                        DropdownMenuItem<String>(
+                            value: '${locationData[9]["_id"]}',
+                            child: Text('${locationData[9]["location_name"]}')),
+                      ],
+                      onChanged: (items) {
+                        setState(
+                          () {
+                            _dropDownValue = items.toString();
+                            print(_dropDownValue);
+                          },
+                        );
+                      },
+                    ),
+
+                    // EasyAutocomplete(
+                    //   decoration: const InputDecoration(
+                    //     border: OutlineInputBorder(),
+                    //     //isDense: true,
+                    //     //contentPadding: EdgeInsets.all(13),
+                    //     // hintStyle: TextStyle(fontSize: 12),
+                    //   ),
+                    //   controller: locationController,
+                    //   suggestions: location.data,
+                    //   onChanged: (value) {},
+                    //   onSubmitted: (value) {},
+                    // )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Area',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    EasyAutocomplete(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      controller: cityController,
+                      suggestions: location.cityData,
+                      onChanged: (value) {},
+                      onSubmitted: (value) {},
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Your Name',
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextField(
+                      controller: nameController,
+                      decoration:
+                          const InputDecoration(border: OutlineInputBorder()),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: CupertinoButton(
+                    color: Colors.green,
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      print('save button pressed');
+                      for (var i = 0; i < imageFileList!.length; i++) {
+                        _upload(File(imageFileList![i].path));
+                      }
+                      startTimer();
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // ignore: must_be_immutable
 // class PostProductsView extends StatefulWidget {
