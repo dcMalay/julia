@@ -10,7 +10,6 @@ import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/provider/is_in_wish_list_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
-import 'package:julia/views/addtowishlist/wish_list_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
@@ -37,13 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     getlocationJsonData();
     getSenderList();
     inWishList = getWishListProducts();
-    getWishListProducts().then((value) {
-      for (var i = 0; i < value.length; i++) {
-        wishProductId.add(value[i].wishProductId);
-        print("wish product id ----->$wishProductId");
-        productDetails = getProductDetails(wishProductId[i]);
-      }
-    });
   }
 
   @override
@@ -74,19 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                wishlistdata.isInWishList();
+                // wishlistdata.isInWishList();
 
-                pDetails.pDetais(wishlistdata.wishedProductIds[0]);
+                // pDetails.pDetais(wishlistdata.wishedProductIds[0]);
 
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const WishListProductsScreen(),
-                    //     AddtoWishlistScreen(
-                    //   productDetails: productDetails,
-                    //   inWishList: inWishList,
-                    // ),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       return SlideTransition(

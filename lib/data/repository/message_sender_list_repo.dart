@@ -7,8 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _secureStorage = FlutterSecureStorage();
 
-Future<List<String>> getSenderList() async {
+Future<List<dynamic>> getSenderList() async {
   var authUser = await _secureStorage.read(key: 'userId');
+  List data = [];
   final response =
       await http.get(Uri.parse("$baseUrl/user/getsenderlist/$authUser"));
 
@@ -18,8 +19,10 @@ Future<List<String>> getSenderList() async {
   prefs.setString('senderJsonData', senderData);
 
   if (response.statusCode == 200) {
-    List<String> jsonResponse = json.decode(response.body);
-    return jsonResponse;
+    List<dynamic> jsonResponse = json.decode(response.body);
+    print('sender userid ---->$jsonResponse');
+    data = jsonResponse;
+    return data;
   } else {
     throw Exception('Error occured');
   }

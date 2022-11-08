@@ -165,7 +165,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         Text(
                                           currentItem.postDescription,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 14),
+                                              color: Colors.grey, fontSize: 14,),
                                         ),
                                       ],
                                     ),

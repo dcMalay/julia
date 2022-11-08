@@ -55,6 +55,8 @@ dependencies:
   url_launcher: ^6.1.6
   easy_autocomplete: ^1.6.0
   share_plus: ^6.2.0
+  integration_test: ^0.8.1
+ 
   
 
 dev_dependencies:
