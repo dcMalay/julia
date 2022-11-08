@@ -226,7 +226,7 @@ class _ProductCardState extends State<ProductCard> {
                           color: greenColor,
                           borderRadius: BorderRadius.circular(5)),
                       child: widget.postStatus == 1.toString()
-                          ? Center(
+                          ? const Center(
                               child: Text('available',
                                   style: TextStyle(
                                     color: Colors.white,

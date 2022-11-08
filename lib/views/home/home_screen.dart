@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     allLocation = getLocation();
     getlocationJsonData();
-    getSenderList();
+
     inWishList = getWishListProducts();
   }
 

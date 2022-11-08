@@ -2,36 +2,50 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';
-import 'package:julia/data/saved_json_data/stored_sender_data/message_sender_json_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:julia/data/model/message_sender_model.dart';
 
 const _secureStorage = FlutterSecureStorage();
 
-Future<List<dynamic>> getSenderList() async {
+Future<List<MessageSender>> getmessageSender() async {
   var authUser = await _secureStorage.read(key: 'userId');
-  List data = [];
   final response =
-      await http.get(Uri.parse("$baseUrl/user/getsenderlist/$authUser"));
-
-//storing the data to the sharedpreferances
-  final prefs = await SharedPreferences.getInstance();
-  var senderData = jsonEncode(response.body);
-  prefs.setString('senderJsonData', senderData);
+      await http.get(Uri.parse('$baseUrl/user/getsenderlist/$authUser'));
 
   if (response.statusCode == 200) {
-    List<dynamic> jsonResponse = json.decode(response.body);
-    print('sender userid ---->$jsonResponse');
-    data = jsonResponse;
-    return data;
+    List jsonResponse = json.decode(response.body);
+    return jsonResponse.map((e) => MessageSender.fromJson(e)).toList();
   } else {
-    throw Exception('Error occured');
+    throw Exception('getting error');
   }
 }
 
-Future<void> getSenderJsonData() async {
-  final prefs = await SharedPreferences.getInstance();
-  var temp = prefs.getString('jsonData') ?? jsonEncode(messageSenderData);
-  print('Stored messagesender data------>$temp');
-  var data = jsonDecode(temp.toString());
-  print('location--->$data');
-}
+
+
+// Future<List<dynamic>> getSenderList() async {
+//   var authUser = await _secureStorage.read(key: 'userId');
+//   List data = [];
+//   final response =
+//       await http.get(Uri.parse("$baseUrl/user/getsenderlist/$authUser"));
+
+// //storing the data to the sharedpreferances
+//   final prefs = await SharedPreferences.getInstance();
+//   var senderData = jsonEncode(response.body);
+//   prefs.setString('senderJsonData', senderData);
+
+//   if (response.statusCode == 200) {
+//     List<dynamic> jsonResponse = json.decode(response.body);
+//     print('sender userid ---->$jsonResponse');
+//     data = jsonResponse;
+//     return data;
+//   } else {
+//     throw Exception('Error occured');
+//   }
+// }
+
+// Future<void> getSenderJsonData() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   var temp = prefs.getString('jsonData') ?? jsonEncode(messageSenderData);
+//   print('Stored messagesender data------>$temp');
+//   var data = jsonDecode(temp.toString());
+//   print('location--->$data');
+// }
