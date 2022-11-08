@@ -174,7 +174,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.12),
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Stack(
         children: [
           Container(

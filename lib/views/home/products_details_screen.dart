@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
@@ -19,10 +20,16 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Future<List<ProductDetails>> productDetails;
+  final _secureStorage = FlutterSecureStorage();
+  var authUser;
+  getuser() async {
+    authUser = await _secureStorage.read(key: "userId");
+  }
 
   @override
   void initState() {
     super.initState();
+    getuser();
     setState(() {
       productDetails = getProductDetails(widget.productID);
     });
@@ -165,7 +172,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         Text(
                                           currentItem.postDescription,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 14,),
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -192,39 +201,46 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 30),
                               ),
-                              CupertinoButton(
-                                color: greenColor,
-                                child: const Text(
-                                  'Chat',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                      // reverseTransitionDuration: const Duration(seconds: 1),
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          ChattingScreen(
-                                        sellerName: currentItem.authName,
-                                        sellerId: currentItem.postUserId,
+                              currentItem.postUserId == authUser
+                                  ? Container()
+                                  : CupertinoButton(
+                                      color: greenColor,
+                                      child: const Text(
+                                        'Chat',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
                                       ),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return SlideTransition(
-                                          position: Tween<Offset>(
-                                                  begin: const Offset(1, 0),
-                                                  end: Offset.zero)
-                                              .animate(animation),
-                                          child: child,
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            transitionDuration: const Duration(
+                                                milliseconds: 500),
+                                            // reverseTransitionDuration: const Duration(seconds: 1),
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                ChattingScreen(
+                                              sellerprofileImage:
+                                                  currentItem.postImage[0],
+                                              sellerName: currentItem.authName,
+                                              sellerId: currentItem.postUserId,
+                                            ),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              return SlideTransition(
+                                                position: Tween<Offset>(
+                                                        begin:
+                                                            const Offset(1, 0),
+                                                        end: Offset.zero)
+                                                    .animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
-                                    ),
-                                  );
-                                },
-                              )
+                                    )
                             ],
                           ),
                         )

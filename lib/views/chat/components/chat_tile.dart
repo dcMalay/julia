@@ -43,6 +43,7 @@ class _ListTileChatState extends State<ListTileChat> {
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
                                       ChattingScreen(
+                                sellerprofileImage: seller[index].userImage,
                                 sellerName: seller[index].userName,
                                 sellerId: seller[index].userId,
                               ),

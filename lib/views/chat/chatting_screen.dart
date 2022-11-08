@@ -7,9 +7,13 @@ import 'package:julia/data/repository/messages_repo.dart';
 
 class ChattingScreen extends StatefulWidget {
   const ChattingScreen(
-      {super.key, required this.sellerName, required this.sellerId});
+      {super.key,
+      required this.sellerName,
+      required this.sellerId,
+      required this.sellerprofileImage});
   final String sellerName;
   final String sellerId;
+  final String sellerprofileImage;
   @override
   State<ChattingScreen> createState() => _ChattingScreenState();
 }
@@ -42,8 +46,8 @@ class _ChattingScreenState extends State<ChattingScreen> {
   void _scrollDown() {
     _controller.animateTo(
       _controller.position.maxScrollExtent,
-      duration: const Duration(seconds: 2),
-      curve: Curves.fastOutSlowIn,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
     );
   }
 
@@ -64,12 +68,14 @@ class _ChattingScreenState extends State<ChattingScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Expanded(
+            Expanded(
               flex: 0,
               child: CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                  widget.sellerprofileImage.contains('http')
+                      ? 'https://api.minimalavatars.com/avatar/random/png'
+                      : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
                 ),
               ),
             ),
@@ -88,9 +94,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
               color: Colors.black,
             ),
             itemBuilder: (context) => [
-              // popupmenu item 1
               const PopupMenuItem(value: 1, child: Text("Delete Chat")),
-              // popupmenu item 2
               const PopupMenuItem(value: 2, child: Text("Report User")),
               const PopupMenuItem(value: 3, child: Text("Block User")),
             ],
@@ -121,34 +125,38 @@ class _ChattingScreenState extends State<ChattingScreen> {
 
                           return Column(
                             children: [
-                              Align(
-                                alignment: currentItem.reciverId == user
-                                    ? Alignment.centerLeft
-                                    : Alignment.centerRight,
-                                child: Stack(
-                                  children: [
-                                    Card(
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Text(currentItem.message),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 5),
+                                child: Align(
+                                  alignment: currentItem.reciverId == user
+                                      ? Alignment.centerLeft
+                                      : Alignment.centerRight,
+                                  child: Stack(
+                                    children: [
+                                      Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(currentItem.message),
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      date,
-                                      style: const TextStyle(
-                                          color: Colors.grey, fontSize: 12),
-                                    ),
-                                    Positioned(
-                                      bottom: 5,
-                                      right: 5,
-                                      child: Text(
-                                        timepre,
+                                      Text(
+                                        date,
                                         style: const TextStyle(
                                             color: Colors.grey, fontSize: 10),
                                       ),
-                                    ),
-                                  ],
+                                      Positioned(
+                                        bottom: 5,
+                                        right: 5,
+                                        child: Text(
+                                          timepre,
+                                          style: const TextStyle(
+                                              color: Colors.grey, fontSize: 10),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
