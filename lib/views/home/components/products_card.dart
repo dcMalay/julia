@@ -53,7 +53,7 @@ class _ProductsState extends State<Products> {
                     var timepre = time[0].trim();
                     var isFeatured = currentItem.postFeatured;
                     var postStatus = currentItem.postStatus;
-
+                    print('image url----->${currentItem.postImage}');
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Center(
@@ -67,8 +67,9 @@ class _ProductsState extends State<Products> {
                             }));
                           },
                           child: ProductCard(
-                            imageUrl:
-                                "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                            imageUrl: currentItem.postImage!.isEmpty
+                                ? ''
+                                : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
                             time: timepre,
                             title: currentItem.postTitle!,
                             location: currentItem.postLocation.toString() ==
@@ -198,15 +199,24 @@ class _ProductCardState extends State<ProductCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    widget.imageUrl,
-                    height: 100,
-                    width: 160,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                widget.imageUrl.isEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          color: Colors.grey,
+                          height: 100,
+                          width: 160,
+                          child: const Center(child: Text('No Image Found')),
+                        ))
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          widget.imageUrl,
+                          height: 100,
+                          width: 160,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),

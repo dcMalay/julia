@@ -187,111 +187,117 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+    return MediaQuery(
+      //using media query to override textScelefactor for all android devides because fontsize pixels are change according to device
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: Scaffold(
+        appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: greenColor,
-          centerTitle: true,
-          title: const Text(
-            'Select Your Category to search',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          )),
-      body: FutureBuilder<List<AllCategory>>(
-        future: apidata,
-        builder: (context, snapshot) {
-          List<AllCategory>? data = snapshot.data;
-          if (snapshot.hasData) {
-            return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 130,
-                  childAspectRatio: .1 / .1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: data!.length,
-                itemBuilder: (context, index) {
-                  var currentItem = data[index];
-                  var cItem = categoryData[index];
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.grey,
-                      ),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          offset: Offset(4, 8),
-                          spreadRadius: -3,
-                          blurRadius: 5,
+            backgroundColor: greenColor,
+            centerTitle: true,
+            title: const Text(
+              'Select Your Category to search',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )),
+        body: FutureBuilder<List<AllCategory>>(
+          future: apidata,
+          builder: (context, snapshot) {
+            List<AllCategory>? data = snapshot.data;
+            if (snapshot.hasData) {
+              return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 130,
+                    childAspectRatio: .1 / .1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: data!.length,
+                  itemBuilder: (context, index) {
+                    var currentItem = data[index];
+                    var cItem = categoryData[index];
+                    return Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
                           color: Colors.grey,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cItem['imageUrl'] == null
-                            ? Image.asset('')
-                            : Image.asset(
-                                '${cItem['imageUrl']}',
-                                height: 35,
-                              ),
-                        ListTile(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                transitionDuration:
-                                    const Duration(milliseconds: 500),
-                                // reverseTransitionDuration: const Duration(seconds: 1),
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        SubCategoryScreenforSearch(
-                                            categoryId: currentItem.id!),
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return SlideTransition(
-                                    position: Tween<Offset>(
-                                            begin: const Offset(1, 0),
-                                            end: Offset.zero)
-                                        .animate(animation),
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          title: Text(
-                            currentItem.postCategoryName!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: greenColor, fontSize: 12),
-                          ),
                         ),
-                      ],
-                    ),
-                  );
-                  // return Text(currentItem.postCategoryName!);
-                });
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+                        color: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            offset: Offset(4, 8),
+                            spreadRadius: -3,
+                            blurRadius: 5,
+                            color: Colors.grey,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          cItem['imageUrl'] == null
+                              ? Image.asset('')
+                              : Image.asset(
+                                  '${cItem['imageUrl']}',
+                                  height: 35,
+                                ),
+                          ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  transitionDuration:
+                                      const Duration(milliseconds: 500),
+                                  // reverseTransitionDuration: const Duration(seconds: 1),
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      SubCategoryScreenforSearch(
+                                          categoryId: currentItem.id!),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                              begin: const Offset(1, 0),
+                                              end: Offset.zero)
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            title: Text(
+                              currentItem.postCategoryName!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: greenColor, fontSize: 12),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                    // return Text(currentItem.postCategoryName!);
+                  });
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

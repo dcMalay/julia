@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/data/repository/auth_repo.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/login_register/registration.dart';

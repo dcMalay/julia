@@ -5,8 +5,6 @@ import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/wishlist_model.dart';
 import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/get_location_repo.dart';
-import 'package:julia/data/repository/message_sender_list_repo.dart';
-import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/provider/is_in_wish_list_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
