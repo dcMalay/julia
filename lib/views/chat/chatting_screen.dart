@@ -24,7 +24,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
   TextEditingController messageController = TextEditingController();
   final ScrollController _controller = ScrollController();
   var user;
-
+  Timer? timer;
   //store the user in user variable
   void getuserid() async {
     var authUser = await _secureStorage.read(key: 'userId');
@@ -37,10 +37,20 @@ class _ChattingScreenState extends State<ChattingScreen> {
   @override
   void initState() {
     super.initState();
-
     allMessage = getallMessages(widget.sellerId);
+    timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (Timer t) => setState(() {
+              allMessage = getallMessages(widget.sellerId);
+            }));
 
     getuserid();
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 
   void _scrollDown() {
@@ -72,11 +82,14 @@ class _ChattingScreenState extends State<ChattingScreen> {
               flex: 0,
               child: CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage(
-                  widget.sellerprofileImage.contains('http')
-                      ? 'https://api.minimalavatars.com/avatar/random/png'
-                      : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
-                ),
+                backgroundImage: widget.sellerprofileImage.isEmpty
+                    ? const NetworkImage(
+                        'https://api.minimalavatars.com/avatar/random/png')
+                    : NetworkImage(
+                        widget.sellerprofileImage.contains('http')
+                            ? 'https://api.minimalavatars.com/avatar/random/png'
+                            : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
+                      ),
               ),
             ),
             Expanded(
@@ -138,13 +151,17 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                         elevation: 5,
                                         child: Padding(
                                           padding: const EdgeInsets.all(15),
-                                          child: Text(currentItem.message),
+                                          child: Text(
+                                            currentItem.message,
+                                            style:
+                                                const TextStyle(fontSize: 17),
+                                          ),
                                         ),
                                       ),
                                       Text(
                                         date,
                                         style: const TextStyle(
-                                            color: Colors.grey, fontSize: 10),
+                                            color: Colors.grey, fontSize: 8),
                                       ),
                                       Positioned(
                                         bottom: 5,
@@ -152,7 +169,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                         child: Text(
                                           timepre,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 10),
+                                              color: Colors.grey, fontSize: 8),
                                         ),
                                       ),
                                     ],

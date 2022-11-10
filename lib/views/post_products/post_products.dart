@@ -7,17 +7,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/const/location_data.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/model/profile_details_model.dart';
-import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
 import 'package:julia/provider/location_provider.dart';
+import 'package:julia/views/post_products/components/html_form.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -133,7 +132,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 
   @override
   void initState() {
-    dynamicFormData = getDynamicForm(widget.subCategoryId);
+    // dynamicFormData = getDynamicForm(widget.subCategoryId);
     getUserData = getUserDetails();
 
     // districts = fetchdistrictFromApi();
@@ -322,7 +321,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                         height: 5,
                       ),
                       CupertinoButton(
-                        color: Colors.green,
+                        color: greenColor,
                         onPressed: () {
                           selectImages();
                         },
@@ -449,7 +448,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                           //contentPadding: EdgeInsets.all(13),
                           // hintStyle: TextStyle(fontSize: 12),
                         ),
-                        controller: locationController,
+                        controller: cityController,
                         suggestions: location.cityData,
                         onChanged: (value) {},
                         onSubmitted: (value) {},
@@ -472,6 +471,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                     ],
                   ),
                 ),
+                // const HtmlForm(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -503,7 +503,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: CupertinoButton(
-                      color: Colors.green,
+                      color: greenColor,
                       child: const Text(
                         'Submit',
                         style: TextStyle(color: Colors.white),
@@ -912,7 +912,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 //                     height: 5,
 //                   ),
 //                   CupertinoButton(
-//                     color: Colors.green,
+//                     color: greenColor,
 //                     onPressed: () async {
 //                       var imagePicker = await ImagePicker().pickImage(
 //                         source: ImageSource.gallery,
@@ -1096,7 +1096,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 //               child: SizedBox(
 //                 width: MediaQuery.of(context).size.width,
 //                 child: CupertinoButton(
-//                   color: Colors.green,
+//                   color: greenColor,
 //                   child: const Text(
 //                     'Submit',
 //                     style: TextStyle(color: Colors.white),

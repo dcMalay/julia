@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
+import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:julia/views/explore/category_search_screen.dart';
 
 class Explore extends StatefulWidget {
@@ -175,10 +176,13 @@ class _ExploreState extends State<Explore> {
     },
   ];
   late Future<List<AllCategory>> apidata;
-
+  late Future htmldata;
   @override
   void initState() {
     super.initState();
+    getdynamicForm();
+    htmldata = getdynamicForm();
+    print("data ------ >$htmldata");
     setState(() {
       apidata = getAllCategory();
     });

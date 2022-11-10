@@ -86,7 +86,10 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                               child: ListTile(
                                 leading: Image.network(
                                     'http://52.67.149.51/uploads/${currentItem.postImage[0]}'),
-                                title: Text(currentItem.postTitle),
+                                title: Text(
+                                  currentItem.postTitle,
+                                  maxLines: 2,
+                                ),
                                 subtitle: Text("$date  - $timepre"),
                                 // const Text('19 Sep 2022 - 06:00 PM'),
                                 trailing: Text(

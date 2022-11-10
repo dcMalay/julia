@@ -89,8 +89,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             child: ProductCard(
                               // imageUrl:
                               //   'https://media.istockphoto.com/photos/stylish-blue-headphones-on-multi-colored-duo-tone-background-lighting-picture-id1175355990?k=20&m=1175355990&s=612x612&w=0&h=LX5kcpZKWyJQA_Kh5Ub9EwDNpGtAimGr2AePNQJPYxE=',
-                              imageUrl:
-                                  "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                              imageUrl: currentItem.postImage!.isEmpty
+                                  ? ''
+                                  : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
                               time: timepre,
                               title: currentItem.postTitle!,
                               location: currentItem.postLocation.toString() ==

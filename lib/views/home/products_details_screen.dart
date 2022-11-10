@@ -86,6 +86,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     itemCount: data!.length,
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
+
+                      var str = data[index].postDate.toString();
+                      var parts = str.split(' ');
+                      var prefix = parts[1].trim();
+                      var time = prefix.split('.');
+                      var timepre = time[0].trim();
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -116,11 +122,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             padding: const EdgeInsets.only(
                                 left: 10.0, top: 20.0, right: 10),
                             child: SizedBox(
-                              height: 68,
+                              height: 80,
                               child: Text(
                                 currentItem.postTitle,
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                    color: Colors.black, fontSize: 18),
                               ),
                             ),
                           ),
@@ -135,9 +141,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   style: const TextStyle(
                                       color: Colors.grey, fontSize: 15),
                                 ),
-                                const Text(
-                                  '10 mins ago',
-                                  style: TextStyle(
+                                Text(
+                                  timepre,
+                                  style: const TextStyle(
                                       color: Colors.grey, fontSize: 15),
                                 ),
                               ],
@@ -173,7 +179,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          4 /
+                                          3.5 /
                                           5,
                                       height: 267,
                                       child: ListView(
@@ -208,7 +214,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Text(
                                   "SRD ${data[index].postPrice.toString()}",
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 30),
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 currentItem.postUserId == authUser
                                     ? Container()

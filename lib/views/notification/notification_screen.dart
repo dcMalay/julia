@@ -74,7 +74,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         child: Card(
                           elevation: 8,
                           child: ListTile(
-                            title: Text("Post title : ${data[0].postTitle}"),
+                            title: Text(
+                              "Post title : ${data[0].postTitle}",
+                              maxLines: 1,
+                            ),
                             trailing: postStatus == 0.toString()
                                 ? const Text('Post Submitted')
                                 : postStatus == 1.toString()

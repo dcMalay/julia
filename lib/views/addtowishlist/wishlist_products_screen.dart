@@ -81,8 +81,9 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
                         print(timepre);
 
                         return ProductCard(
-                          imageUrl:
-                              'http://52.67.149.51/uploads/${currentItem.postImage[0]}',
+                          imageUrl: currentItem.postImage.isEmpty
+                              ? ''
+                              : 'http://52.67.149.51/uploads/${currentItem.postImage[0]}',
                           time: timepre,
                           title: currentItem.postTitle,
                           location: currentItem.postLocation.toString() ==
