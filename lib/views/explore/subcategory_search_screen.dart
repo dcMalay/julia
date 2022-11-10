@@ -142,7 +142,7 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                                                                           : currentItem.postLocation.toString() == '6353e663e596901482a5b201'
                                                                               ? 'Wanica'
                                                                               : "no location",
-                                      price: currentItem.postPrice.toString(),
+                                      price: currentItem.postPrice!.toDouble(),
                                       postStatus: currentItem.postStatus!,
                                       productId: currentItem.sId!,
                                     ),

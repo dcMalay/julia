@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Holo',
+              'Julia',
               style: TextStyle(
                 color: yellowColor,
                 fontSize: 25,

@@ -253,7 +253,6 @@ class _CategoriesState extends State<Categories> {
                                   PageRouteBuilder(
                                     transitionDuration:
                                         const Duration(milliseconds: 500),
-                                    // reverseTransitionDuration: const Duration(seconds: 1),
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
                                         SubCategoryScreen(
@@ -280,8 +279,6 @@ class _CategoriesState extends State<Categories> {
                           ],
                         ),
                       );
-
-                      // return Text(currentItem.postCategoryName!);
                     });
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");

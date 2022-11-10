@@ -279,6 +279,7 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
                             title: Text(
                               currentItem.postCategoryName!,
                               textAlign: TextAlign.center,
+                              maxLines: 2,
                               style: TextStyle(color: greenColor, fontSize: 12),
                             ),
                           ),

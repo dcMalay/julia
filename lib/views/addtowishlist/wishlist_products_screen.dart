@@ -125,7 +125,7 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
                                                                       '6353e663e596901482a5b201'
                                                                   ? 'Wanica'
                                                                   : "no location",
-                          price: currentItem.postPrice.toString(),
+                          price: currentItem.postPrice,
                           postStatus: currentItem.postStatus,
                           productId: currentItem.id,
                         );

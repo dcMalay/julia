@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
@@ -27,111 +29,108 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    final scale = mediaQueryData.textScaleFactor.clamp(0.80, 0.90);
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
-      child: SizedBox(
-        height: 1150,
-        child: FutureBuilder<List<Product>>(
-            future: productsData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Product>? data = snapshot.data;
-                return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data!.length,
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 3 / 4.5,
-                      crossAxisSpacing: (MediaQuery.of(context).orientation ==
-                              Orientation.landscape)
-                          ? 4
-                          : 2,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      var currentItem = data[index];
-                      var str = data[index].postDate.toString();
-                      var parts = str.split('T');
-                      var prefix = parts[1].trim();
-                      var time = prefix.split('.');
-                      var timepre = time[0].trim();
-                      var isFeatured = currentItem.postFeatured;
-                      var postStatus = currentItem.postStatus;
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return ProductDetailsScreen(
-                              productID: currentItem.sId!,
-                            );
-                          }));
-                        },
-                        child: ProductCard(
-                          imageUrl: currentItem.postImage!.isEmpty
-                              ? ''
-                              : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
-                          time: timepre,
-                          title: currentItem.postTitle!,
-                          location: currentItem.postLocation.toString() ==
-                                  "6353d8ede596901482a5b1e0"
-                              ? 'Brokopondo'
-                              : currentItem.postLocation.toString() ==
-                                      '6353d8fce596901482a5b1e4'
-                                  ? 'Commewijne'
-                                  : currentItem.postLocation.toString() ==
-                                          '6353d90fe596901482a5b1e8'
-                                      ? 'Coronie'
-                                      : currentItem.postLocation.toString() ==
-                                              '6353d923e596901482a5b1ed'
-                                          ? 'Marowijne'
-                                          : currentItem.postLocation
-                                                      .toString() ==
-                                                  '6353d934e596901482a5b1ef'
-                                              ? 'Nickerie'
-                                              : currentItem.postLocation
-                                                          .toString() ==
-                                                      '6353e63ee596901482a5b1f7'
-                                                  ? 'Para'
-                                                  : currentItem.postLocation
-                                                              .toString() ==
-                                                          '6353e647e596901482a5b1fb'
-                                                      ? 'Paramaribo'
-                                                      : currentItem.postLocation
-                                                                  .toString() ==
-                                                              '6353e650e596901482a5b1fd'
-                                                          ? "Saramacca"
-                                                          : currentItem
-                                                                      .postLocation
-                                                                      .toString() ==
-                                                                  "6353e659e596901482a5b1ff"
-                                                              ? 'Sipaliwini'
-                                                              : currentItem
-                                                                          .postLocation
-                                                                          .toString() ==
-                                                                      '6353e663e596901482a5b201'
-                                                                  ? 'Wanica'
-                                                                  : "no location",
-                          price: currentItem.postPrice.toString(),
-                          postStatus: postStatus!,
-                          isfeatured: isFeatured,
-                          productId: currentItem.sId!,
-                        ),
-                      );
-                    });
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: greenColor,
+    // final mediaQueryData = MediaQuery.of(context);
+    // final scale =
+    //     mediaQueryData.textScaleFactor.clamp(0.80.toInt(), 0.90.toInt());
+    return SizedBox(
+      height: 1150,
+      child: FutureBuilder<List<Product>>(
+          future: productsData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Product>? data = snapshot.data;
+              return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: data!.length,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 4.5,
+                    crossAxisSpacing: (MediaQuery.of(context).orientation ==
+                            Orientation.landscape)
+                        ? 4
+                        : 2,
+                    mainAxisSpacing: 10,
                   ),
-                );
-              }
-            }),
-      ),
+                  itemBuilder: (context, index) {
+                    var currentItem = data[index];
+                    var str = data[index].postDate.toString();
+                    var parts = str.split('T');
+                    var prefix = parts[1].trim();
+                    var time = prefix.split('.');
+                    var timepre = time[0].trim();
+                    var isFeatured = currentItem.postFeatured;
+                    var postStatus = currentItem.postStatus;
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ProductDetailsScreen(
+                            productID: currentItem.sId!,
+                          );
+                        }));
+                      },
+                      child: ProductCard(
+                        imageUrl: currentItem.postImage!.isEmpty
+                            ? ''
+                            : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                        time: timepre,
+                        title: currentItem.postTitle!,
+                        location: currentItem.postLocation.toString() ==
+                                "6353d8ede596901482a5b1e0"
+                            ? 'Brokopondo'
+                            : currentItem.postLocation.toString() ==
+                                    '6353d8fce596901482a5b1e4'
+                                ? 'Commewijne'
+                                : currentItem.postLocation.toString() ==
+                                        '6353d90fe596901482a5b1e8'
+                                    ? 'Coronie'
+                                    : currentItem.postLocation.toString() ==
+                                            '6353d923e596901482a5b1ed'
+                                        ? 'Marowijne'
+                                        : currentItem.postLocation.toString() ==
+                                                '6353d934e596901482a5b1ef'
+                                            ? 'Nickerie'
+                                            : currentItem.postLocation
+                                                        .toString() ==
+                                                    '6353e63ee596901482a5b1f7'
+                                                ? 'Para'
+                                                : currentItem.postLocation
+                                                            .toString() ==
+                                                        '6353e647e596901482a5b1fb'
+                                                    ? 'Paramaribo'
+                                                    : currentItem.postLocation
+                                                                .toString() ==
+                                                            '6353e650e596901482a5b1fd'
+                                                        ? "Saramacca"
+                                                        : currentItem
+                                                                    .postLocation
+                                                                    .toString() ==
+                                                                "6353e659e596901482a5b1ff"
+                                                            ? 'Sipaliwini'
+                                                            : currentItem
+                                                                        .postLocation
+                                                                        .toString() ==
+                                                                    '6353e663e596901482a5b201'
+                                                                ? 'Wanica'
+                                                                : "no location",
+                        price: currentItem.postPrice!,
+                        postStatus: postStatus!,
+                        isfeatured: isFeatured,
+                        productId: currentItem.sId!,
+                      ),
+                    );
+                  });
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
+              );
+            }
+          }),
     );
   }
 }
@@ -154,7 +153,7 @@ class ProductCard extends StatefulWidget {
   final String time;
   final String title;
   final String location;
-  final String price;
+  final num price;
   int? isfeatured;
   final String postStatus;
   final String productId;
@@ -259,7 +258,8 @@ class _ProductCardState extends State<ProductCard> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     widget.title,
-                    maxLines: 2,
+                    softWrap: true,
+                    maxLines: 1,
                     style: const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
@@ -272,7 +272,7 @@ class _ProductCardState extends State<ProductCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "SRD ${widget.price}",
+                      "SRD ${widget.price.toString()}",
                       style: const TextStyle(
                         fontSize: 15,
                         color: Colors.black,

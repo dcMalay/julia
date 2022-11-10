@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Product {
   String? sId;
   String? postCategory;
@@ -10,7 +12,7 @@ class Product {
   String? postTitle;
   List<String>? postImage;
   String? postSold;
-  int? postPrice;
+  num? postPrice;
   String? postDescription;
   String? authName;
   String? postDate;
