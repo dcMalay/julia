@@ -354,6 +354,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 
                       DropdownButton(
                         value: _dropDownValue,
+                        hint: const Text('District'),
                         items: [
                           DropdownMenuItem<String>(
                               value: '${locationData[0]["_id"]}',
@@ -400,6 +401,8 @@ class _PostProductsViewState extends State<PostProductsView> {
                           setState(
                             () {
                               _dropDownValue = items.toString();
+                              location.getCityName(_dropDownValue);
+                              print("city ------>${location.cityData}");
                               print(_dropDownValue);
                             },
                           );
@@ -436,18 +439,36 @@ class _PostProductsViewState extends State<PostProductsView> {
                       EasyAutocomplete(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the price';
+                            return 'Please enter city';
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
+                          //isDense: true,
+                          //contentPadding: EdgeInsets.all(13),
+                          // hintStyle: TextStyle(fontSize: 12),
                         ),
-                        controller: cityController,
+                        controller: locationController,
                         suggestions: location.cityData,
                         onChanged: (value) {},
                         onSubmitted: (value) {},
-                      )
+                      ),
+                      // EasyAutocomplete(
+                      //   // validator: (value) {
+                      //   //   if (value == null || value.isEmpty) {
+                      //   //     return 'Please enter city';
+                      //   //   }
+                      //   //   return null;
+                      //   // },
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   controller: cityController,
+                      //   suggestions: ['cjnierfnr', 'erjfneirfelr', 'fjerfierf'],
+                      //   onChanged: (value) {},
+                      //   onSubmitted: (value) {},
+                      // )
                     ],
                   ),
                 ),
@@ -498,7 +519,8 @@ class _PostProductsViewState extends State<PostProductsView> {
                                 margin: const EdgeInsets.only(
                                     top: 400, bottom: 400, left: 30, right: 30),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
                                 content: const Center(
                                   child: Text(
                                     'please select some image',
