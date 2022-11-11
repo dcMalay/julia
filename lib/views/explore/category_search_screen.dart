@@ -1,11 +1,15 @@
-// ignore_for_file: unrelated_type_equality_checks
-
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
+import 'package:julia/data/repository/filter_by_location_category_repo.dart';
+import 'package:julia/data/repository/filter_by_price_repo.dart';
 import 'package:julia/data/repository/product_search_bycategory.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/home/products_details_screen.dart';
+import '../../const/location_data.dart';
 
 class CategorySearchScreen extends StatefulWidget {
   const CategorySearchScreen({super.key, required this.categoryId});
@@ -15,16 +19,23 @@ class CategorySearchScreen extends StatefulWidget {
 }
 
 class _CategorySearchScreenState extends State<CategorySearchScreen> {
-  late Future<List<Product>> categorywiseData;
+  late Future<List<Product>> filteredData;
+
   @override
   void initState() {
     super.initState();
-    categorywiseData = getProductBycategory(widget.categoryId);
-    print(widget.categoryId);
+    filteredData = getProductBycategory(widget.categoryId);
+    //filteredData = filterbylocation('locationId', widget.categoryId);
+    print('widget category ---->${widget.categoryId}');
   }
 
   @override
   Widget build(BuildContext context) {
+    // final filterbyLocation = Provider.of<LocationFilterProvider>(context);
+    // final filterbyPrice = Provider.of<PriceFilterProvider>(context);
+    TextEditingController minvalController = TextEditingController();
+    TextEditingController maxvalController = TextEditingController();
+    print('refreshing page .........');
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -42,11 +53,222 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
             "Category wise Products",
             style: TextStyle(color: Colors.white),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        context: context,
+                        builder: (context) => SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 4 / 5,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 30.0),
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            icon: const Icon(
+                                              Icons.close,
+                                              size: 35,
+                                            )),
+                                        const Text(
+                                          "Location",
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                        itemCount: locationData.length,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                              onTap: () async {
+                                                filteredData = filterbylocation(
+                                                    '${locationData[index]["_id"]}',
+                                                    widget.categoryId);
+
+                                                filteredData.then(
+                                                  (value) {
+                                                    print(value.length);
+                                                  },
+                                                );
+                                                print(
+                                                    '${locationData[0]["_id"]}');
+                                                Timer(
+                                                    const Duration(seconds: 2),
+                                                    () {
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                });
+                                              },
+                                              title: Card(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 15,
+                                                      horizontal: 8),
+                                                  child: Text(
+                                                      '${locationData[index]["location_name"]}'),
+                                                ),
+                                              ));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            ));
+                  },
+                  child: const Icon(Icons.location_on_outlined)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 18.0),
+              child: InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      context: context,
+                      builder: (context) => SizedBox(
+                            height: MediaQuery.of(context).size.height * 4 / 5,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, top: 30.0),
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.close,
+                                            size: 35,
+                                          )),
+                                      const Text(
+                                        "Choose Price",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, top: 30.0, right: 20),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter the price';
+                                      }
+                                      return null;
+                                    },
+                                    controller: minvalController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'min val'),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, top: 30.0, right: 20),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter the price';
+                                      }
+                                      return null;
+                                    },
+                                    controller: maxvalController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: "Max val"),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, top: 30.0, right: 20),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      CupertinoButton(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          color: greenColor,
+                                          child: const Text('Clear Changes'),
+                                          onPressed: () {
+                                            minvalController.clear();
+                                            maxvalController.clear();
+                                          }),
+                                      CupertinoButton(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          color: greenColor,
+                                          child: const Text('Apply Changes'),
+                                          onPressed: () {
+                                            // filterbyPrice
+                                            //     .getpricefilteredProducts(
+                                            //         widget.categoryId,
+                                            //         minvalController.text,
+                                            //         maxvalController.text);
+                                            setState(() {
+                                              filteredData =
+                                                  filterProcuctsByPrice(
+                                                widget.categoryId,
+                                                double.parse(
+                                                    minvalController.text),
+                                                double.parse(
+                                                    maxvalController.text),
+                                              );
+                                            });
+                                            Timer(const Duration(seconds: 2),
+                                                () {
+                                              Navigator.pop(context);
+                                            });
+                                          }),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ));
+                },
+                child: const Icon(Icons.tune_outlined),
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FutureBuilder<List<Product>>(
-              future: categorywiseData,
+              future: filteredData,
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return Center(

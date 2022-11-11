@@ -212,7 +212,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "SRD ${data[index].postPrice.toString()}",
+                                  "SRD ${data[index].postPrice}",
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 25,

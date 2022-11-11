@@ -5,6 +5,8 @@ import 'package:julia/data/repository/get_ads_status_repo.dart';
 import 'package:julia/data/repository/my_ads_repo.dart';
 import 'package:julia/views/myads/components/all_boost_screen.dart';
 
+import '../../const/const.dart';
+
 class MyAdsScreen extends StatefulWidget {
   const MyAdsScreen({super.key});
 
@@ -29,17 +31,17 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
         centerTitle: true,
         title: const Text(
           'My Ads',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: FutureBuilder<List<Myads>>(
@@ -112,7 +114,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     child: CupertinoButton(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
-                                        color: Colors.green,
+                                        color: greenColor,
                                         child: const Text(
                                           'Get More Views',
                                           style: TextStyle(fontSize: 11),
@@ -156,7 +158,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                         color:
                                             currentItem.postSold == 1.toString()
                                                 ? Colors.grey
-                                                : Colors.green,
+                                                : greenColor,
                                         child: Text(
                                           currentItem.postSold == 1.toString()
                                               ? "Repost"
