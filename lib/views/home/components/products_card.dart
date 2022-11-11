@@ -259,7 +259,7 @@ class _ProductCardState extends State<ProductCard> {
                     softWrap: true,
                     maxLines: 1,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 17,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -274,9 +274,9 @@ class _ProductCardState extends State<ProductCard> {
                       child: Text(
                         "SRD ${widget.price.toString()}",
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                          // fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

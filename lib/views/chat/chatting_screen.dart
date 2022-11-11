@@ -70,9 +70,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: redColor,
           ),
         ),
         title: Row(
@@ -102,9 +102,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
         ),
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(
+            icon: Icon(
               Icons.more_vert,
-              color: Colors.black,
+              color: redColor,
             ),
             itemBuilder: (context) => [
               const PopupMenuItem(value: 1, child: Text("Delete Chat")),
@@ -149,27 +149,62 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        color: currentItem.reciverId == user
+                                            ? Colors.white
+                                            : greenColor,
+                                        // : const Color.fromARGB(
+                                        //     255, 110, 186, 113),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(15),
+                                          padding: currentItem.reciverId == user
+                                              ? const EdgeInsets.only(
+                                                  top: 15,
+                                                  left: 8,
+                                                  bottom: 15,
+                                                  right: 50)
+                                              : const EdgeInsets.only(
+                                                  top: 15,
+                                                  right: 8,
+                                                  left: 50,
+                                                  bottom: 15),
                                           child: Text(
                                             currentItem.message,
-                                            style:
-                                                const TextStyle(fontSize: 17),
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        date,
-                                        style: const TextStyle(
-                                            color: Colors.grey, fontSize: 8),
+                                      Positioned(
+                                        left: 10,
+                                        top: 6,
+                                        child: Text(
+                                          date,
+                                          style: TextStyle(
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.grey
+                                                      : Colors.white,
+                                              fontSize: 8),
+                                        ),
                                       ),
                                       Positioned(
                                         bottom: 5,
-                                        right: 5,
+                                        right: 7,
                                         child: Text(
                                           timepre,
-                                          style: const TextStyle(
-                                              color: Colors.grey, fontSize: 8),
+                                          style: TextStyle(
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.grey
+                                                      : Colors.white,
+                                              fontSize: 8),
                                         ),
                                       ),
                                     ],

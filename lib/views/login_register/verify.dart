@@ -131,7 +131,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
             Center(
               child: OtpTimerButton(
                 controller: controller,
-                backgroundColor: Colors.green,
+                backgroundColor: greenColor,
                 onPressed: () {
                   authprovider.sentEmail(widget.email);
                   controller.startTimer();
@@ -153,7 +153,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
             ]),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CupertinoButton(
-              color: Colors.green,
+              color: greenColor,
               child: const Text("Verify Otp"),
               onPressed: () async {
                 print('verify otp pressed ');
