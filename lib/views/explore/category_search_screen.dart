@@ -242,9 +242,9 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                               filteredData =
                                                   filterProcuctsByPrice(
                                                 widget.categoryId,
-                                                double.parse(
+                                                int.parse(
                                                     minvalController.text),
-                                                double.parse(
+                                                int.parse(
                                                     maxvalController.text),
                                               );
                                             });

@@ -5,8 +5,7 @@ import 'package:julia/data/repository/filter_by_price_repo.dart';
 class PriceFilterProvider with ChangeNotifier {
   late List<Product> filterbypriceProducts;
 
-  getpricefilteredProducts(
-      String categoryId, double minval, double maxval) async {
+  getpricefilteredProducts(String categoryId, int minval, int maxval) async {
     try {
       filterbypriceProducts =
           await filterProcuctsByPrice(categoryId, minval, maxval);

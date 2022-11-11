@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
 import 'dart:convert';
@@ -7,7 +9,9 @@ Future<List<Product>> filterbylocation(
     String locationId, String categoryId) async {
   final response = await http.post(
       Uri.parse('$baseUrl/user/ads/filterbylocation/category/0'),
-      body: {"location": locationId, "category": categoryId});
+      headers: {HttpHeaders.contentTypeHeader: "application/json"},
+      body: jsonEncode(
+          <String, dynamic>{"location": locationId, "category": categoryId}));
   print(' lo -->$locationId co--->$categoryId');
 
   print(response.statusCode);
