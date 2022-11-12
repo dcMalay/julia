@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/product_model.dart';
-import 'package:julia/data/repository/best_recommended_products_repo.dart';
+import 'package:julia/data/repository/products_repo.dart';
 import 'package:julia/data/repository/titlewise_products_search_repo.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/home/products_details_screen.dart';
@@ -19,7 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    productsData = getProduct();
+    productsData = getProduct(0.toString());
   }
 
   @override

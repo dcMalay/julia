@@ -4,12 +4,12 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
 import 'package:julia/data/model/wishlist_model.dart';
 import 'package:julia/data/repository/add_to_favorite_repo.dart';
-import 'package:julia/data/repository/best_recommended_products_repo.dart';
+import 'package:julia/data/repository/products_repo.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
 class Products extends StatefulWidget {
-  const Products({Key? key}) : super(key: key);
-
+  const Products({Key? key, required this.isEndOflist}) : super(key: key);
+  final bool isEndOflist;
   @override
   State<Products> createState() => _ProductsState();
 }
@@ -22,7 +22,7 @@ class _ProductsState extends State<Products> {
     super.initState();
 
     setState(() {
-      productsData = getProduct();
+      productsData = getProduct(0.toString());
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/location_model.dart';
 import 'package:julia/data/model/product_details_model.dart';
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     String message = "";
+    bool isEnd = false;
 
     _onStartScroll(ScrollMetrics metrics) {
       setState(() {
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _onEndScroll(ScrollMetrics metrics) {
       setState(() {
         message = "Scroll End";
+        isEnd = true;
       });
       print(message);
     }
@@ -259,7 +262,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const Products(),
+              Products(
+                isEndOflist: isEnd,
+              ),
               const SizedBox(
                 height: 20,
               ),
