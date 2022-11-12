@@ -57,7 +57,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
     _controller.animateTo(
       _controller.position.maxScrollExtent,
       duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
+      curve: Curves.ease,
     );
   }
 
@@ -259,10 +259,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 ),
                 InkWell(
                   onTap: () {
+                    _scrollDown();
                     print('send');
                     sendMessages(widget.sellerId, user, messageController.text);
                     messageController.clear();
-                    _scrollDown();
                     setState(() {
                       allMessage = getallMessages(widget.sellerId);
                     });

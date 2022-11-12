@@ -35,6 +35,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String message = "";
+
+    _onStartScroll(ScrollMetrics metrics) {
+      setState(() {
+        message = "Scroll Start";
+      });
+      print(message);
+    }
+
+    _onUpdateScroll(ScrollMetrics metrics) {
+      setState(() {
+        message = "Scroll Update";
+      });
+      print(message);
+    }
+
+    _onEndScroll(ScrollMetrics metrics) {
+      setState(() {
+        message = "Scroll End";
+      });
+      print(message);
+    }
+
     // final wishlistdata = Provider.of<IsInWishListProvider>(context);
     // final pDetails = Provider.of<ProducrDetailsProvider>(context);
     return Scaffold(
@@ -116,67 +139,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-        ),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              child: TextFormField(
-                onTap: () {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      transitionDuration: const Duration(milliseconds: 500),
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const SearchScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                                  begin: const Offset(1, 0), end: Offset.zero)
-                              .animate(animation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-                textAlign: TextAlign.start,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.search_rounded),
-                  hintText: 'Find Vehicles,Furniture and more ... ',
-                ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (scrollNotification is ScrollStartNotification) {
+            _onStartScroll(scrollNotification.metrics);
+          } else if (scrollNotification is ScrollUpdateNotification) {
+            _onUpdateScroll(scrollNotification.metrics);
+          } else if (scrollNotification is ScrollEndNotification) {
+            _onEndScroll(scrollNotification.metrics);
+          }
+          return true;
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15.0,
+          ),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: [
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'What are you looking for?',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
+              SizedBox(
+                child: TextFormField(
+                  onTap: () {
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            const CategoryscreenforSearch(),
+                            const SearchScreen(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return SlideTransition(
@@ -189,45 +180,91 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      bottom: 5, // Space between underline and text
+                  textAlign: TextAlign.start,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search_rounded),
+                    hintText: 'Find Vehicles,Furniture and more ... ',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'What are you looking for?',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 500),
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const CategoryscreenforSearch(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                      begin: const Offset(1, 0),
+                                      end: Offset.zero)
+                                  .animate(animation),
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        bottom: 5, // Space between underline and text
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: greenColor,
+                            width: 1.0, // Underline thickness
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        "See All",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: greenColor,
-                          width: 1.0, // Underline thickness
                         ),
                       ),
                     ),
-                    child: Text(
-                      "See All",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: greenColor,
-                      ),
-                    ),
                   ),
-                ),
-              ],
-            ),
-            const Category(),
-            const Text(
-              'Best Recommendations',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                ],
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Products(),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
+              const Category(),
+              const Text(
+                'Best Recommendations',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Products(),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

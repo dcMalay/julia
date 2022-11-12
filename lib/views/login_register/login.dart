@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
-import 'package:julia/views/login_register/registration.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
 
@@ -146,28 +145,28 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 67.0),
-              child: SizedBox(
-                width: 250,
-                child: CupertinoButton(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  color: const Color.fromARGB(255, 210, 210, 210),
-                  // color: const Color.fromARGB(255, 191, 231, 190),
-                  child: ListTile(
-                      leading: Image.asset(
-                        'assets/google.png',
-                        height: 30,
-                      ),
-                      title: const Text(
-                        'Login with Google',
-                        style: TextStyle(color: Colors.black),
-                      )),
-                  onPressed: () {},
-                ),
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 67.0),
+            //   child: SizedBox(
+            //     width: 250,
+            //     child: CupertinoButton(
+            //       padding:
+            //           const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+            //       color: const Color.fromARGB(255, 210, 210, 210),
+            //       // color: const Color.fromARGB(255, 191, 231, 190),
+            //       child: ListTile(
+            //           leading: Image.asset(
+            //             'assets/google.png',
+            //             height: 30,
+            //           ),
+            //           title: const Text(
+            //             'Login with Google',
+            //             style: TextStyle(color: Colors.black),
+            //           )),
+            //       onPressed: () {},
+            //     ),
+            //   ),
+            // )
             // Center(
             //   child: TextButton(
             //     onPressed: () {

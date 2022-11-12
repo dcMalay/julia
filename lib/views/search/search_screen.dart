@@ -52,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 2, right: 2),
           child: FutureBuilder<List<Product>>(
               future: productsData,
               builder: (context, snapshot) {
@@ -62,13 +62,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       // physics: const NeverScrollableScrollPhysics(),
                       itemCount: data!.length,
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
-                        childAspectRatio: 3 / 4.5,
-                        crossAxisSpacing: (MediaQuery.of(context).orientation ==
-                                Orientation.landscape)
-                            ? 4
-                            : 2,
+                        childAspectRatio: 3.05 / 4.9,
+                        crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index) {

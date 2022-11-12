@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/provider/add_to_favorite_provider.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
@@ -14,7 +15,6 @@ import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'provider/filtered_by_price_provider.dart';
 
 void main() {
@@ -51,14 +51,20 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => LocationFilterProvider()),
         ChangeNotifierProvider(create: (context) => PriceFilterProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const SplashScreen(),
-      ),
+      child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: const SplashScreen(),
+            );
+          }),
     );
   }
 }

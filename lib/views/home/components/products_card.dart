@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
 import 'package:julia/data/model/wishlist_model.dart';
@@ -31,7 +32,7 @@ class _ProductsState extends State<Products> {
     // final scale =
     //     mediaQueryData.textScaleFactor.clamp(0.80.toInt(), 0.90.toInt());
     return SizedBox(
-      height: 1150,
+      height: 1150.h,
       child: FutureBuilder<List<Product>>(
           future: productsData,
           builder: (context, snapshot) {
@@ -40,14 +41,11 @@ class _ProductsState extends State<Products> {
               return GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: data!.length,
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  // shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
-                    childAspectRatio: 3 / 4.5,
-                    crossAxisSpacing: (MediaQuery.of(context).orientation ==
-                            Orientation.landscape)
-                        ? 4
-                        : 2,
+                    childAspectRatio: 3.05 / 4.9,
+                    crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
                   itemBuilder: (context, index) {
@@ -177,8 +175,8 @@ class _ProductCardState extends State<ProductCard> {
       child: Stack(
         children: [
           Container(
-            height: 450,
-            width: 170,
+            height: 450.h,
+            width: 170.w,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -202,16 +200,16 @@ class _ProductCardState extends State<ProductCard> {
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
                           color: Colors.grey,
-                          height: 100,
-                          width: 160,
+                          height: 100.h,
+                          width: 160.w,
                           child: const Center(child: Text('No Image Found')),
                         ))
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           widget.imageUrl,
-                          height: 100,
-                          width: 160,
+                          height: 100.h,
+                          width: 160.w,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -223,139 +221,138 @@ class _ProductCardState extends State<ProductCard> {
                   children: [
                     Text(
                       widget.time,
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                     ),
                     Container(
-                      height: 20,
-                      width: 60,
+                      height: 20.h,
+                      width: 60.w,
                       padding: const EdgeInsets.symmetric(
                           vertical: 2, horizontal: 2),
                       decoration: BoxDecoration(
                           color: greenColor,
                           borderRadius: BorderRadius.circular(5)),
                       child: widget.postStatus == 1.toString()
-                          ? const Center(
+                          ? Center(
                               child: Text('available',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 10,
+                                    fontSize: 10.sp,
                                   )),
                             )
-                          : const Center(
+                          : Center(
                               child: Text(
                                 'unavailable',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                    color: Colors.white, fontSize: 10.sp),
                               ),
                             ),
                     ),
                   ],
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     widget.title,
                     softWrap: true,
                     maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 17,
+                    style: TextStyle(
+                      fontSize: 17.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: Text(
-                        "SRD ${widget.price.toString()}",
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          // fontWeight: FontWeight.bold,
+                SizedBox(
+                  width: 129.w,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 80.w,
+                        child: Text(
+                          "SRD ${widget.price.toString()}",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black,
+                            // fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    FutureBuilder<List<WishList>>(
-                        future: isInWishlist(widget.productId),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<WishList>? data = snapshot.data;
-                            return data![0].id != 0.toString()
-                                ? IconButton(
-                                    padding: const EdgeInsets.all(0),
-                                    onPressed: () {
-                                      setState(() {
-                                        removefromFavorite(data[0].id);
-                                        inWishList =
-                                            isInWishlist(widget.productId);
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: redColor,
-                                    ))
-                                : InkWell(
-                                    onTap: () {
-                                      print('add to favotire');
-                                      addtoFavorite(widget.productId);
-                                      setState(() {
-                                        inWishList =
-                                            isInWishlist(widget.productId);
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      color: redColor,
-                                    ),
-                                  );
-                          } else if (snapshot.hasError) {
-                            // return Text("${snapshot.error}");
-                            return IconButton(
-                              padding: const EdgeInsets.all(0),
-                              onPressed: () {
-                                print('add to favotire');
-                                addtoFavorite(widget.productId);
-                                setState(() {
-                                  inWishList = isInWishlist(widget.productId);
-                                });
-                              },
-                              icon: Icon(
+                      FutureBuilder<List<WishList>>(
+                          future: isInWishlist(widget.productId),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<WishList>? data = snapshot.data;
+                              return data![0].id != 0.toString()
+                                  ? IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      onPressed: () {
+                                        setState(() {
+                                          removefromFavorite(data[0].id);
+                                          inWishList =
+                                              isInWishlist(widget.productId);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: redColor,
+                                      ))
+                                  : InkWell(
+                                      onTap: () {
+                                        print('add to favotire');
+                                        addtoFavorite(widget.productId);
+                                        setState(() {
+                                          inWishList =
+                                              isInWishlist(widget.productId);
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: redColor,
+                                      ),
+                                    );
+                            } else if (snapshot.hasError) {
+                              // return Text("${snapshot.error}");
+                              return IconButton(
+                                padding: const EdgeInsets.all(0),
+                                onPressed: () {
+                                  print('add to favotire');
+                                  addtoFavorite(widget.productId);
+                                  setState(() {
+                                    inWishList = isInWishlist(widget.productId);
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.favorite_border,
+                                  color: redColor,
+                                ),
+                              );
+                            } else {
+                              return Icon(
                                 Icons.favorite_border,
                                 color: redColor,
-                              ),
-                            );
-                          } else {
-                            return Icon(
-                              Icons.favorite_border,
-                              color: redColor,
-                            );
-                            // return Center(
-                            //   child: CircularProgressIndicator(
-                            //     color: greenColor,
-                            //   ),
-                            // );
-                          }
-                        })
-                  ],
+                              );
+                              // return Center(
+                              //   child: CircularProgressIndicator(
+                              //     color: greenColor,
+                              //   ),
+                              // );
+                            }
+                          })
+                    ],
+                  ),
                 ),
-                // const SizedBox(
-                //   height: 3,
-                // ),
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.location_on_outlined,
-                      size: 12,
+                      size: 12.sp,
                       color: Colors.grey,
                     ),
                     Text(
                       widget.location,
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -365,19 +362,19 @@ class _ProductCardState extends State<ProductCard> {
           widget.isfeatured == 1
               ? Positioned(
                   child: Container(
-                    height: 20,
-                    width: 50,
+                    height: 20.h,
+                    width: 50.w,
                     padding:
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
                     decoration: BoxDecoration(
                         color: yellowColor,
                         borderRadius: BorderRadius.circular(5)),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'Featured',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ),

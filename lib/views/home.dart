@@ -6,6 +6,7 @@ import 'package:julia/views/explore/explore.dart';
 import 'package:julia/views/home/home_screen.dart';
 import 'package:julia/views/my_account/my_account.dart';
 import 'package:julia/views/post_products/all_category.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(

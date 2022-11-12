@@ -1,9 +1,7 @@
 // To parse this JSON data, do
 //
-//     final wishListProduct = wishListProductFromJson(jsonString);
-
+//     final wishListProduct = wishListProductFromJson(jsonString)
 import 'dart:convert';
-import 'dart:ffi';
 
 WishListProduct wishListProductFromJson(String str) =>
     WishListProduct.fromJson(json.decode(str));
