@@ -31,7 +31,7 @@ class ProductDetails {
   String postTitle;
   List<String> postImage;
   String postSold;
-  int postPrice;
+  num postPrice;
   String postDescription;
   String authName;
   DateTime postDate;

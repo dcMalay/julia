@@ -3,6 +3,7 @@
 //     final wishListProduct = wishListProductFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
 
 WishListProduct wishListProductFromJson(String str) =>
     WishListProduct.fromJson(json.decode(str));
@@ -67,7 +68,7 @@ class Product {
   String postTitle;
   List<String> postImage;
   String postSold;
-  int postPrice;
+  num postPrice;
   String postDescription;
   String authName;
   DateTime postDate;

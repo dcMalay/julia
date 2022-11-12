@@ -10,28 +10,28 @@ class Product {
   String? postTitle;
   List<String>? postImage;
   String? postSold;
-  int? postPrice;
+  num? postPrice;
   String? postDescription;
   String? authName;
   String? postDate;
   int? iV;
 
   Product(
-      {this.sId,
-      this.postCategory,
-      this.postSubcategory,
-      this.postStatus,
-      this.postUserId,
-      this.postFeatured,
-      this.postLocation,
-      this.fields,
-      this.postTitle,
-      this.postImage,
-      this.postSold,
-      this.postPrice,
-      this.postDescription,
-      this.authName,
-      this.postDate,
+      {required this.sId,
+      required this.postCategory,
+      required this.postSubcategory,
+      required this.postStatus,
+      required this.postUserId,
+      required this.postFeatured,
+      required this.postLocation,
+      required this.fields,
+      required this.postTitle,
+      required this.postImage,
+      required this.postSold,
+      required this.postPrice,
+      required this.postDescription,
+      required this.authName,
+      required this.postDate,
       this.iV});
 
   Product.fromJson(Map<String, dynamic> json) {

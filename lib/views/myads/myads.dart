@@ -5,6 +5,8 @@ import 'package:julia/data/repository/get_ads_status_repo.dart';
 import 'package:julia/data/repository/my_ads_repo.dart';
 import 'package:julia/views/myads/components/all_boost_screen.dart';
 
+import '../../const/const.dart';
+
 class MyAdsScreen extends StatefulWidget {
   const MyAdsScreen({super.key});
 
@@ -29,17 +31,17 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
         centerTitle: true,
         title: const Text(
           'My Ads',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: FutureBuilder<List<Myads>>(
@@ -86,7 +88,10 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                               child: ListTile(
                                 leading: Image.network(
                                     'http://52.67.149.51/uploads/${currentItem.postImage[0]}'),
-                                title: Text(currentItem.postTitle),
+                                title: Text(
+                                  currentItem.postTitle,
+                                  maxLines: 2,
+                                ),
                                 subtitle: Text("$date  - $timepre"),
                                 // const Text('19 Sep 2022 - 06:00 PM'),
                                 trailing: Text(
@@ -109,7 +114,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                     child: CupertinoButton(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
-                                        color: Colors.green,
+                                        color: greenColor,
                                         child: const Text(
                                           'Get More Views',
                                           style: TextStyle(fontSize: 11),
@@ -153,7 +158,7 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                         color:
                                             currentItem.postSold == 1.toString()
                                                 ? Colors.grey
-                                                : Colors.green,
+                                                : greenColor,
                                         child: Text(
                                           currentItem.postSold == 1.toString()
                                               ? "Repost"

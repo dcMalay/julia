@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
+import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:julia/views/explore/category_search_screen.dart';
 
 class Explore extends StatefulWidget {
@@ -175,10 +176,13 @@ class _ExploreState extends State<Explore> {
     },
   ];
   late Future<List<AllCategory>> apidata;
-
+  late Future htmldata;
   @override
   void initState() {
     super.initState();
+    getdynamicForm();
+    htmldata = getdynamicForm();
+    print("data ------ >$htmldata");
     setState(() {
       apidata = getAllCategory();
     });
@@ -186,62 +190,40 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: greenColor,
-        centerTitle: true,
-        title: const Text(
-          'Category',
-          style: TextStyle(
-            color: Colors.white,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: greenColor,
+          centerTitle: true,
+          title: const Text(
+            'Category',
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-      body: FutureBuilder<List<AllCategory>>(
-        future: apidata,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<AllCategory>? data = snapshot.data;
-            return Padding(
-              padding: const EdgeInsets.all(8),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 130,
-                  childAspectRatio: .1 / .1,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                ),
-                scrollDirection: Axis.vertical,
-                itemCount: data!.length,
-                itemBuilder: (context, index) {
-                  var titleData = data[index];
-                  var currentItem = categoryData[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            transitionDuration:
-                                const Duration(milliseconds: 500),
-                            // reverseTransitionDuration: const Duration(seconds: 1),
-                            pageBuilder: (context, animation,
-                                    secondaryAnimation) =>
-                                CategorySearchScreen(categoryId: titleData.id!),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              return SlideTransition(
-                                position: Tween<Offset>(
-                                        begin: const Offset(1, 0),
-                                        end: Offset.zero)
-                                    .animate(animation),
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: Container(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FutureBuilder<List<AllCategory>>(
+            future: apidata,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<AllCategory>? data = snapshot.data;
+
+                return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 130,
+                      childAspectRatio: .1 / .1,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: data!.length,
+                    itemBuilder: (context, index) {
+                      var titleData = data[index];
+                      var currentItem = categoryData[index];
+                      return Container(
                         height: 20,
                         width: 20,
                         decoration: BoxDecoration(
@@ -271,6 +253,28 @@ class _ExploreState extends State<Explore> {
                                     height: 40,
                                   ),
                             ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    transitionDuration:
+                                        const Duration(milliseconds: 500),
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        CategorySearchScreen(
+                                            categoryId: titleData.id!),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset.zero)
+                                            .animate(animation),
+                                        child: child,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
                               title: Text(
                                 titleData.postCategoryName!,
                                 textAlign: TextAlign.center,
@@ -279,23 +283,110 @@ class _ExploreState extends State<Explore> {
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
-            );
-          }
-        },
+                      );
+                    });
+
+                // return GridView.builder(
+                //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                //     maxCrossAxisExtent: 130,
+                //     childAspectRatio: .1 / .1,
+                //     crossAxisSpacing: 10,
+                //     mainAxisSpacing: 10,
+                //   ),
+                //   scrollDirection: Axis.vertical,
+                //   itemCount: data!.length,
+                //   itemBuilder: (context, index) {
+                //     var titleData = data[index];
+                //     var currentItem = categoryData[index];
+                //     return Padding(
+                //       padding: const EdgeInsets.all(8.0),
+                //       child: InkWell(
+                //         onTap: () {
+                //           Navigator.of(context).push(
+                //             PageRouteBuilder(
+                //               transitionDuration:
+                //                   const Duration(milliseconds: 500),
+                //               pageBuilder:
+                //                   (context, animation, secondaryAnimation) =>
+                //                       CategorySearchScreen(
+                //                           categoryId: titleData.id!),
+                //               transitionsBuilder: (context, animation,
+                //                   secondaryAnimation, child) {
+                //                 return SlideTransition(
+                //                   position: Tween<Offset>(
+                //                           begin: const Offset(1, 0),
+                //                           end: Offset.zero)
+                //                       .animate(animation),
+                //                   child: child,
+                //                 );
+                //               },
+                //             ),
+                //           );
+                //         },
+                //         child: Container(
+                //           height: 20,
+                //           width: 20,
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(10),
+                //               border: Border.all(
+                //                 color: Colors.grey,
+                //               ),
+                //               color: Colors.white,
+                //               boxShadow: const [
+                //                 BoxShadow(
+                //                   offset: Offset(4, 8),
+                //                   spreadRadius: -3,
+                //                   blurRadius: 5,
+                //                   color: Colors.grey,
+                //                 )
+                //               ]),
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               currentItem['imageUrl'] == null
+                //                   ? const Text(
+                //                       'no Image',
+                //                       style: TextStyle(fontSize: 10),
+                //                     )
+                //                   : Image.asset(
+                //                       '${currentItem['imageUrl']}',
+                //                       height: 40,
+                //                     ),
+                //               ListTile(
+                //                 title: Text(
+                //                   titleData.postCategoryName!,
+                //                   textAlign: TextAlign.center,
+                //                   maxLines: 2,
+                //                   style: const TextStyle(fontSize: 12),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: greenColor,
+                  ),
+                );
+              }
+            },
+          ),
+        ),
       ),
     );
   }
 }
+
+
+
+
+
+// CategorySearchScreen(
+//                                           categoryId: titleData.id!),

@@ -73,7 +73,7 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
@@ -81,11 +81,11 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
               },
               icon: const Icon(
                 Icons.arrow_back,
-                color: Colors.black,
+                color: Colors.white,
               )),
           title: const Text(
             'boost your post',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           )),
       body: FutureBuilder<List<AllBoost>>(
           future: getboostData,
@@ -171,7 +171,7 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
                                   child: CupertinoButton(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5),
-                                      color: Colors.green,
+                                      color: greenColor,
                                       child: Text(
                                         'Buy for ${day.toInt()} day',
                                         style: const TextStyle(fontSize: 11),

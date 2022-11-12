@@ -7,27 +7,30 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: greenColor,
-        centerTitle: true,
-        title: const Text(
-          'Chat',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.only(top: 8),
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return const ListTileChat();
-            },
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: greenColor,
+          centerTitle: true,
+          title: const Text(
+            'Chat',
+            style: TextStyle(color: Colors.white),
           ),
-        ],
+        ),
+        body: ListView(
+          padding: const EdgeInsets.only(top: 8),
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return const ListTileChat();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

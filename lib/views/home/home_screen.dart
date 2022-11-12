@@ -5,17 +5,12 @@ import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/wishlist_model.dart';
 import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/get_location_repo.dart';
-import 'package:julia/data/repository/message_sender_list_repo.dart';
-import 'package:julia/data/repository/products_details_repo.dart';
-import 'package:julia/provider/is_in_wish_list_provider.dart';
-import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/notification/notification_screen.dart';
 import 'package:julia/views/search/search_screen.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final wishlistdata = Provider.of<IsInWishListProvider>(context);
-    final pDetails = Provider.of<ProducrDetailsProvider>(context);
+    // final wishlistdata = Provider.of<IsInWishListProvider>(context);
+    // final pDetails = Provider.of<ProducrDetailsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -49,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Holo',
+              'Julia',
               style: TextStyle(
                 color: yellowColor,
                 fontSize: 25,

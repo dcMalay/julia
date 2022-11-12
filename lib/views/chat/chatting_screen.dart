@@ -24,7 +24,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
   TextEditingController messageController = TextEditingController();
   final ScrollController _controller = ScrollController();
   var user;
-
+  Timer? timer;
   //store the user in user variable
   void getuserid() async {
     var authUser = await _secureStorage.read(key: 'userId');
@@ -37,10 +37,20 @@ class _ChattingScreenState extends State<ChattingScreen> {
   @override
   void initState() {
     super.initState();
-
     allMessage = getallMessages(widget.sellerId);
+    timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (Timer t) => setState(() {
+              allMessage = getallMessages(widget.sellerId);
+            }));
 
     getuserid();
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 
   void _scrollDown() {
@@ -60,9 +70,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: redColor,
           ),
         ),
         title: Row(
@@ -72,11 +82,14 @@ class _ChattingScreenState extends State<ChattingScreen> {
               flex: 0,
               child: CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage(
-                  widget.sellerprofileImage.contains('http')
-                      ? 'https://api.minimalavatars.com/avatar/random/png'
-                      : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
-                ),
+                backgroundImage: widget.sellerprofileImage.isEmpty
+                    ? const NetworkImage(
+                        'https://api.minimalavatars.com/avatar/random/png')
+                    : NetworkImage(
+                        widget.sellerprofileImage.contains('http')
+                            ? 'https://api.minimalavatars.com/avatar/random/png'
+                            : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
+                      ),
               ),
             ),
             Expanded(
@@ -89,9 +102,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
         ),
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(
+            icon: Icon(
               Icons.more_vert,
-              color: Colors.black,
+              color: redColor,
             ),
             itemBuilder: (context) => [
               const PopupMenuItem(value: 1, child: Text("Delete Chat")),
@@ -136,23 +149,62 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                     children: [
                                       Card(
                                         elevation: 5,
+                                        color: currentItem.reciverId == user
+                                            ? Colors.white
+                                            : greenColor,
+                                        // : const Color.fromARGB(
+                                        //     255, 110, 186, 113),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Text(currentItem.message),
+                                          padding: currentItem.reciverId == user
+                                              ? const EdgeInsets.only(
+                                                  top: 15,
+                                                  left: 8,
+                                                  bottom: 15,
+                                                  right: 50)
+                                              : const EdgeInsets.only(
+                                                  top: 15,
+                                                  right: 8,
+                                                  left: 50,
+                                                  bottom: 15),
+                                          child: Text(
+                                            currentItem.message,
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.black
+                                                      : Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                      Text(
-                                        date,
-                                        style: const TextStyle(
-                                            color: Colors.grey, fontSize: 10),
+                                      Positioned(
+                                        left: 10,
+                                        top: 6,
+                                        child: Text(
+                                          date,
+                                          style: TextStyle(
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.grey
+                                                      : Colors.white,
+                                              fontSize: 8),
+                                        ),
                                       ),
                                       Positioned(
                                         bottom: 5,
-                                        right: 5,
+                                        right: 7,
                                         child: Text(
                                           timepre,
-                                          style: const TextStyle(
-                                              color: Colors.grey, fontSize: 10),
+                                          style: TextStyle(
+                                              color:
+                                                  currentItem.reciverId == user
+                                                      ? Colors.grey
+                                                      : Colors.white,
+                                              fontSize: 8),
                                         ),
                                       ),
                                     ],

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:julia/data/repository/auth_repo.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/login_register/registration.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
+
+import '../../const/const.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,11 +37,20 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: greenColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
         title: const Text(
           'Login',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),
@@ -84,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Center(
               child: CupertinoButton(
-                color: Colors.green,
+                color: greenColor,
                 child: authProvider.loading
                     ? const CircularProgressIndicator(
                         color: Colors.white,
@@ -93,8 +103,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Email Send Successfully'),
+                      SnackBar(
+                        duration: const Duration(seconds: 3),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: greenColor,
+                        margin: const EdgeInsets.only(
+                            top: 400, bottom: 400, left: 30, right: 30),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        content: const Center(
+                          child: Text(
+                            'Email send successfully',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     );
                     authProvider.sentEmail(_emailController.text);
@@ -121,52 +143,77 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
             ),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const Registration(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                                  begin: const Offset(1, 0), end: Offset.zero)
-                              .animate(animation),
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Don't have a account?",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
+            const SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 67.0),
+              child: SizedBox(
+                width: 250,
+                child: CupertinoButton(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  color: const Color.fromARGB(255, 210, 210, 210),
+                  // color: const Color.fromARGB(255, 191, 231, 190),
+                  child: ListTile(
+                      leading: Image.asset(
+                        'assets/google.png',
+                        height: 30,
                       ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.blue, width: 2))),
-                      child: const Text(
-                        "Register",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ],
+                      title: const Text(
+                        'Login with Google',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  onPressed: () {},
                 ),
               ),
             )
+            // Center(
+            //   child: TextButton(
+            //     onPressed: () {
+            //       Navigator.of(context).push(
+            //         PageRouteBuilder(
+            //           pageBuilder: (context, animation, secondaryAnimation) =>
+            //               const Registration(),
+            //           transitionsBuilder:
+            //               (context, animation, secondaryAnimation, child) {
+            //             return SlideTransition(
+            //               position: Tween<Offset>(
+            //                       begin: const Offset(1, 0), end: Offset.zero)
+            //                   .animate(animation),
+            //               child: child,
+            //             );
+            //           },
+            //         ),
+            //       );
+            //     },
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         const Text(
+            //           "Don't have a account?",
+            //           style: TextStyle(
+            //             fontSize: 16,
+            //             color: Colors.black,
+            //           ),
+            //         ),
+            //         Container(
+            //           decoration: const BoxDecoration(
+            //               border: Border(
+            //                   bottom:
+            //                       BorderSide(color: Colors.blue, width: 2))),
+            //           child: const Text(
+            //             "Register",
+            //             style: TextStyle(
+            //               fontSize: 16,
+            //               color: Colors.blue,
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

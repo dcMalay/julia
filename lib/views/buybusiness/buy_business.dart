@@ -76,29 +76,29 @@ class _BuyBusinessState extends State<BuyBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Plans>>(
-        future: planDetails,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<Plans>? data = snapshot.data;
-            return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                ),
-                backgroundColor: Colors.white,
-                title: const Text(
-                  'Buy Business Package',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-              body: ListView(
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Buy Business Package',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      body: FutureBuilder<List<Plans>>(
+          future: planDetails,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Plans>? data = snapshot.data;
+              return ListView(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,17 +288,17 @@ class _BuyBusinessState extends State<BuyBusiness> {
                     ],
                   ),
                 ],
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
-            );
-          }
-        });
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
+              );
+            }
+          }),
+    );
   }
 }
