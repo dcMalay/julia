@@ -16,7 +16,6 @@ import 'package:http/http.dart' as http;
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
 import 'package:julia/provider/location_provider.dart';
-import 'package:julia/views/post_products/components/html_form.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -75,7 +74,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 // creating instance of dio
     Dio dio = Dio();
 //using dio to post imagename to the mongodg api and the name we get from the php server
-    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+    dio.post("http://julia.sr/upload.php", data: data).then((response) {
       imageNames.add(response.data);
       print('image list -------->$imageNames');
       postProductData(imageNames);
@@ -755,7 +754,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 //     Dio dio = Dio();
 
 //     dio
-//         .post("http://mouldstaging.com/upload.php", data: data)
+//         .post("http://julia.sr/upload.php", data: data)
 //         .then((response) => print("response=========>$response"))
 //         .catchError((error) => print(error));
 //   }
@@ -939,7 +938,7 @@ class _PostProductsViewState extends State<PostProductsView> {
 //                       //   var authToken =
 //                       //       await _secureStorage.read(key: 'Token');
 //                       //   Response response = await dio.post(
-//                       //       "http://mouldstaging.com/upload.php",
+//                       //       "http://julia.sr/upload.php",
 //                       //       data: formData,
 //                       //       options: Options(headers: {
 //                       //         "accept": "*/*",

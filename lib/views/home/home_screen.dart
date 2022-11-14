@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/location_model.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/wishlist_model.dart';
-import 'package:julia/data/repository/add_to_favorite_repo.dart';
-import 'package:julia/data/repository/get_location_repo.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
@@ -28,10 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    allLocation = getLocation();
-    getlocationJsonData();
+    // allLocation = getLocation();
+    // getlocationJsonData();
 
-    inWishList = getWishListProducts();
+    // inWishList = getWishListProducts();
   }
 
   @override

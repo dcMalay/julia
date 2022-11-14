@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,8 +37,8 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
   void initState() {
     super.initState();
     setState(() {
-      // getboostData = getparticularboost(widget.subcategoryId);
-      getboostData = getallboost();
+      getboostData = getparticularboost(widget.subcategoryId);
+      //getboostData = getallboost();
     });
     print('postid------->${widget.postId}');
   }
@@ -191,8 +190,10 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
               );
             }
           }),

@@ -4,7 +4,6 @@ import 'package:julia/data/model/my_ads_model.dart';
 import 'package:julia/data/repository/get_ads_status_repo.dart';
 import 'package:julia/data/repository/my_ads_repo.dart';
 import 'package:julia/views/myads/components/all_boost_screen.dart';
-
 import '../../const/const.dart';
 
 class MyAdsScreen extends StatefulWidget {
@@ -185,8 +184,10 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: greenColor,
+                ),
               );
             }
           }),

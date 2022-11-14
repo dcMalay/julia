@@ -283,9 +283,9 @@ class _CategoriesState extends State<Categories> {
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               } else {
-                return const Center(
+                return Center(
                   child: CircularProgressIndicator(
-                    color: Colors.green,
+                    color: greenColor,
                   ),
                 );
               }
