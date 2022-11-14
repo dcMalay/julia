@@ -7,6 +7,7 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
+import 'package:julia/views/help_support/helpsupport_webview.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
@@ -446,12 +447,35 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Help & Support',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(PageRouteBuilder(
+                                  transitionDuration:
+                                      const Duration(milliseconds: 500),
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const HelpandSupport(
+                                          url:
+                                              'http://mouldstaging.com/help.php'),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return SlideTransition(
+                                      position: Tween<Offset>(
+                                              begin: const Offset(1, 0),
+                                              end: Offset.zero)
+                                          .animate(animation),
+                                      child: child,
+                                    );
+                                  },
+                                ));
+                              },
+                              child: Text(
+                                'Help & Support',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                             Text(
