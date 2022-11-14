@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -5,7 +7,9 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
@@ -63,15 +67,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const SizedBox(
               width: 15,
             ),
-            InkWell(
-              onTap: () async {
-                await Share.share('');
-              },
-              child: const Icon(
-                Icons.share_outlined,
-                color: Colors.white,
-              ),
-            ),
+            FutureBuilder<List<ProductDetails>>(
+                future: productDetails,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<ProductDetails>? data = snapshot.data;
+                    return InkWell(
+                      onTap: () async {
+                        final urlImage =
+                            "http://52.67.149.51/uploads/${data![0].postImage[0]}";
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+                        await Share.shareXFiles([XFile(path)],
+                            text:
+                                'Title - ${data[0].postTitle} Price - SRD ${data[0].postPrice} \n Description - ${data[0].postDescription}');
+                      },
+                      child: const Icon(
+                        Icons.share_outlined,
+                        color: Colors.white,
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
             const SizedBox(
               width: 15,
             ),

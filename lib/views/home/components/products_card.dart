@@ -32,7 +32,7 @@ class _ProductsState extends State<Products> {
     // final scale =
     //     mediaQueryData.textScaleFactor.clamp(0.80.toInt(), 0.90.toInt());
     return SizedBox(
-      height: 1150.h,
+      height: 1190.h,
       child: FutureBuilder<List<Product>>(
           future: productsData,
           builder: (context, snapshot) {
