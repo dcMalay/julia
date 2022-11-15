@@ -456,8 +456,7 @@ class _MyAccountState extends State<MyAccount> {
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
                                       const HelpandSupport(
-                                          url:
-                                              'http://mouldstaging.com/help.php'),
+                                          url: 'https://julia.sr/help.php'),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     return SlideTransition(
@@ -470,7 +469,7 @@ class _MyAccountState extends State<MyAccount> {
                                   },
                                 ));
                               },
-                              child: Text(
+                              child: const Text(
                                 'Help & Support',
                                 style: TextStyle(
                                   color: Colors.black,
@@ -478,7 +477,7 @@ class _MyAccountState extends State<MyAccount> {
                                 ),
                               ),
                             ),
-                            Text(
+                            const Text(
                               ' Get help with account',
                               style: TextStyle(
                                 color: Colors.grey,

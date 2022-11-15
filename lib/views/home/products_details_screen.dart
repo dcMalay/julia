@@ -74,7 +74,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     return InkWell(
                       onTap: () async {
                         final urlImage =
-                            "http://52.67.149.51/uploads/${data![0].postImage[0]}";
+                            "https://julia.sr/uploads/${data![0].postImage[0]}";
                         final url = Uri.parse(urlImage);
                         final response = await http.get(url);
                         final bytes = response.bodyBytes;
@@ -83,7 +83,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         File(path).writeAsBytesSync(bytes);
                         await Share.shareXFiles([XFile(path)],
                             text:
-                                'Title - ${data[0].postTitle} Price - SRD ${data[0].postPrice} \n Description - ${data[0].postDescription} \n http://julia.sr/product.php?post_id=${data[0].id}');
+                                'Title - ${data[0].postTitle} \n Price - SRD ${data[0].postPrice} \n Description - ${data[0].postDescription} \n https://julia.sr/product.php?post_id=${data[0].id}');
                       },
                       child: const Icon(
                         Icons.share_outlined,
@@ -108,7 +108,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     itemCount: data!.length,
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
-
                       var str = data[index].postDate.toString();
                       var parts = str.split(' ');
                       var prefix = parts[1].trim();
@@ -133,7 +132,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           child: const Text('No Image Found'),
                                         )
                                       : Image.network(
-                                          "http://52.67.149.51/uploads/${currentItem.postImage[index]}",
+                                          "https://julia.sr/uploads/${currentItem.postImage[index]}",
                                           height: 200,
                                           width:
                                               MediaQuery.of(context).size.width,

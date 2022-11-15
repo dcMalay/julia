@@ -12,18 +12,27 @@ class _HelpandSupportState extends State<HelpandSupport> {
   var _url;
   final _key = UniqueKey();
   _HelpandSupportState(this._url);
+  late WebViewController controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
         body: Column(
-          children: [
-            Expanded(
-                child: WebView(
-                    key: _key,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    initialUrl: _url))
-          ],
-        ));
+      children: [
+        Expanded(
+          child: WebView(
+            key: _key,
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: _url,
+            onWebViewCreated: (controller) {
+              this.controller = controller;
+            },
+            onPageStarted: (url) {
+              controller.runJavascript(
+                  "document.getElementByClassName('header').style.display='none'");
+            },
+          ),
+        )
+      ],
+    ));
   }
 }
