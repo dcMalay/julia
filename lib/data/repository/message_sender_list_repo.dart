@@ -3,13 +3,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/message_sender_model.dart';
+import 'dart:io';
 
 const _secureStorage = FlutterSecureStorage();
 
 Future<List<MessageSender>> getmessageSender() async {
   var authUser = await _secureStorage.read(key: 'userId');
-  final response =
-      await http.get(Uri.parse('$baseUrl/user/getsenderlist/$authUser'));
+  var authToken = await _secureStorage.read(key: 'token');
+  final response = await http.get(
+    Uri.parse('$baseUrl/user/getsenderlist/$authUser'),
+    headers: {
+      HttpHeaders.authorizationHeader: authToken!,
+      HttpHeaders.contentTypeHeader: "application/json"
+    },
+  );
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);

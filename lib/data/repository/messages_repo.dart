@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/get_all_messages_model.dart';
@@ -10,8 +9,14 @@ const _secureStorage = FlutterSecureStorage();
 
 Future<List<Allmessage>> getallMessages(String receiverId) async {
   var authUser = await _secureStorage.read(key: 'userId');
-  final response = await http
-      .get(Uri.parse('$baseUrl/user/getallmessage/$receiverId/$authUser'));
+  var authToken = await _secureStorage.read(key: 'token');
+  final response = await http.get(
+    Uri.parse('$baseUrl/user/getallmessage/$receiverId/$authUser'),
+    headers: {
+      HttpHeaders.authorizationHeader: authToken!,
+      HttpHeaders.contentTypeHeader: "application/json"
+    },
+  );
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
     return jsonResponse.map((e) => Allmessage.fromJson(e)).toList();

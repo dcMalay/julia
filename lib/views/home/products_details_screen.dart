@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
+import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
+import 'package:julia/provider/add_to_favorite_provider.dart';
+import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -59,9 +62,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             style: TextStyle(color: Colors.white),
           ),
           actions: [
-            const Icon(
-              Icons.favorite_border_outlined,
-              color: Colors.white,
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 500),
+                    // reverseTransitionDuration: const Duration(seconds: 1),
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const WishListProductsScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                                begin: const Offset(1, 0), end: Offset.zero)
+                            .animate(animation),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.white,
+              ),
             ),
             const SizedBox(
               width: 15,
