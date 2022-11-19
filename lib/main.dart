@@ -12,6 +12,7 @@ import 'package:julia/provider/location_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/home.dart';
+import 'package:julia/views/home/products_details_screen.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,6 +58,11 @@ class _MyAppState extends State<MyApp> {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp(
+              // initialRoute: '/',
+              // routes: {
+              //   '/': (context) =>
+              //       ProductDetailsScreen(productID: "6373d70338034b02fa75d681"),
+              // },
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: ThemeData(

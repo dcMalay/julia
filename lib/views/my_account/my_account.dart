@@ -147,11 +147,16 @@ class _MyAccountState extends State<MyAccount> {
                           top: 15.0,
                           left: 20,
                         ),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.grey,
-                          backgroundImage: NetworkImage(
-                              'http://52.67.149.51/uploads/${userData!.data[0].userImage}'),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: greenColor, width: 2)),
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage(
+                                'http://52.67.149.51/uploads/${userData!.data[0].userImage}'),
+                          ),
                         ),
                       ),
                       Container(
@@ -164,8 +169,8 @@ class _MyAccountState extends State<MyAccount> {
                           children: [
                             Text(
                               userData.data[0].userName,
-                              style: const TextStyle(
-                                color: Colors.black,
+                              style: TextStyle(
+                                color: greenColor,
                                 fontSize: 16,
                               ),
                             ),
@@ -206,9 +211,10 @@ class _MyAccountState extends State<MyAccount> {
                               },
                             ));
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.edit_note_outlined,
                             size: 30,
+                            color: redColor,
                           ),
                         ),
                       ),
@@ -267,15 +273,15 @@ class _MyAccountState extends State<MyAccount> {
                           );
                         },
                         child: Row(
-                          children: const [
+                          children: [
                             Icon(
-                              Icons.settings_outlined,
-                              color: Colors.grey,
+                              Icons.font_download_outlined,
+                              color: redColor,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
-                            Text(
+                            const Text(
                               'My Ads',
                               style: TextStyle(
                                 color: Colors.black,
@@ -311,15 +317,15 @@ class _MyAccountState extends State<MyAccount> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 30.0, top: 20),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(
-                            Icons.settings_outlined,
-                            color: Colors.grey,
+                            Icons.monetization_on_outlined,
+                            color: yellowColor,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
-                          Text(
+                          const Text(
                             'Buy Business',
                             style: TextStyle(
                               color: Colors.black,
@@ -333,15 +339,15 @@ class _MyAccountState extends State<MyAccount> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0, top: 20),
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(
-                          Icons.settings_outlined,
-                          color: Colors.grey,
+                          Icons.style_outlined,
+                          color: greenColor,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
-                        Text(
+                        const Text(
                           'Bought Ticket',
                           style: TextStyle(
                             color: Colors.black,
@@ -354,15 +360,15 @@ class _MyAccountState extends State<MyAccount> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30.0, top: 20),
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(
-                          Icons.settings_outlined,
-                          color: Colors.grey,
+                          Icons.rate_review_outlined,
+                          color: redColor,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
-                        Text(
+                        const Text(
                           'Review & Rating',
                           style: TextStyle(
                             color: Colors.black,
@@ -404,9 +410,9 @@ class _MyAccountState extends State<MyAccount> {
                       },
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.settings_outlined,
-                            color: Colors.grey,
+                            color: greenColor,
                           ),
                           const SizedBox(
                             width: 20,
@@ -438,9 +444,9 @@ class _MyAccountState extends State<MyAccount> {
                     padding: const EdgeInsets.only(left: 30.0, top: 20),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.help_outline_rounded,
-                          color: Colors.grey,
+                          color: greenColor,
                         ),
                         const SizedBox(
                           width: 20,
@@ -493,9 +499,9 @@ class _MyAccountState extends State<MyAccount> {
                     padding: const EdgeInsets.only(left: 30.0, top: 20),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.close,
-                          color: Colors.grey,
+                        Icon(
+                          Icons.logout_outlined,
+                          color: redColor,
                         ),
                         const SizedBox(
                           width: 20,

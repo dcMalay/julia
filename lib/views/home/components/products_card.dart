@@ -297,20 +297,33 @@ class _ProductCardState extends State<ProductCard> {
                                         Icons.favorite,
                                         color: redColor,
                                       ))
-                                  : InkWell(
-                                      onTap: () {
+                                  : IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      onPressed: () {
                                         print('add to favotire');
-                                        addtoFavorite(widget.productId);
                                         setState(() {
+                                          addtoFavorite(widget.productId);
                                           inWishList =
                                               isInWishlist(widget.productId);
                                         });
                                       },
-                                      child: Icon(
+                                      icon: Icon(
                                         Icons.favorite_border,
                                         color: redColor,
-                                      ),
-                                    );
+                                      ));
+                              // InkWell(
+                              //   onTap: () {
+                              //     print('add to favotire');
+                              //     addtoFavorite(widget.productId);
+                              //     setState(() {
+                              //       inWishList = isInWishlist(widget.productId);
+                              //     });
+                              //   },
+                              //   child: Icon(
+                              //     Icons.favorite_border,
+                              //     color: redColor,
+                              //   ),
+                              // );
                             } else if (snapshot.hasError) {
                               // return Text("${snapshot.error}");
                               return IconButton(
