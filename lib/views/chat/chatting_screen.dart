@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/get_all_messages_model.dart';
@@ -259,6 +260,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 ),
                 InkWell(
                   onTap: () {
+                    FlutterRingtonePlayer.playNotification();
+                    Timer(const Duration(milliseconds: 200), () {
+                      FlutterRingtonePlayer.stop();
+                    });
                     _scrollDown();
                     print('send');
                     sendMessages(widget.sellerId, user, messageController.text);

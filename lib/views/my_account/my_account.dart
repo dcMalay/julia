@@ -13,6 +13,7 @@ import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
 import 'package:julia/views/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
+import '../../data/repository/create_post_repo.dart';
 import '../../provider/auth_provider.dart';
 
 class MyAccount extends StatefulWidget {
@@ -28,14 +29,7 @@ class _MyAccountState extends State<MyAccount> {
   late Future<Userdetails> getUserData;
   FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
-  late final TextEditingController _nameController;
-  late final TextEditingController _descController;
-  late final TextEditingController _emailController;
-  late final TextEditingController _numberController;
-  late final TextEditingController _stateController;
-  late final TextEditingController _districtController;
-  late final TextEditingController _areaController;
-
+  final TextEditingController _createMessage = TextEditingController();
   void getUser() async {
     var authUser = await _secureStorage.read(key: 'userId');
     print('authUser ------>$authUser');
@@ -336,25 +330,76 @@ class _MyAccountState extends State<MyAccount> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0, top: 20),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.style_outlined,
-                          color: greenColor,
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Text(
-                          'Bought Ticket',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AlertDialog(
+                                title: const Text('Create Ticket'),
+                                content: TextFormField(
+                                  controller: _createMessage,
+                                  keyboardType: TextInputType.multiline,
+                                  minLines: 4,
+                                  maxLines: null,
+                                  decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'type your message'),
+                                ),
+                                actions: [
+                                  InkWell(
+                                    onTap: () async {
+                                      createTicket(_createMessage.text);
+                                      _createMessage.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(9),
+                                        decoration: BoxDecoration(
+                                            color: greenColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: const Text(
+                                          'Send your message',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+
+                                  // CupertinoButton(
+
+                                  //     color: greenColor,
+                                  //     child: const Text('Send your message'),
+                                  //     onPressed: () {}),
+                                ],
+                              ),
+                            );
+                          });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.style_outlined,
+                            color: greenColor,
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Text(
+                            'Ask your Question',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(

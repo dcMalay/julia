@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
@@ -15,6 +14,7 @@ import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/data/repository/get_user_details_repo.dart';
+import 'package:julia/data/repository/post_products_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +36,7 @@ class PostProductsView extends StatefulWidget {
 class _PostProductsViewState extends State<PostProductsView> {
   late Future<Userdetails> getUserData;
 // creating instance of dio
-  Dio dio = Dio();
+
   TextEditingController titleController = TextEditingController();
   TextEditingController brandController = TextEditingController();
   TextEditingController descController = TextEditingController();
@@ -52,7 +52,6 @@ class _PostProductsViewState extends State<PostProductsView> {
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   List imageNames = [];
-
 //function to select image and add the images to the imageFileList array
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
@@ -62,54 +61,7 @@ class _PostProductsViewState extends State<PostProductsView> {
     //using set state to refresh the page to show the image to the grid
     setState(() {});
     print("Image List Length:  ${imageFileList!.length.toString()}");
-  }
-
-//function to upload the image to php server
-  void _upload(File file) async {
-    String fileName = file.path.split('/').last;
-    FormData data = FormData.fromMap({
-      "file": await MultipartFile.fromFile(
-        file.path,
-        filename: fileName,
-      ),
-    });
-
-//using dio to post imagename to the mongodg api and the name we get from the php server
-    dio.post("https://julia.sr/upload.php", data: data).then((response) {
-      imageNames.add(response.data);
-      print('image list -------->$imageNames');
-      postProductData(imageNames);
-    }).catchError((error) => print(error));
-  }
-
-  void postProductData(List imageName) async {
-    var authToken = await _secureStorage.read(key: 'token');
-    var authUser = await _secureStorage.read(key: 'userId');
-    var response = await http.post(Uri.parse('$baseUrl/user/create/new/ad'),
-        headers: {
-          HttpHeaders.authorizationHeader: authToken!,
-          HttpHeaders.contentTypeHeader: "application/json"
-        },
-        body: jsonEncode(<String, dynamic>{
-          "post_category": widget.categoryId,
-          "post_subcategory": widget.subCategoryId,
-          "post_user_id": authUser,
-          "fields": '{}',
-          "location": _dropDownValue,
-          'city': cityController.text,
-          "post_title": titleController.text,
-          "post_image": json.encode(imageName),
-          "post_price": priceController.text,
-          "post_description": descController.text,
-          "auth_name": widget.userName,
-        }));
-    print('json encoded data------>${json.encode(imageName)}');
-    if (response.statusCode == 200) {
-      print('status code 200 is ---->${response.body}');
-    } else {
-      print('location----->${locationController.text}');
-      print('getting error ------>${response.body}');
-    }
+    print("Image List:  $imageFileList");
   }
 
   void startTimer() {
@@ -129,6 +81,29 @@ class _PostProductsViewState extends State<PostProductsView> {
   Widget build(BuildContext context) {
     final location = Provider.of<LocationProvider>(context);
     final profiledata = Provider.of<GetProfileDetailsProvider>(context);
+
+    //function to upload the image to php server
+    void _upload(File file) async {
+      String fileName = file.path.split('/').last;
+      FormData data = FormData.fromMap({
+        "file": await MultipartFile.fromFile(
+          file.path,
+          filename: fileName,
+        ),
+      });
+
+      postProducts(
+          data,
+          widget.categoryId,
+          widget.subCategoryId,
+          _dropDownValue,
+          cityController.text,
+          titleController.text,
+          priceController.text,
+          descController.text,
+          profiledata.getUserData.data[0].userName);
+    }
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -506,6 +481,8 @@ class _PostProductsViewState extends State<PostProductsView> {
                             for (var i = 0; i < imageFileList!.length; i++) {
                               _upload(File(imageFileList![i].path));
                             }
+                            // _upload(File(imageFileList![0].path));
+
                             startTimer();
                           }
                         }
