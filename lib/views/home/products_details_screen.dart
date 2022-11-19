@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
-import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
-import 'package:julia/provider/add_to_favorite_provider.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
 import 'package:path_provider/path_provider.dart';
@@ -67,7 +66,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
-                    // reverseTransitionDuration: const Duration(seconds: 1),
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         const WishListProductsScreen(),
                     transitionsBuilder:
@@ -247,67 +245,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Divider(
-                            color: Colors.grey,
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              'Customer reviews',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 20, right: 20, bottom: 20),
+                            padding: const EdgeInsets.only(left: 20),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "SRD ${data[index].postPrice}",
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                currentItem.postUserId == authUser
-                                    ? Container()
-                                    : CupertinoButton(
-                                        color: greenColor,
-                                        child: const Text(
-                                          'Chat',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            PageRouteBuilder(
-                                              transitionDuration:
-                                                  const Duration(
-                                                      milliseconds: 500),
-                                              // reverseTransitionDuration: const Duration(seconds: 1),
-                                              pageBuilder: (context, animation,
-                                                      secondaryAnimation) =>
-                                                  ChattingScreen(
-                                                sellerprofileImage:
-                                                    currentItem.postImage[0],
-                                                sellerName:
-                                                    currentItem.authName,
-                                                sellerId:
-                                                    currentItem.postUserId,
-                                              ),
-                                              transitionsBuilder: (context,
-                                                  animation,
-                                                  secondaryAnimation,
-                                                  child) {
-                                                return SlideTransition(
-                                                  position: Tween<Offset>(
-                                                          begin: const Offset(
-                                                              1, 0),
-                                                          end: Offset.zero)
-                                                      .animate(animation),
-                                                  child: child,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      )
-                              ],
+                              children: const [Text('4.2 out of 5')],
                             ),
                           )
                         ],
@@ -323,6 +272,103 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 );
               }
             }),
+        bottomNavigationBar: SizedBox(
+          height: 80,
+          child: Column(
+            children: [
+              const Divider(
+                color: Colors.grey,
+              ),
+              Expanded(
+                child: FutureBuilder<List<ProductDetails>>(
+                    future: productDetails,
+                    builder: (context, snapshot) {
+                      List<ProductDetails>? data = snapshot.data;
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: data!.length,
+                            itemBuilder: (context, index) {
+                              var currentItem = data[index];
+
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, left: 20, right: 20, bottom: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "SRD ${data[index].postPrice}",
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    currentItem.postUserId == authUser
+                                        ? Container()
+                                        : CupertinoButton(
+                                            color: greenColor,
+                                            child: const Text(
+                                              'Chat',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                  transitionDuration:
+                                                      const Duration(
+                                                          milliseconds: 500),
+                                                  // reverseTransitionDuration: const Duration(seconds: 1),
+                                                  pageBuilder: (context,
+                                                          animation,
+                                                          secondaryAnimation) =>
+                                                      ChattingScreen(
+                                                    sellerprofileImage:
+                                                        currentItem
+                                                            .postImage[0],
+                                                    sellerName:
+                                                        currentItem.authName,
+                                                    sellerId:
+                                                        currentItem.postUserId,
+                                                  ),
+                                                  transitionsBuilder: (context,
+                                                      animation,
+                                                      secondaryAnimation,
+                                                      child) {
+                                                    return SlideTransition(
+                                                      position: Tween<Offset>(
+                                                              begin:
+                                                                  const Offset(
+                                                                      1, 0),
+                                                              end: Offset.zero)
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          )
+                                  ],
+                                ),
+                              );
+                            });
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: greenColor,
+                          ),
+                        );
+                      }
+                    }),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

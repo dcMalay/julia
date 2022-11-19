@@ -8,8 +8,10 @@ import 'package:julia/data/repository/products_repo.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
 class Products extends StatefulWidget {
-  const Products({Key? key, required this.isEndOflist}) : super(key: key);
-  final bool isEndOflist;
+  const Products({
+    Key? key,
+  }) : super(key: key);
+
   @override
   State<Products> createState() => _ProductsState();
 }

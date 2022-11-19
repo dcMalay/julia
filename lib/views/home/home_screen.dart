@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
-import 'package:julia/data/model/location_model.dart';
-import 'package:julia/data/model/product_details_model.dart';
-import 'package:julia/data/model/wishlist_model.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
@@ -18,48 +15,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Location>> allLocation;
-  late Future<List<ProductDetails>> productDetails;
-  late Future<List<WishList>> inWishList;
-  List wishProductId = [];
   @override
   void initState() {
     super.initState();
-    // allLocation = getLocation();
-    // getlocationJsonData();
-
-    // inWishList = getWishListProducts();
   }
 
   @override
   Widget build(BuildContext context) {
-    String message = "";
-    bool isEnd = false;
-
-    _onStartScroll(ScrollMetrics metrics) {
-      setState(() {
-        message = "Scroll Start";
-      });
-      print(message);
-    }
-
-    _onUpdateScroll(ScrollMetrics metrics) {
-      setState(() {
-        message = "Scroll Update";
-      });
-      print(message);
-    }
-
-    _onEndScroll(ScrollMetrics metrics) {
-      setState(() {
-        message = "Scroll End";
-        isEnd = true;
-      });
-      print(message);
-    }
-
-    // final wishlistdata = Provider.of<IsInWishListProvider>(context);
-    // final pDetails = Provider.of<ProducrDetailsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -84,10 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                // wishlistdata.isInWishList();
-
-                // pDetails.pDetais(wishlistdata.wishedProductIds[0]);
-
                 Navigator.of(context).push(
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 500),
@@ -139,35 +97,67 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (scrollNotification is ScrollStartNotification) {
-            _onStartScroll(scrollNotification.metrics);
-          } else if (scrollNotification is ScrollUpdateNotification) {
-            _onUpdateScroll(scrollNotification.metrics);
-          } else if (scrollNotification is ScrollEndNotification) {
-            _onEndScroll(scrollNotification.metrics);
-          }
-          return true;
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 15.0,
-          ),
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: [
-              const SizedBox(
-                height: 15,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15.0,
+        ),
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              child: TextFormField(
+                onTap: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 500),
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const SearchScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                                  begin: const Offset(1, 0), end: Offset.zero)
+                              .animate(animation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+                textAlign: TextAlign.start,
+                readOnly: true,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.search_rounded),
+                  hintText: 'Find Vehicles,Furniture and more ... ',
+                ),
               ),
-              SizedBox(
-                child: TextFormField(
-                  onTap: () {
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'What are you looking for?',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (context, animation, secondaryAnimation) =>
-                            const SearchScreen(),
+                            const CategoryscreenforSearch(),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                           return SlideTransition(
@@ -180,93 +170,45 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  textAlign: TextAlign.start,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    isDense: true,
-                    contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search_rounded),
-                    hintText: 'Find Vehicles,Furniture and more ... ',
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'What are you looking for?',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      bottom: 5, // Space between underline and text
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const CategoryscreenforSearch(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                      begin: const Offset(1, 0),
-                                      end: Offset.zero)
-                                  .animate(animation),
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 5, // Space between underline and text
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: greenColor,
-                            width: 1.0, // Underline thickness
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        "See All",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
                           color: greenColor,
+                          width: 1.0, // Underline thickness
                         ),
                       ),
                     ),
+                    child: Text(
+                      "See All",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: greenColor,
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              const Category(),
-              const Text(
-                'Best Recommendations',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
                 ),
+              ],
+            ),
+            const Category(),
+            const Text(
+              'Best Recommendations',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Products(
-                isEndOflist: isEnd,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Products(),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
         ),
       ),
     );

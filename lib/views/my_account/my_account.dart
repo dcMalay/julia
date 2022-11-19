@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -13,6 +15,8 @@ import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
 import 'package:julia/views/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import '../../data/repository/create_post_repo.dart';
 import '../../provider/auth_provider.dart';
 
@@ -351,9 +355,18 @@ class _MyAccountState extends State<MyAccount> {
                                 actions: [
                                   InkWell(
                                     onTap: () async {
-                                      createTicket(_createMessage.text);
-                                      _createMessage.clear();
-                                      Navigator.pop(context);
+                                      if (_createMessage.text != '') {
+                                        createTicket(_createMessage.text);
+                                        _createMessage.clear();
+                                        Navigator.pop(context);
+
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.success,
+                                          text:
+                                              'You successfully created a ticket',
+                                        );
+                                      }
                                     },
                                     child: Center(
                                       child: Container(
@@ -369,12 +382,6 @@ class _MyAccountState extends State<MyAccount> {
                                       ),
                                     ),
                                   )
-
-                                  // CupertinoButton(
-
-                                  //     color: greenColor,
-                                  //     child: const Text('Send your message'),
-                                  //     onPressed: () {}),
                                 ],
                               ),
                             );
