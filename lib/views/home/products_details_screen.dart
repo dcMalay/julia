@@ -5,9 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
+import 'package:julia/data/model/reting_model.dart';
+import 'package:julia/data/repository/get_seller_rating_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
+import 'package:julia/views/home/components/seller_review_details.dart';
+import 'package:julia/views/reviews/reviews_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +29,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Future<List<ProductDetails>> productDetails;
+  late Future<List<RatingModel>> sellerRating;
   final _secureStorage = const FlutterSecureStorage();
   var authUser;
   getuser() async {
@@ -35,9 +40,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     getuser();
-    setState(() {
-      productDetails = getProductDetails(widget.productID);
+    productDetails = getProductDetails(widget.productID).then((value) {
+      sellerRating = getSellerRatingDetails(value[0].postUserId);
+      return value;
     });
+
+    //  productDetails = getProductDetails(widget.productID);
   }
 
   @override
@@ -139,7 +147,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
                           SizedBox(
                             height: 200,
@@ -153,11 +161,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           height: 200,
                                           child: const Text('No Image Found'),
                                         )
-                                      : Image.network(
-                                          "https://julia.sr/uploads/${currentItem.postImage[index]}",
-                                          height: 200,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                      : Container(
+                                          color: Colors.grey,
+                                          child: Image.network(
+                                            "https://julia.sr/uploads/${currentItem.postImage[index]}",
+                                            height: 200,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          ),
                                         );
                                 }),
                           ),
@@ -226,6 +238,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           5,
                                       height: 267,
                                       child: ListView(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         children: [
                                           Text(
                                             currentItem.postDescription,
@@ -248,16 +262,269 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const Padding(
                             padding: EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Customer reviews',
+                              'Seller Description',
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Row(
-                              children: const [Text('4.2 out of 5')],
-                            ),
+                          SizedBox(
+                            height: 425,
+                            child: FutureBuilder<List<RatingModel>>(
+                                future: sellerRating,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    List<RatingModel>? data = snapshot.data;
+                                    double avgRating = 0;
+                                    double total = 0;
+                                    for (var i = 0; i < data!.length; i++) {
+                                      total = total + data[i].starRating!;
+                                      avgRating = total / data.length;
+                                    }
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: SizedBox(
+                                            height: 80,
+                                            width: 500,
+                                            child: SellerReviewSection(
+                                              avgRating: avgRating,
+                                              userId: data[0].sellerId!,
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Write a review for the seller'),
+                                                    content: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Text(
+                                                            'Give star out of 5'),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        TextFormField(
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          inputFormatters: <
+                                                              TextInputFormatter>[
+                                                            FilteringTextInputFormatter
+                                                                .allow(RegExp(
+                                                                    "^(1[0-0]|[1-5])\$")),
+                                                          ],
+                                                          maxLength: 1,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder()),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        const Text(
+                                                          'Review',
+                                                          style: TextStyle(
+                                                              fontSize: 15),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        TextFormField(
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .multiline,
+                                                          minLines: 4,
+                                                          maxLines: 9,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        CupertinoButton(
+                                                            color: greenColor,
+                                                            child: const Text(
+                                                              'Submit',
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            })
+                                                      ],
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: Container(
+                                            height: 60,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey)),
+                                            margin: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            padding: const EdgeInsets.only(
+                                                left: 20, right: 20),
+                                            child: const Center(
+                                              child: Text(
+                                                'rate the seller',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            // mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text('Reviews'),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                      PageRouteBuilder(
+                                                        transitionDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    500),
+                                                        pageBuilder: (context,
+                                                                animation,
+                                                                secondaryAnimation) =>
+                                                            AllReviewScreen(
+                                                          postUserId: snapshot
+                                                              .data![0]
+                                                              .sellerId!,
+                                                        ),
+                                                        transitionsBuilder:
+                                                            (context,
+                                                                animation,
+                                                                secondaryAnimation,
+                                                                child) {
+                                                          return SlideTransition(
+                                                            position: Tween<
+                                                                        Offset>(
+                                                                    begin:
+                                                                        const Offset(
+                                                                            1,
+                                                                            0),
+                                                                    end: Offset
+                                                                        .zero)
+                                                                .animate(
+                                                                    animation),
+                                                            child: child,
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: const Text(
+                                                    'see all',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline),
+                                                  ))
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: data.length,
+                                              itemBuilder: (context, index) {
+                                                var currentdata = data[index];
+                                                var strRating = data[index]
+                                                    .reviewTime
+                                                    .toString();
+                                                var partsR =
+                                                    strRating.split(' ');
+                                                var prefixR = partsR[0].trim();
+                                                var timeR = prefixR.split('.');
+                                                var timepreR = timeR[0].trim();
+
+                                                return Card(
+                                                  child: ListTile(
+                                                    title: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        Text(currentdata
+                                                            .userName!),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          '( $timepreR )',
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 8),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    subtitle: Text(
+                                                        currentdata.review!),
+                                                    trailing: SizedBox(
+                                                      height: 60,
+                                                      width: 60,
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.star,
+                                                            color: yellowColor,
+                                                          ),
+                                                          Text(currentdata
+                                                              .starRating
+                                                              .toString())
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: greenColor,
+                                      ),
+                                    );
+                                  }
+                                }),
                           )
                         ],
                       );

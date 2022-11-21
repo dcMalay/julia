@@ -153,7 +153,7 @@ class _MyAccountState extends State<MyAccount> {
                             radius: 40,
                             backgroundColor: Colors.grey,
                             backgroundImage: NetworkImage(
-                                'http://52.67.149.51/uploads/${userData!.data[0].userImage}'),
+                                'https://julia.sr/uploads/${userData!.data[0].userImage}'),
                           ),
                         ),
                       ),

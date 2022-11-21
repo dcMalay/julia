@@ -6,7 +6,6 @@ import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
 import 'package:julia/provider/filter_by_location_provider.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
-import 'package:julia/provider/is_in_wish_list_provider.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
@@ -41,7 +40,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => PlanProider()),
-        ChangeNotifierProvider(create: (context) => IsInWishListProvider()),
         ChangeNotifierProvider(create: (context) => ProducrDetailsProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(
