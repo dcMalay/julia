@@ -8,6 +8,7 @@ import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/reting_model.dart';
 import 'package:julia/data/repository/get_seller_rating_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
+import 'package:julia/data/repository/rate_seller_repo.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
 import 'package:julia/views/home/components/seller_review_details.dart';
@@ -31,6 +32,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late Future<List<ProductDetails>> productDetails;
   late Future<List<RatingModel>> sellerRating;
   final _secureStorage = const FlutterSecureStorage();
+  TextEditingController review = TextEditingController();
+  TextEditingController starerating = TextEditingController();
   var authUser;
   getuser() async {
     authUser = await _secureStorage.read(key: "userId");
@@ -46,6 +49,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
 
     //  productDetails = getProductDetails(widget.productID);
+  }
+
+  @override
+  void dispose() {
+    review.clear();
+    starerating.clear();
+    super.dispose();
   }
 
   @override
@@ -133,12 +143,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             future: productDetails,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<ProductDetails>? data = snapshot.data;
+                List<ProductDetails>? dataP = snapshot.data;
                 return ListView.builder(
-                    itemCount: data!.length,
+                    itemCount: dataP!.length,
                     itemBuilder: (context, index) {
-                      var currentItem = data[index];
-                      var str = data[index].postDate.toString();
+                      var currentItem = dataP[index];
+                      var str = dataP[index].postDate.toString();
                       var parts = str.split(' ');
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
@@ -274,11 +284,158 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: FutureBuilder<List<RatingModel>>(
                                 future: sellerRating,
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    List<RatingModel>? data = snapshot.data;
+                                  if (snapshot.data == null) {
+                                    return Center(
+                                        child: CircularProgressIndicator(
+                                      color: greenColor,
+                                    ));
+                                  } else if (snapshot.data!.isEmpty) {
+                                    return Column(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: SizedBox(
+                                          height: 80,
+                                          width: 500,
+                                          child: SellerReviewSection(
+                                            avgRating: 0.0,
+                                            userId: dataP[index].postUserId,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Write a review for the seller'),
+                                                  content: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      const Text(
+                                                          'Give star out of 5'),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      TextFormField(
+                                                        controller: starerating,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        inputFormatters: <
+                                                            TextInputFormatter>[
+                                                          FilteringTextInputFormatter
+                                                              .allow(RegExp(
+                                                                  "^(1[0-0]|[1-5])\$")),
+                                                        ],
+                                                        maxLength: 1,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder()),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      const Text(
+                                                        'Review',
+                                                        style: TextStyle(
+                                                            fontSize: 15),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      TextFormField(
+                                                        controller: review,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .multiline,
+                                                        minLines: 4,
+                                                        maxLines: 9,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      CupertinoButton(
+                                                          color: greenColor,
+                                                          child: const Text(
+                                                            'Submit',
+                                                          ),
+                                                          onPressed: () {
+                                                            print('submit');
+                                                            rateSeller(
+                                                              dataP[index].id,
+                                                              review.text,
+                                                              dataP[index]
+                                                                  .postUserId,
+                                                              starerating.text,
+                                                            );
+                                                            setState(() {
+                                                              productDetails =
+                                                                  getProductDetails(
+                                                                          widget
+                                                                              .productID)
+                                                                      .then(
+                                                                          (value) {
+                                                                sellerRating =
+                                                                    getSellerRatingDetails(
+                                                                        value[0]
+                                                                            .postUserId);
+                                                                return value;
+                                                              });
+                                                            });
+                                                            Navigator.pop(
+                                                                context);
+                                                          })
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        },
+                                        child: Container(
+                                          height: 60,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey)),
+                                          margin: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20),
+                                          child: const Center(
+                                            child: Text(
+                                              'rate the seller',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Center(
+                                        child: Text('No reviews yet'),
+                                      )
+                                    ]);
+                                  } else if (snapshot.hasData) {
+                                    List<RatingModel>? data =
+                                        snapshot.data!.reversed.toList();
+
                                     double avgRating = 0;
                                     double total = 0;
-                                    for (var i = 0; i < data!.length; i++) {
+                                    //for average value of the star rating
+                                    for (var i = 0; i < data.length; i++) {
                                       total = total + data[i].starRating!;
                                       avgRating = total / data.length;
                                     }
@@ -292,7 +449,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             width: 500,
                                             child: SellerReviewSection(
                                               avgRating: avgRating,
-                                              userId: data[0].sellerId!,
+                                              userId: data[index].sellerId!,
                                             ),
                                           ),
                                         ),
@@ -317,6 +474,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           height: 5,
                                                         ),
                                                         TextFormField(
+                                                          controller:
+                                                              starerating,
                                                           keyboardType:
                                                               TextInputType
                                                                   .number,
@@ -344,6 +503,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           height: 5,
                                                         ),
                                                         TextFormField(
+                                                          controller: review,
                                                           keyboardType:
                                                               TextInputType
                                                                   .multiline,
@@ -364,6 +524,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                               'Submit',
                                                             ),
                                                             onPressed: () {
+                                                              rateSeller(
+                                                                dataP[index].id,
+                                                                review.text,
+                                                                dataP[index]
+                                                                    .postUserId,
+                                                                starerating
+                                                                    .text,
+                                                              );
+                                                              setState(() {
+                                                                productDetails =
+                                                                    getProductDetails(widget
+                                                                            .productID)
+                                                                        .then(
+                                                                            (value) {
+                                                                  sellerRating =
+                                                                      getSellerRatingDetails(
+                                                                          value[0]
+                                                                              .postUserId);
+                                                                  return value;
+                                                                });
+                                                              });
                                                               Navigator.pop(
                                                                   context);
                                                             })

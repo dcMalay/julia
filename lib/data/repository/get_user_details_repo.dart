@@ -18,7 +18,9 @@ Future<Userdetails> getUserDetails() async {
   });
   if (response.statusCode == 200) {
     final jsonResponse = json.decode(response.body);
-    return Userdetails.fromJson(jsonResponse);
+    var data = Userdetails.fromJson(jsonResponse);
+    await _secureStorage.write(key: 'userName', value: data.data[0].userName);
+    return data;
   } else {
     throw Exception('Could not able to get user data');
   }

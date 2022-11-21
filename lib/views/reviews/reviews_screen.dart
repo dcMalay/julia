@@ -29,9 +29,9 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
           future: sellerRating,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<RatingModel>? data = snapshot.data;
+              List<RatingModel>? data = snapshot.data!.reversed.toList();
               return ListView.builder(
-                  itemCount: data!.length,
+                  itemCount: data.length,
                   itemBuilder: (context, index) {
                     var currentdata = data[index];
                     var strRating = data[index].reviewTime.toString();

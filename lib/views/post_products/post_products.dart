@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
@@ -12,7 +11,6 @@ import 'package:julia/const/const.dart';
 import 'package:julia/const/location_data.dart';
 import 'package:julia/data/model/dynamic_form_model.dart';
 import 'package:julia/data/model/profile_details_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/data/repository/post_products_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';

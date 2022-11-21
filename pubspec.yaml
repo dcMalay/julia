@@ -67,6 +67,7 @@ dependencies:
   flutter_ringtone_player: ^3.2.0
   quickalert: ^1.0.0
   flutter_rating_bar: ^4.0.1
+  google_maps_flutter: ^2.2.1
  
  
   

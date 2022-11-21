@@ -74,7 +74,7 @@ class _ListTileChatState extends State<ListTileChat> {
                                       backgroundImage: NetworkImage(
                                         seller[index].userImage.contains('http')
                                             ? 'https://api.minimalavatars.com/avatar/random/png'
-                                            : "http://52.67.149.51/uploads/${seller[index].userImage}",
+                                            : "https://julia.sr/uploads/${seller[index].userImage}",
                                       )),
                                   const SizedBox(
                                     width: 20,
