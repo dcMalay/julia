@@ -14,6 +14,7 @@ import 'package:julia/views/chat/chatting_screen.dart';
 import 'package:julia/views/home/components/seller_review_details.dart';
 import 'package:julia/views/reviews/reviews_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,9 +35,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final _secureStorage = const FlutterSecureStorage();
   TextEditingController review = TextEditingController();
   TextEditingController starerating = TextEditingController();
+  var userName;
   var authUser;
   getuser() async {
     authUser = await _secureStorage.read(key: "userId");
+    userName = await _secureStorage.read(key: 'userName');
   }
 
   @override
@@ -458,98 +461,123 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
-                                                  return AlertDialog(
-                                                    title: const Text(
-                                                        'Write a review for the seller'),
-                                                    content: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        const Text(
-                                                            'Give star out of 5'),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        TextFormField(
-                                                          controller:
-                                                              starerating,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          inputFormatters: <
-                                                              TextInputFormatter>[
-                                                            FilteringTextInputFormatter
-                                                                .allow(RegExp(
-                                                                    "^(1[0-0]|[1-5])\$")),
-                                                          ],
-                                                          maxLength: 1,
-                                                          decoration:
-                                                              const InputDecoration(
-                                                                  border:
-                                                                      OutlineInputBorder()),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        const Text(
-                                                          'Review',
-                                                          style: TextStyle(
-                                                              fontSize: 15),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        TextFormField(
-                                                          controller: review,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .multiline,
-                                                          minLines: 4,
-                                                          maxLines: 9,
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        CupertinoButton(
-                                                            color: greenColor,
-                                                            child: const Text(
-                                                              'Submit',
+                                                  return ListView(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 100,
+                                                      ),
+                                                      AlertDialog(
+                                                        title: const Text(
+                                                            'Write a review for the seller'),
+                                                        content: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            const Text(
+                                                                'Give star out of 5'),
+                                                            const SizedBox(
+                                                              height: 5,
                                                             ),
-                                                            onPressed: () {
-                                                              rateSeller(
-                                                                dataP[index].id,
-                                                                review.text,
-                                                                dataP[index]
-                                                                    .postUserId,
-                                                                starerating
-                                                                    .text,
-                                                              );
-                                                              setState(() {
-                                                                productDetails =
-                                                                    getProductDetails(widget
-                                                                            .productID)
-                                                                        .then(
-                                                                            (value) {
-                                                                  sellerRating =
-                                                                      getSellerRatingDetails(
-                                                                          value[0]
-                                                                              .postUserId);
-                                                                  return value;
-                                                                });
-                                                              });
-                                                              Navigator.pop(
-                                                                  context);
-                                                            })
-                                                      ],
-                                                    ),
+                                                            TextFormField(
+                                                              controller:
+                                                                  starerating,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              inputFormatters: <
+                                                                  TextInputFormatter>[
+                                                                FilteringTextInputFormatter
+                                                                    .allow(RegExp(
+                                                                        "^(1[0-0]|[1-5])\$")),
+                                                              ],
+                                                              maxLength: 1,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      border:
+                                                                          OutlineInputBorder()),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            const Text(
+                                                              'Review',
+                                                              style: TextStyle(
+                                                                  fontSize: 15),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            TextFormField(
+                                                              controller:
+                                                                  review,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .multiline,
+                                                              minLines: 4,
+                                                              maxLines: 9,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            CupertinoButton(
+                                                                color:
+                                                                    greenColor,
+                                                                child:
+                                                                    const Text(
+                                                                  'Submit',
+                                                                ),
+                                                                onPressed: () {
+                                                                  print(
+                                                                      userName);
+                                                                  if (userName !=
+                                                                      null) {
+                                                                    rateSeller(
+                                                                      dataP[index]
+                                                                          .id,
+                                                                      review
+                                                                          .text,
+                                                                      dataP[index]
+                                                                          .postUserId,
+                                                                      starerating
+                                                                          .text,
+                                                                    );
+                                                                    setState(
+                                                                        () {
+                                                                      productDetails = getProductDetails(widget
+                                                                              .productID)
+                                                                          .then(
+                                                                              (value) {
+                                                                        sellerRating =
+                                                                            getSellerRatingDetails(value[0].postUserId);
+                                                                        return value;
+                                                                      });
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  } else {
+                                                                    QuickAlert
+                                                                        .show(
+                                                                      context:
+                                                                          context,
+                                                                      type: QuickAlertType
+                                                                          .warning,
+                                                                      text:
+                                                                          'Please complete your profile to rate the seller ',
+                                                                    );
+                                                                  }
+                                                                })
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   );
                                                 });
                                           },

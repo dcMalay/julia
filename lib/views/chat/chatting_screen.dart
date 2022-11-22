@@ -65,6 +65,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -141,7 +142,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
+                                    horizontal: 5, vertical: 0),
                                 child: Align(
                                   alignment: currentItem.reciverId == user
                                       ? Alignment.centerLeft
@@ -153,8 +154,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                         color: currentItem.reciverId == user
                                             ? Colors.white
                                             : greenColor,
-                                        // : const Color.fromARGB(
-                                        //     255, 110, 186, 113),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10)),
@@ -211,7 +210,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                             ],
                           );
                         });
@@ -226,69 +228,137 @@ class _ChattingScreenState extends State<ChattingScreen> {
                   }
                 }),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
-              ),
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey),
-                ),
-              ),
-              child: Row(children: [
-                Expanded(
-                  child: TextField(
-                    style: const TextStyle(fontSize: 20),
-                    controller: messageController,
-                    decoration: const InputDecoration(
-                      hintText: 'Type Your message',
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
-                      ),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                InkWell(
-                  onTap: () {
-                    FlutterRingtonePlayer.playNotification();
-                    Timer(const Duration(milliseconds: 200), () {
-                      FlutterRingtonePlayer.stop();
-                    });
-                    _scrollDown();
-                    print('send');
-                    sendMessages(widget.sellerId, user, messageController.text);
-                    messageController.clear();
-                    setState(() {
-                      allMessage = getallMessages(widget.sellerId);
-                    });
-                  },
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: greenColor,
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 5.0),
-                      child: Icon(
-                        Icons.send,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              ]),
-            ),
-          )
+          // Container(
+          //   alignment: Alignment.bottomCenter,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(
+          //       horizontal: 10,
+          //       vertical: 10,
+          //     ),
+          //     width: MediaQuery.of(context).size.width,
+          //     decoration: const BoxDecoration(
+          //       border: Border(
+          //         top: BorderSide(color: Colors.grey),
+          //       ),
+          //     ),
+          //     child: Row(children: [
+          //       Expanded(
+          //         child: TextField(
+          //           style: const TextStyle(fontSize: 20),
+          //           controller: messageController,
+          //           decoration: const InputDecoration(
+          //             hintText: 'Type Your message',
+          //             hintStyle: TextStyle(
+          //               color: Colors.grey,
+          //               fontSize: 20,
+          //             ),
+          //             border: InputBorder.none,
+          //           ),
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         width: 12,
+          //       ),
+          //       InkWell(
+          //         onTap: () {
+          //           FlutterRingtonePlayer.playNotification();
+          //           Timer(const Duration(milliseconds: 200), () {
+          //             FlutterRingtonePlayer.stop();
+          //           });
+
+          //           print('send');
+          //           sendMessages(widget.sellerId, user, messageController.text);
+          //           messageController.clear();
+          //           setState(() {
+          //             allMessage = getallMessages(widget.sellerId);
+          //           });
+          //           _scrollDown();
+          //         },
+          //         child: CircleAvatar(
+          //           radius: 20,
+          //           backgroundColor: greenColor,
+          //           child: const Padding(
+          //             padding: EdgeInsets.only(left: 5.0),
+          //             child: Icon(
+          //               Icons.send,
+          //               size: 30,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //     ]),
+          //   ),
+          // )
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Container(
+          height: 70,
+          alignment: Alignment.bottomCenter,
+          width: MediaQuery.of(context).size.width,
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.grey),
+              ),
+            ),
+            child: Row(children: [
+              Expanded(
+                child: TextField(
+                  style: const TextStyle(fontSize: 20),
+                  controller: messageController,
+                  decoration: const InputDecoration(
+                    hintText: 'Type Your message',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                    ),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              InkWell(
+                onTap: () {
+                  FlutterRingtonePlayer.playNotification();
+                  Timer(const Duration(milliseconds: 200), () {
+                    FlutterRingtonePlayer.stop();
+                  });
+
+                  print('send');
+                  sendMessages(widget.sellerId, user, messageController.text);
+                  messageController.clear();
+                  setState(() {
+                    allMessage = getallMessages(widget.sellerId);
+                  });
+                  _scrollDown();
+                },
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: greenColor,
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 5.0),
+                    child: Icon(
+                      Icons.send,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+            ]),
+          ),
+        ),
       ),
     );
   }

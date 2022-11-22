@@ -19,18 +19,15 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
         body: ListView(
-          padding: const EdgeInsets.only(top: 8),
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return const ListTileChat();
-              },
-            ),
-          ],
-        ),
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            padding: const EdgeInsets.only(top: 8),
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: ListTileChat(),
+              )
+            ]),
       ),
     );
   }
