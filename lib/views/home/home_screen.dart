@@ -1,11 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
+import 'package:julia/data/repository/products_repo.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
+import 'package:julia/views/home/components/test.dart';
 import 'package:julia/views/notification/notification_screen.dart';
 import 'package:julia/views/search/search_screen.dart';
+import 'package:provider/provider.dart';
+import '../../data/model/product_model.dart';
+import '../../provider/get_all_products_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,13 +21,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var data = AllProductProvider();
   @override
   void initState() {
+    // data.getallProducts(offset.toString());
+    productsData = getProduct(offset.toString());
+    //  AllProductProvider.getallProducts(offset.toString());
     super.initState();
   }
 
+  late Future<List<Product>> productsData;
+  int offset = 0;
+  // int height = 1190;
   @override
   Widget build(BuildContext context) {
+    var productsList = Provider.of<AllProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -204,7 +218,23 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Products(),
+            // ProductsTest(productsDataoffset: productsList.list),
+            Products(
+              productsDataoffset: productsData,
+              // height: height.toString(),
+            ),
+            CupertinoButton(
+              color: greenColor,
+              child: const Text('load more'),
+              onPressed: () {
+                setState(() {
+                  offset = offset + 10;
+                  //height = height + 1190;
+                  productsData = getProduct(offset.toString());
+                });
+                //print('$offset $height');
+              },
+            ),
             const SizedBox(
               height: 20,
             ),

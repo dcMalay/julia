@@ -7,7 +7,7 @@ Future<List<Product>> getProduct(String offset) async {
   final res = await http.get(Uri.parse('$baseUrl/user/all/ads/$offset'));
   if (res.statusCode == 200) {
     List jsonResponse = json.decode(res.body);
-    return jsonResponse
+    List<Product> productData = jsonResponse
         .map((dynamic item) => Product.fromJson(item))
         .fold<Map<String, Product>>({}, (map, element) {
           map.putIfAbsent(element.sId!, () => element);
@@ -15,6 +15,7 @@ Future<List<Product>> getProduct(String offset) async {
         })
         .values
         .toList();
+    return productData;
 
     // return jsonResponse.map((e) => Product.fromJson(e)).toList();
   } else {

@@ -6,19 +6,19 @@ import 'package:julia/data/model/wishlist_model.dart';
 import 'package:julia/data/repository/add_to_favorite_repo.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
-class Products extends StatefulWidget {
-  const Products({
+class ProductsTest extends StatefulWidget {
+  const ProductsTest({
     Key? key,
     //  required this.height,
     required this.productsDataoffset,
   }) : super(key: key);
-  final Future<List<Product>> productsDataoffset;
+  final List<Product> productsDataoffset;
   //final String height;
   @override
-  State<Products> createState() => _ProductsState();
+  State<ProductsTest> createState() => _ProductsTestState();
 }
 
-class _ProductsState extends State<Products> {
+class _ProductsTestState extends State<ProductsTest> {
   // late Future<List<Product>> productsData;
 
   @override
@@ -33,109 +33,89 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1190.h,
-      // height: double.parse(widget.height).h,
-      child: FutureBuilder<List<Product>>(
-          future: widget.productsDataoffset,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Product>? data = snapshot.data;
-              return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: data!.length,
-                  // shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 3.05 / 4.9,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemBuilder: (context, index) {
-                    var currentItem = data[index];
-                    var str = data[index].postDate.toString();
-                    var parts = str.split('T');
-                    var prefix = parts[1].trim();
-                    var time = prefix.split('.');
-                    var timepre = time[0].trim();
-                    var isFeatured = currentItem.postFeatured;
-                    var postStatus = currentItem.postStatus;
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return ProductDetailsScreen(
-                            productID: currentItem.sId!,
-                          );
-                        }));
-                      },
-                      child: ProductCard(
-                        imageUrl: currentItem.postImage!.isEmpty
-                            ? ''
-                            : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
-                        time: timepre,
-                        title: currentItem.postTitle!,
-                        location: currentItem.postLocation.toString() ==
-                                "6353d8ede596901482a5b1e0"
-                            ? 'Brokopondo'
-                            : currentItem.postLocation.toString() ==
-                                    '6353d8fce596901482a5b1e4'
-                                ? 'Commewijne'
-                                : currentItem.postLocation.toString() ==
-                                        '6353d90fe596901482a5b1e8'
-                                    ? 'Coronie'
-                                    : currentItem.postLocation.toString() ==
-                                            '6353d923e596901482a5b1ed'
-                                        ? 'Marowijne'
-                                        : currentItem.postLocation.toString() ==
-                                                '6353d934e596901482a5b1ef'
-                                            ? 'Nickerie'
-                                            : currentItem.postLocation
-                                                        .toString() ==
-                                                    '6353e63ee596901482a5b1f7'
-                                                ? 'Para'
-                                                : currentItem.postLocation
-                                                            .toString() ==
-                                                        '6353e647e596901482a5b1fb'
-                                                    ? 'Paramaribo'
-                                                    : currentItem.postLocation
-                                                                .toString() ==
-                                                            '6353e650e596901482a5b1fd'
-                                                        ? "Saramacca"
-                                                        : currentItem
-                                                                    .postLocation
-                                                                    .toString() ==
-                                                                "6353e659e596901482a5b1ff"
-                                                            ? 'Sipaliwini'
-                                                            : currentItem
-                                                                        .postLocation
-                                                                        .toString() ==
-                                                                    '6353e663e596901482a5b201'
-                                                                ? 'Wanica'
-                                                                : "no location",
-                        price: currentItem.postPrice!,
-                        postStatus: postStatus!,
-                        isfeatured: isFeatured,
-                        productId: currentItem.sId!,
-                      ),
+        height: 1190.h,
+        // height: double.parse(widget.height).h,
+        child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.productsDataoffset.length,
+            // shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3.05 / 4.9,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemBuilder: (context, index) {
+              var currentItem = widget.productsDataoffset[index];
+              var str = widget.productsDataoffset[index].postDate.toString();
+              var parts = str.split('T');
+              var prefix = parts[1].trim();
+              var time = prefix.split('.');
+              var timepre = time[0].trim();
+              var isFeatured = currentItem.postFeatured;
+              var postStatus = currentItem.postStatus;
+              return InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return ProductDetailsScreen(
+                      productID: currentItem.sId!,
                     );
-                  });
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: greenColor,
+                  }));
+                },
+                child: ProductCardTest(
+                  imageUrl: currentItem.postImage!.isEmpty
+                      ? ''
+                      : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                  time: timepre,
+                  title: currentItem.postTitle!,
+                  location: currentItem.postLocation.toString() ==
+                          "6353d8ede596901482a5b1e0"
+                      ? 'Brokopondo'
+                      : currentItem.postLocation.toString() ==
+                              '6353d8fce596901482a5b1e4'
+                          ? 'Commewijne'
+                          : currentItem.postLocation.toString() ==
+                                  '6353d90fe596901482a5b1e8'
+                              ? 'Coronie'
+                              : currentItem.postLocation.toString() ==
+                                      '6353d923e596901482a5b1ed'
+                                  ? 'Marowijne'
+                                  : currentItem.postLocation.toString() ==
+                                          '6353d934e596901482a5b1ef'
+                                      ? 'Nickerie'
+                                      : currentItem.postLocation.toString() ==
+                                              '6353e63ee596901482a5b1f7'
+                                          ? 'Para'
+                                          : currentItem.postLocation
+                                                      .toString() ==
+                                                  '6353e647e596901482a5b1fb'
+                                              ? 'Paramaribo'
+                                              : currentItem.postLocation
+                                                          .toString() ==
+                                                      '6353e650e596901482a5b1fd'
+                                                  ? "Saramacca"
+                                                  : currentItem.postLocation
+                                                              .toString() ==
+                                                          "6353e659e596901482a5b1ff"
+                                                      ? 'Sipaliwini'
+                                                      : currentItem.postLocation
+                                                                  .toString() ==
+                                                              '6353e663e596901482a5b201'
+                                                          ? 'Wanica'
+                                                          : "no location",
+                  price: currentItem.postPrice!,
+                  postStatus: postStatus!,
+                  isfeatured: isFeatured,
+                  productId: currentItem.sId!,
                 ),
               );
-            }
-          }),
-    );
+            }));
   }
 }
 
 // ignore: must_be_immutable
-class ProductCard extends StatefulWidget {
-  ProductCard({
+class ProductCardTest extends StatefulWidget {
+  ProductCardTest({
     Key? key,
     required this.imageUrl,
     required this.time,
@@ -157,10 +137,10 @@ class ProductCard extends StatefulWidget {
   final String productId;
   String? userId;
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<ProductCardTest> createState() => _ProductCardTestState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _ProductCardTestState extends State<ProductCardTest> {
   late Future<List<WishList>> inWishList;
 
   @override
