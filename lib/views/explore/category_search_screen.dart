@@ -102,13 +102,12 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                                     '${locationData[index]["_id"]}',
                                                     widget.categoryId);
 
-                                                filteredData.then(
-                                                  (value) {
-                                                    print(value.length);
-                                                  },
-                                                );
-                                                print(
-                                                    '${locationData[0]["_id"]}');
+                                                // filteredData.then(
+                                                //   (value) {
+                                                //     print(value.length);
+                                                //   },
+                                                // );
+
                                                 Timer(
                                                     const Duration(seconds: 2),
                                                     () {

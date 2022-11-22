@@ -9,7 +9,9 @@ class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
 
   @override
-  State<Explore> createState() => _ExploreState();
+  State<Explore> createState() {
+    return _ExploreState();
+  }
 }
 
 class _ExploreState extends State<Explore> {
@@ -181,6 +183,7 @@ class _ExploreState extends State<Explore> {
   void initState() {
     super.initState();
     getdynamicForm();
+
     htmldata = getdynamicForm();
     print("data ------ >$htmldata");
     setState(() {
@@ -280,93 +283,14 @@ class _ExploreState extends State<Explore> {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 12),
                               ),
+                              // subtitle: Text(productsNo
+                              //     .productsCount[index].count
+                              //     .toString()),
                             ),
                           ],
                         ),
                       );
                     });
-
-                // return GridView.builder(
-                //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                //     maxCrossAxisExtent: 130,
-                //     childAspectRatio: .1 / .1,
-                //     crossAxisSpacing: 10,
-                //     mainAxisSpacing: 10,
-                //   ),
-                //   scrollDirection: Axis.vertical,
-                //   itemCount: data!.length,
-                //   itemBuilder: (context, index) {
-                //     var titleData = data[index];
-                //     var currentItem = categoryData[index];
-                //     return Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: InkWell(
-                //         onTap: () {
-                //           Navigator.of(context).push(
-                //             PageRouteBuilder(
-                //               transitionDuration:
-                //                   const Duration(milliseconds: 500),
-                //               pageBuilder:
-                //                   (context, animation, secondaryAnimation) =>
-                //                       CategorySearchScreen(
-                //                           categoryId: titleData.id!),
-                //               transitionsBuilder: (context, animation,
-                //                   secondaryAnimation, child) {
-                //                 return SlideTransition(
-                //                   position: Tween<Offset>(
-                //                           begin: const Offset(1, 0),
-                //                           end: Offset.zero)
-                //                       .animate(animation),
-                //                   child: child,
-                //                 );
-                //               },
-                //             ),
-                //           );
-                //         },
-                //         child: Container(
-                //           height: 20,
-                //           width: 20,
-                //           decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(10),
-                //               border: Border.all(
-                //                 color: Colors.grey,
-                //               ),
-                //               color: Colors.white,
-                //               boxShadow: const [
-                //                 BoxShadow(
-                //                   offset: Offset(4, 8),
-                //                   spreadRadius: -3,
-                //                   blurRadius: 5,
-                //                   color: Colors.grey,
-                //                 )
-                //               ]),
-                //           child: Column(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               currentItem['imageUrl'] == null
-                //                   ? const Text(
-                //                       'no Image',
-                //                       style: TextStyle(fontSize: 10),
-                //                     )
-                //                   : Image.asset(
-                //                       '${currentItem['imageUrl']}',
-                //                       height: 40,
-                //                     ),
-                //               ListTile(
-                //                 title: Text(
-                //                   titleData.postCategoryName!,
-                //                   textAlign: TextAlign.center,
-                //                   maxLines: 2,
-                //                   style: const TextStyle(fontSize: 12),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               } else {
