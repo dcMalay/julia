@@ -56,7 +56,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
 
   void _scrollDown() {
     _controller.animateTo(
-      _controller.position.maxScrollExtent,
+      _controller.position.maxScrollExtent + 10,
       duration: const Duration(seconds: 1),
       curve: Curves.ease,
     );
@@ -117,180 +117,121 @@ class _ChattingScreenState extends State<ChattingScreen> {
         ],
       ),
       body: ListView(
+        // reverse: true,
+        // shrinkWrap: true,
+        controller: _controller,
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 8.2 / 10,
-            child: FutureBuilder<List<Allmessage>>(
-                future: allMessage,
-                builder: (context, snapshot) {
-                  List<Allmessage>? data = snapshot.data;
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        controller: _controller,
-                        scrollDirection: Axis.vertical,
-                        itemCount: data!.length,
-                        itemBuilder: (context, index) {
-                          var currentItem = data[index];
-                          var str = currentItem.time.toString();
-                          var parts = str.split(' ');
-                          var date = parts[0].trim();
-                          var prefix = parts[1].trim();
-                          var time = prefix.split('.');
-                          var timepre = time[0].trim();
+          Padding(
+            padding: MediaQuery.of(context).viewInsets * 1 / 60,
+            child: Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height * 4 / 5,
+              child: FutureBuilder<List<Allmessage>>(
+                  future: allMessage,
+                  builder: (context, snapshot) {
+                    List<Allmessage>? data = snapshot.data;
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: data!.length,
+                          itemBuilder: (context, index) {
+                            var currentItem = data[index];
+                            var str = currentItem.time.toString();
+                            var parts = str.split(' ');
+                            var date = parts[0].trim();
+                            var prefix = parts[1].trim();
+                            var time = prefix.split('.');
+                            var timepre = time[0].trim();
 
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 0),
-                                child: Align(
-                                  alignment: currentItem.reciverId == user
-                                      ? Alignment.centerLeft
-                                      : Alignment.centerRight,
-                                  child: Stack(
-                                    children: [
-                                      Card(
-                                        elevation: 5,
-                                        color: currentItem.reciverId == user
-                                            ? Colors.white
-                                            : greenColor,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Padding(
-                                          padding: currentItem.reciverId == user
-                                              ? const EdgeInsets.only(
-                                                  top: 15,
-                                                  left: 8,
-                                                  bottom: 15,
-                                                  right: 50)
-                                              : const EdgeInsets.only(
-                                                  top: 15,
-                                                  right: 8,
-                                                  left: 50,
-                                                  bottom: 15),
-                                          child: Text(
-                                            currentItem.message,
-                                            style: TextStyle(
-                                              fontSize: 17,
-                                              color:
-                                                  currentItem.reciverId == user
-                                                      ? Colors.black
-                                                      : Colors.white,
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 0),
+                                  child: Align(
+                                    alignment: currentItem.reciverId == user
+                                        ? Alignment.centerLeft
+                                        : Alignment.centerRight,
+                                    child: Stack(
+                                      children: [
+                                        Card(
+                                          elevation: 5,
+                                          color: currentItem.reciverId == user
+                                              ? Colors.white
+                                              : greenColor,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding:
+                                                currentItem.reciverId == user
+                                                    ? const EdgeInsets.only(
+                                                        top: 15,
+                                                        left: 8,
+                                                        bottom: 15,
+                                                        right: 50)
+                                                    : const EdgeInsets.only(
+                                                        top: 15,
+                                                        right: 8,
+                                                        left: 50,
+                                                        bottom: 15),
+                                            child: Text(
+                                              currentItem.message,
+                                              style: TextStyle(
+                                                fontSize: 17,
+                                                color: currentItem.reciverId ==
+                                                        user
+                                                    ? Colors.black
+                                                    : Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Positioned(
-                                        left: 10,
-                                        top: 6,
-                                        child: Text(
-                                          date,
-                                          style: TextStyle(
-                                              color:
-                                                  currentItem.reciverId == user
-                                                      ? Colors.grey
-                                                      : Colors.white,
-                                              fontSize: 8),
+                                        Positioned(
+                                          left: 10,
+                                          top: 6,
+                                          child: Text(
+                                            date,
+                                            style: TextStyle(
+                                                color: currentItem.reciverId ==
+                                                        user
+                                                    ? Colors.grey
+                                                    : Colors.white,
+                                                fontSize: 8),
+                                          ),
                                         ),
-                                      ),
-                                      Positioned(
-                                        bottom: 5,
-                                        right: 7,
-                                        child: Text(
-                                          timepre,
-                                          style: TextStyle(
-                                              color:
-                                                  currentItem.reciverId == user
-                                                      ? Colors.grey
-                                                      : Colors.white,
-                                              fontSize: 8),
+                                        Positioned(
+                                          bottom: 5,
+                                          right: 7,
+                                          child: Text(
+                                            timepre,
+                                            style: TextStyle(
+                                                color: currentItem.reciverId ==
+                                                        user
+                                                    ? Colors.grey
+                                                    : Colors.white,
+                                                fontSize: 8),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          );
-                        });
-                  } else if (snapshot.hasError) {
-                    return const Center(child: Text("Error occur"));
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: greenColor,
-                      ),
-                    );
-                  }
-                }),
+                              ],
+                            );
+                          });
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text("Error occur"));
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: greenColor,
+                        ),
+                      );
+                    }
+                  }),
+            ),
           ),
-          // Container(
-          //   alignment: Alignment.bottomCenter,
-          //   width: MediaQuery.of(context).size.width,
-          //   child: Container(
-          //     padding: const EdgeInsets.symmetric(
-          //       horizontal: 10,
-          //       vertical: 10,
-          //     ),
-          //     width: MediaQuery.of(context).size.width,
-          //     decoration: const BoxDecoration(
-          //       border: Border(
-          //         top: BorderSide(color: Colors.grey),
-          //       ),
-          //     ),
-          //     child: Row(children: [
-          //       Expanded(
-          //         child: TextField(
-          //           style: const TextStyle(fontSize: 20),
-          //           controller: messageController,
-          //           decoration: const InputDecoration(
-          //             hintText: 'Type Your message',
-          //             hintStyle: TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 20,
-          //             ),
-          //             border: InputBorder.none,
-          //           ),
-          //         ),
-          //       ),
-          //       const SizedBox(
-          //         width: 12,
-          //       ),
-          //       InkWell(
-          //         onTap: () {
-          //           FlutterRingtonePlayer.playNotification();
-          //           Timer(const Duration(milliseconds: 200), () {
-          //             FlutterRingtonePlayer.stop();
-          //           });
-
-          //           print('send');
-          //           sendMessages(widget.sellerId, user, messageController.text);
-          //           messageController.clear();
-          //           setState(() {
-          //             allMessage = getallMessages(widget.sellerId);
-          //           });
-          //           _scrollDown();
-          //         },
-          //         child: CircleAvatar(
-          //           radius: 20,
-          //           backgroundColor: greenColor,
-          //           child: const Padding(
-          //             padding: EdgeInsets.only(left: 5.0),
-          //             child: Icon(
-          //               Icons.send,
-          //               size: 30,
-          //               color: Colors.white,
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //     ]),
-          //   ),
-          // )
         ],
       ),
       bottomNavigationBar: Padding(

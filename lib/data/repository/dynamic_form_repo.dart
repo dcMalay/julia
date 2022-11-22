@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:julia/const/const.dart';

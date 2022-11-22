@@ -11,14 +11,10 @@ Future addtoFavorite(String productId) async {
   var authUser = await _secureStorage.read(key: 'userId');
   final response = await http
       .get(Uri.parse('$baseUrl/user/add/to/wishlist/$authUser/$productId'));
-  print(authUser);
-  print(productId);
+
   if (response.statusCode == 200) {
     var jsonRes = json.decode(response.body);
-    print('Add to favorite ------>$jsonRes');
   } else {
-    print('error--->${response.statusCode}');
-
     throw Exception('getting error');
   }
 }
@@ -31,10 +27,8 @@ Future removefromFavorite(String id) async {
 
   if (response.statusCode == 200) {
     var jsonResponse = json.decode(response.body);
-    print('remove from favorite------->$jsonResponse');
-    return true;
+    return jsonResponse;
   } else {
-    print('error--->${response.statusCode}');
     throw Exception('getting error');
   }
 }

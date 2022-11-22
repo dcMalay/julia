@@ -61,20 +61,18 @@ class _CategoryState extends State<Category> {
               List<AllCategory>? data = snapshot.data;
               return SizedBox(
                 height: 100,
-                child: Expanded(
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categories.length,
-                    itemBuilder: (context, index) {
-                      var curentItem = data![index];
-                      return CategoryIcons(
-                        categoryTitle: curentItem.postCategoryName!,
-                        image: imageurl[index],
-                        categoryId: curentItem.id!,
-                      );
-                    },
-                  ),
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    var curentItem = data![index];
+                    return CategoryIcons(
+                      categoryTitle: curentItem.postCategoryName!,
+                      image: imageurl[index],
+                      categoryId: curentItem.id!,
+                    );
+                  },
                 ),
               );
             } else if (snapshot.hasError) {

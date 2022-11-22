@@ -5,15 +5,14 @@ import 'package:julia/data/repository/product_search_bysubcategoty.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/home/products_details_screen.dart';
 
-class SubcategorySearchScreen extends StatefulWidget {
-  const SubcategorySearchScreen({super.key, required this.subcategoryId});
+class SimilarProductsScreen extends StatefulWidget {
+  const SimilarProductsScreen({super.key, required this.subcategoryId});
   final String subcategoryId;
   @override
-  State<SubcategorySearchScreen> createState() =>
-      _SubcategorySearchScreenState();
+  State<SimilarProductsScreen> createState() => _SimilarProductsScreenState();
 }
 
-class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
+class _SimilarProductsScreenState extends State<SimilarProductsScreen> {
   late Future<List<Product>> subcategorywiseData;
   @override
   void initState() {
@@ -26,20 +25,6 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back),
-              color: Colors.white,
-            ),
-            automaticallyImplyLeading: false,
-            backgroundColor: greenColor,
-            title: const Text(
-              'Subcategory wise Products',
-              style: TextStyle(color: Colors.white),
-            )),
         body: FutureBuilder<List<Product>>(
             future: subcategorywiseData,
             builder: (context, snapshot) {
@@ -54,17 +39,10 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                 );
               } else if (snapshot.hasData) {
                 List<Product>? data = snapshot.data;
-                return GridView.builder(
-                    // physics: const NeverScrollableScrollPhysics(),
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
                     itemCount: data!.length,
                     shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 200,
-                      childAspectRatio: 3.05 / 4.9,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
                       var str = data[index].postDate.toString();
@@ -75,7 +53,8 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                       print(snapshot.data);
                       print(" post ID ------->${currentItem.sId}");
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 5),
                         child: Center(
                           child: InkWell(
                             onTap: () {

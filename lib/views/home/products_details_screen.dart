@@ -12,6 +12,7 @@ import 'package:julia/data/repository/rate_seller_repo.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/chat/chatting_screen.dart';
 import 'package:julia/views/home/components/seller_review_details.dart';
+import 'package:julia/views/home/components/similar_products_screen.dart';
 import 'package:julia/views/reviews/reviews_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quickalert/quickalert.dart';
@@ -734,6 +735,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     );
                                   }
                                 }),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          const Text(
+                            "Similar Products",
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 300,
+                            child: SimilarProductsScreen(
+                                subcategoryId: dataP[index].postSubcategory),
                           )
                         ],
                       );

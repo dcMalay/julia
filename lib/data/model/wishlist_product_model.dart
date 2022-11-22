@@ -28,8 +28,7 @@ class WishListProduct {
 
   Map<String, dynamic> toJson() => {
         "wishlist": List<dynamic>.from(wishlist.map((x) => x.toJson())),
-        "products": List<dynamic>.from(
-            products.map((x) => x == null ? null : x.toJson())),
+        "products": List<dynamic>.from(products.map((x) => x.toJson())),
       };
 }
 
