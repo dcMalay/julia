@@ -16,6 +16,8 @@ import 'package:julia/data/repository/post_products_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // ignore: must_be_immutable
 class PostProductsView extends StatefulWidget {
@@ -45,7 +47,8 @@ class _PostProductsViewState extends State<PostProductsView> {
 
   XFile? image;
   late Future<List<DynamicForm>> dynamicFormData;
-  final _secureStorage = const FlutterSecureStorage();
+
+  ///final _secureStorage = const FlutterSecureStorage();
   var _dropDownValue;
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
@@ -91,15 +94,16 @@ class _PostProductsViewState extends State<PostProductsView> {
       });
 
       postProducts(
-          data,
-          widget.categoryId,
-          widget.subCategoryId,
-          _dropDownValue,
-          cityController.text,
-          titleController.text,
-          priceController.text,
-          descController.text,
-          profiledata.getUserData.data[0].userName);
+        data,
+        widget.categoryId,
+        widget.subCategoryId,
+        _dropDownValue,
+        cityController.text,
+        titleController.text,
+        priceController.text,
+        descController.text,
+        profiledata.getUserData.data[0].userName,
+      );
     }
 
     return MediaQuery(
@@ -437,51 +441,21 @@ class _PostProductsViewState extends State<PostProductsView> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (imageFileList!.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 3),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: redColor,
-                                margin: const EdgeInsets.only(
-                                    top: 400, bottom: 400, left: 30, right: 30),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                content: const Center(
-                                  child: Text(
-                                    'please select some image',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.warning,
+                              text: 'Please select a image!',
                             );
                           } else {
-                            //it will show a toast in the middle
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(seconds: 3),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: greenColor,
-                                margin: const EdgeInsets.only(
-                                    top: 400, bottom: 400, left: 30, right: 30),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                content: const Center(
-                                  child: Text(
-                                    'Posting data...',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            );
-
-                            print('save button pressed');
                             for (var i = 0; i < imageFileList!.length; i++) {
                               _upload(File(imageFileList![i].path));
                             }
-                            // _upload(File(imageFileList![0].path));
-
-                            startTimer();
+                            Navigator.pop(context);
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              text: 'Posted successfully',
+                            );
                           }
                         }
                       },

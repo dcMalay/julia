@@ -35,7 +35,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
     // final filterbyPrice = Provider.of<PriceFilterProvider>(context);
     TextEditingController minvalController = TextEditingController();
     TextEditingController maxvalController = TextEditingController();
-    print('refreshing page .........');
+    print('refreshing page ....');
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -59,77 +59,73 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
               child: InkWell(
                   onTap: () {
                     showModalBottomSheet(
-                        isScrollControlled: true,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        context: context,
-                        builder: (context) => SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 4 / 5,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      context: context,
+                      builder: (context) => SizedBox(
+                        height: MediaQuery.of(context).size.height * 4 / 5,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, top: 30.0),
+                              child: Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 30.0),
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            icon: const Icon(
-                                              Icons.close,
-                                              size: 35,
-                                            )),
-                                        const Text(
-                                          "Location",
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                        itemCount: locationData.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                              onTap: () async {
-                                                filteredData = filterbylocation(
-                                                    '${locationData[index]["_id"]}',
-                                                    widget.categoryId);
-
-                                                // filteredData.then(
-                                                //   (value) {
-                                                //     print(value.length);
-                                                //   },
-                                                // );
-
-                                                Timer(
-                                                    const Duration(seconds: 2),
-                                                    () {
-                                                  setState(() {});
-                                                  Navigator.pop(context);
-                                                });
-                                              },
-                                              title: Card(
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 15,
-                                                      horizontal: 8),
-                                                  child: Text(
-                                                      '${locationData[index]["location_name"]}'),
-                                                ),
-                                              ));
-                                        }),
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const Icon(
+                                        Icons.close,
+                                        size: 35,
+                                      )),
+                                  const Text(
+                                    "Location",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
-                            ));
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                  itemCount: locationData.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                        onTap: () async {
+                                          filteredData = filterbylocation(
+                                              '${locationData[index]["_id"]}',
+                                              widget.categoryId);
+
+                                          // filteredData.then(
+                                          //   (value) {
+                                          //     print(value.length);
+                                          //   },
+                                          // );
+
+                                          Timer(const Duration(seconds: 2), () {
+                                            setState(() {});
+                                            Navigator.pop(context);
+                                          });
+                                        },
+                                        title: Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 15, horizontal: 8),
+                                            child: Text(
+                                                '${locationData[index]["location_name"]}'),
+                                          ),
+                                        ));
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                   child: const Icon(Icons.location_on_outlined)),
             ),

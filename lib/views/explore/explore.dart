@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
+import 'package:julia/data/model/category_count_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
 import 'package:julia/data/repository/dynamic_form_repo.dart';
+import 'package:julia/data/repository/get_products_count_repo.dart';
 import 'package:julia/views/explore/category_search_screen.dart';
 
 class Explore extends StatefulWidget {
@@ -178,15 +180,17 @@ class _ExploreState extends State<Explore> {
     },
   ];
   late Future<List<AllCategory>> apidata;
-  late Future htmldata;
+  late Future<List<ProductsCountModel>> categorycountdata;
+  // late Future htmldata;
   @override
   void initState() {
     super.initState();
     getdynamicForm();
 
-    htmldata = getdynamicForm();
-    print("data ------ >$htmldata");
+    // htmldata = getdynamicForm();
+    // print("data ------ >$htmldata");
     setState(() {
+      categorycountdata = getProductsCount();
       apidata = getAllCategory();
     });
   }
@@ -213,7 +217,6 @@ class _ExploreState extends State<Explore> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<AllCategory>? data = snapshot.data;
-
                 return GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -226,70 +229,105 @@ class _ExploreState extends State<Explore> {
                     itemBuilder: (context, index) {
                       var titleData = data[index];
                       var currentItem = categoryData[index];
-                      return Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                offset: Offset(4, 8),
-                                spreadRadius: -3,
-                                blurRadius: 5,
-                                color: Colors.grey,
-                              )
-                            ]),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            currentItem['imageUrl'] == null
-                                ? const Text(
-                                    'no Image',
-                                    style: TextStyle(fontSize: 10),
-                                  )
-                                : Image.asset(
-                                    '${currentItem['imageUrl']}',
-                                    height: 40,
+                      print(titleData.id);
+                      return FutureBuilder<List<ProductsCountModel>>(
+                          future: categorycountdata,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<ProductsCountModel>? countdata =
+                                  snapshot.data;
+                              // List<ProductsCountModel> filterdata = countdata!
+                              //     .where((e) => e.id == titleData.id)
+                              //     .toList();
+                              // print(
+                              //     "filtered data --->${countdata[index].count}");
+                              // print(
+                              //     "filtered data --->${filterdata[index].count}");
+                              return Container(
+                                height: 20,
+                                width: 20,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    ),
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        offset: Offset(4, 8),
+                                        spreadRadius: -3,
+                                        blurRadius: 5,
+                                        color: Colors.grey,
+                                      )
+                                    ]),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        transitionDuration:
+                                            const Duration(milliseconds: 500),
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            CategorySearchScreen(
+                                                categoryId: titleData.id!),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return SlideTransition(
+                                            position: Tween<Offset>(
+                                                    begin: const Offset(1, 0),
+                                                    end: Offset.zero)
+                                                .animate(animation),
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      currentItem['imageUrl'] == null
+                                          ? const Text(
+                                              'no Image',
+                                              style: TextStyle(fontSize: 10),
+                                            )
+                                          : Image.asset(
+                                              '${currentItem['imageUrl']}',
+                                              height: 40,
+                                            ),
+                                      Text(
+                                        titleData.postCategoryName!,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+
+                                      // countdata[index].id == titleData.id
+                                      //     ? Text(
+                                      //         countdata[index].count.toString())
+                                      //     : const Text('0')
+                                      countdata!.length > index
+                                          ? Text(countdata[index].id ==
+                                                  titleData.id
+                                              ? countdata[index]
+                                                  .count
+                                                  .toString()
+                                              : 0.toString())
+                                          : const Text('0')
+                                    ],
                                   ),
-                            ListTile(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    transitionDuration:
-                                        const Duration(milliseconds: 500),
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        CategorySearchScreen(
-                                            categoryId: titleData.id!),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      return SlideTransition(
-                                        position: Tween<Offset>(
-                                                begin: const Offset(1, 0),
-                                                end: Offset.zero)
-                                            .animate(animation),
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              title: Text(
-                                titleData.postCategoryName!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                              // subtitle: Text(productsNo
-                              //     .productsCount[index].count
-                              //     .toString()),
-                            ),
-                          ],
-                        ),
-                      );
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: greenColor,
+                                ),
+                              );
+                            }
+                          });
                     });
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");

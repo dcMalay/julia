@@ -51,7 +51,6 @@ Future<List<WishList>> getWishListProducts() async {
 
 Future<List<WishList>> isInWishlist(String productId) async {
   var authUser = await _secureStorage.read(key: 'userId');
-  print('Product id from fv------>$productId');
   final response = await http
       .get(Uri.parse('$baseUrl/user/is/in/wishlist/$authUser/$productId'));
   if (response.statusCode == 200) {
