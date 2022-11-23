@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -223,17 +225,27 @@ class _HomeScreenState extends State<HomeScreen> {
               productsDataoffset: productsData,
               // height: height.toString(),
             ),
-            CupertinoButton(
-              color: greenColor,
-              child: const Text('load more'),
-              onPressed: () {
-                setState(() {
-                  offset = offset + 10;
-                  //height = height + 1190;
-                  productsData = getProduct(offset.toString());
-                });
-                //print('$offset $height');
-              },
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+              child: CupertinoButton(
+                color: greenColor,
+                child: const Text('load more'),
+                onPressed: () {
+                  productsData.then(
+                    (value) {
+                      value.isEmpty
+                          ? null
+                          : setState(() {
+                              Timer(const Duration(seconds: 3), () {
+                                offset = offset + 10;
+                                productsData = getProduct(offset.toString());
+                              });
+                            });
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 20,

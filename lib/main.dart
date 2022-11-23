@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:julia/const/const.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
 import 'package:julia/provider/filter_by_location_provider.dart';
@@ -91,13 +92,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: 150,
-          width: 150,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/juliaLogo.png"),
+      body: Container(
+        color: yellowColor,
+        child: Center(
+          child: Container(
+            height: 150,
+            width: 150,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/juliaLogo.png"),
+              ),
             ),
           ),
         ),
