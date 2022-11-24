@@ -18,6 +18,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../login_register/login.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
@@ -31,6 +34,14 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  var status;
+  void isloggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      status = prefs.getBool('isLoggedIn') ?? false;
+    });
+  }
+
   late Future<List<ProductDetails>> productDetails;
   late Future<List<RatingModel>> sellerRating;
   final _secureStorage = const FlutterSecureStorage();
@@ -46,6 +57,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    isloggedIn();
     getuser();
     productDetails = getProductDetails(widget.productID).then((value) {
       sellerRating = getSellerRatingDetails(value[0].postUserId);
@@ -464,7 +476,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 builder: (context) {
                                                   return ListView(
                                                     children: [
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 100,
                                                       ),
                                                       AlertDialog(
@@ -793,53 +805,93 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    currentItem.postUserId == authUser
-                                        ? Container()
-                                        : CupertinoButton(
-                                            color: greenColor,
-                                            child: const Text(
-                                              'Chat',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                PageRouteBuilder(
-                                                  transitionDuration:
-                                                      const Duration(
-                                                          milliseconds: 500),
-                                                  // reverseTransitionDuration: const Duration(seconds: 1),
-                                                  pageBuilder: (context,
-                                                          animation,
-                                                          secondaryAnimation) =>
-                                                      ChattingScreen(
-                                                    sellerprofileImage:
-                                                        currentItem
-                                                            .postImage[0],
-                                                    sellerName:
-                                                        currentItem.authName,
-                                                    sellerId:
-                                                        currentItem.postUserId,
-                                                  ),
-                                                  transitionsBuilder: (context,
-                                                      animation,
-                                                      secondaryAnimation,
-                                                      child) {
-                                                    return SlideTransition(
-                                                      position: Tween<Offset>(
-                                                              begin:
-                                                                  const Offset(
-                                                                      1, 0),
-                                                              end: Offset.zero)
-                                                          .animate(animation),
-                                                      child: child,
-                                                    );
-                                                  },
-                                                ),
-                                              );
-                                            },
+                                    status == false
+                                        ? Center(
+                                            child: CupertinoButton(
+                                                color: greenColor,
+                                                child: const Text('Login'),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                          PageRouteBuilder(
+                                                    transitionDuration:
+                                                        const Duration(
+                                                            milliseconds: 500),
+                                                    pageBuilder: (context,
+                                                            animation,
+                                                            secondaryAnimation) =>
+                                                        const LoginScreen(),
+                                                    transitionsBuilder:
+                                                        (context,
+                                                            animation,
+                                                            secondaryAnimation,
+                                                            child) {
+                                                      return SlideTransition(
+                                                        position: Tween<Offset>(
+                                                                begin:
+                                                                    const Offset(
+                                                                        1, 0),
+                                                                end:
+                                                                    Offset.zero)
+                                                            .animate(animation),
+                                                        child: child,
+                                                      );
+                                                    },
+                                                  ));
+                                                }),
                                           )
+                                        : currentItem.postUserId == authUser
+                                            ? Container()
+                                            : CupertinoButton(
+                                                color: greenColor,
+                                                child: const Text(
+                                                  'Chat',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                    PageRouteBuilder(
+                                                      transitionDuration:
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  500),
+                                                      // reverseTransitionDuration: const Duration(seconds: 1),
+                                                      pageBuilder: (context,
+                                                              animation,
+                                                              secondaryAnimation) =>
+                                                          ChattingScreen(
+                                                        sellerprofileImage:
+                                                            currentItem
+                                                                .postImage[0],
+                                                        sellerName: currentItem
+                                                            .authName,
+                                                        sellerId: currentItem
+                                                            .postUserId,
+                                                      ),
+                                                      transitionsBuilder:
+                                                          (context,
+                                                              animation,
+                                                              secondaryAnimation,
+                                                              child) {
+                                                        return SlideTransition(
+                                                          position: Tween<
+                                                                      Offset>(
+                                                                  begin:
+                                                                      const Offset(
+                                                                          1, 0),
+                                                                  end: Offset
+                                                                      .zero)
+                                                              .animate(
+                                                                  animation),
+                                                          child: child,
+                                                        );
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                              )
                                   ],
                                 ),
                               );
