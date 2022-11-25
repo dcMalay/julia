@@ -51,6 +51,7 @@ class _MyAccountState extends State<MyAccount> {
   @override
   void initState() {
     super.initState();
+
     isloggedIn();
     setState(() {
       getUserData = getUserDetails();

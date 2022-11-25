@@ -5,6 +5,7 @@ import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 import '../../const/const.dart';
 
@@ -87,65 +88,101 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: CupertinoButton(
-                color: greenColor,
-                child: authProvider.loading
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                      )
-                    : const Text('Login'),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: const Duration(seconds: 3),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: greenColor,
-                        margin: const EdgeInsets.only(
-                            top: 400, bottom: 400, left: 30, right: 30),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        content: const Center(
-                          child: Text(
-                            'Email send successfully',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    );
-                    authProvider.sentEmail(_emailController.text);
 
-                    Navigator.of(context).pushReplacement(
-                      PageRouteBuilder(
-                        transitionDuration: const Duration(milliseconds: 500),
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            VerifyScreen(
-                          email: _emailController.text,
+            Center(
+              child: SizedBox(
+                width: 250,
+                height: 56,
+                child: CupertinoButton(
+                  color: greenColor,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  child: authProvider.loading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Text('Login'),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.success,
+                        text: 'Email send successfully',
+                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     duration: const Duration(seconds: 3),
+                      //     behavior: SnackBarBehavior.floating,
+                      //     backgroundColor: greenColor,
+                      //     margin: const EdgeInsets.only(
+                      //         top: 400, bottom: 400, left: 30, right: 30),
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(30)),
+                      //     content: const Center(
+                      //       child: Text(
+                      //         'Email send successfully',
+                      //         style: TextStyle(color: Colors.white),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // );
+                      authProvider.sentEmail(_emailController.text);
+
+                      Navigator.of(context).pushReplacement(
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 500),
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  VerifyScreen(
+                            email: _emailController.text,
+                          ),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return SlideTransition(
+                              position: Tween<Offset>(
+                                      begin: const Offset(1, 0),
+                                      end: Offset.zero)
+                                  .animate(animation),
+                              child: child,
+                            );
+                          },
                         ),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                                    begin: const Offset(1, 0), end: Offset.zero)
-                                .animate(animation),
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
             ),
             const SizedBox(
               height: 30,
             ),
+            Center(
+              child: SizedBox(
+                width: 250,
+                child: CupertinoButton(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                  color: const Color.fromARGB(255, 210, 210, 210),
+                  // color: const Color.fromARGB(255, 191, 231, 190),
+                  child: ListTile(
+                      leading: Image.asset(
+                        'assets/google.png',
+                        height: 30,
+                      ),
+                      title: const Text(
+                        'Continue with Google',
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+
             Center(
               child: TextButton(
                   onPressed: () {
@@ -170,29 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Skip',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   )),
-            )
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 67.0),
-            //   child: SizedBox(
-            //     width: 250,
-            //     child: CupertinoButton(
-            //       padding:
-            //           const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-            //       color: const Color.fromARGB(255, 210, 210, 210),
-            //       // color: const Color.fromARGB(255, 191, 231, 190),
-            //       child: ListTile(
-            //           leading: Image.asset(
-            //             'assets/google.png',
-            //             height: 30,
-            //           ),
-            //           title: const Text(
-            //             'Login with Google',
-            //             style: TextStyle(color: Colors.black),
-            //           )),
-            //       onPressed: () {},
-            //     ),
-            //   ),
-            // )
+            ),
             // Center(
             //   child: TextButton(
             //     onPressed: () {

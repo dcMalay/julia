@@ -3,11 +3,8 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/model/category_count_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
-import 'package:julia/data/repository/dynamic_form_repo.dart';
 import 'package:julia/data/repository/get_products_count_repo.dart';
 import 'package:julia/views/explore/category_search_screen.dart';
-import 'package:provider/provider.dart';
-
 import '../../provider/get_products_count_provider.dart';
 
 class Explore extends StatefulWidget {

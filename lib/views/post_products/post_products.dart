@@ -17,7 +17,6 @@ import 'package:julia/provider/location_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../login_register/login.dart';
 
 // ignore: must_be_immutable
@@ -71,6 +70,10 @@ class _PostProductsViewState extends State<PostProductsView> {
     setState(() {});
     print("Image List Length:  ${imageFileList!.length.toString()}");
     print("Image List:  $imageFileList");
+  }
+
+  void clearImages() {
+    setState(() {});
   }
 
   void startTimer() {
@@ -283,7 +286,12 @@ class _PostProductsViewState extends State<PostProductsView> {
                                             fit: BoxFit.cover,
                                           ),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              setState(() {
+                                                imageFileList!.removeAt(index);
+                                                print(imageFileList!.length);
+                                              });
+                                            },
                                             child: Container(
                                               height: 30,
                                               width: 30,

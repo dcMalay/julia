@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
+              // supportedLocales: LanguageTranslator.all,
               home: const SplashScreen(),
             );
           }),
