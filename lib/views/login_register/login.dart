@@ -1,12 +1,18 @@
+import 'dart:async';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
-
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../const/const.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: greenColor,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Phoenix.rebirth(context);
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -76,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -85,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 validator: (input) =>
                     input!.isValidEmail() ? null : "Check your email",
+                onChanged: (value) => _formKey.currentState!.validate(),
               ),
             ),
             const SizedBox(
@@ -106,18 +113,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       : const Text('Login'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.success,
-                        text: 'Email send successfully',
-                      );
+                      // Flushbar(
+                      //   flushbarPosition: FlushbarPosition.TOP,
+                      //   message: "Email send successfully",
+                      //   duration: Duration(seconds: 3),
+                      // ).show(context);
+                      // showTopSnackBar(
+                      //   context,
+                      //   const CustomSnackBar.success(
+                      //     message: 'Email send successfully',
+                      //   ),
+                      // );
+
+                      //showDialog(context: context, builder:(context) => ,));
+                      // QuickAlert.show(
+                      //   context: context,
+                      //   type: QuickAlertType.success,
+                      //   text: 'Email send successfully',
+                      // );
                       // ScaffoldMessenger.of(context).showSnackBar(
                       //   SnackBar(
                       //     duration: const Duration(seconds: 3),
                       //     behavior: SnackBarBehavior.floating,
                       //     backgroundColor: greenColor,
-                      //     margin: const EdgeInsets.only(
-                      //         top: 400, bottom: 400, left: 30, right: 30),
+                      //     margin: EdgeInsets.only(
+                      //         bottom: MediaQuery.of(context).size.height - 200,
+                      //         right: 20,
+                      //         left: 20),
+                      //     // margin: const EdgeInsets.only(
+                      //     //     top: 400, bottom: 400, left: 30, right: 30),
                       //     shape: RoundedRectangleBorder(
                       //         borderRadius: BorderRadius.circular(30)),
                       //     content: const Center(
@@ -128,28 +152,45 @@ class _LoginScreenState extends State<LoginScreen> {
                       //     ),
                       //   ),
                       // );
+
+                      Flushbar(
+                        borderRadius: BorderRadius.circular(10),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        backgroundColor: yellowColor,
+                        messageColor: Colors.black,
+                        // titleText: Text(
+                        //   "Great !",
+                        // ),
+                        flushbarPosition: FlushbarPosition.TOP,
+                        messageSize: 20,
+                        message: "Email send successfully",
+                      ).show(context);
                       authProvider.sentEmail(_emailController.text);
 
-                      Navigator.of(context).pushReplacement(
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  VerifyScreen(
-                            email: _emailController.text,
+                      Timer(const Duration(seconds: 2), () {
+                        Navigator.of(context).pushReplacement(
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 500),
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    VerifyScreen(
+                              email: _emailController.text,
+                            ),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero)
+                                    .animate(animation),
+                                child: child,
+                              );
+                            },
                           ),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween<Offset>(
-                                      begin: const Offset(1, 0),
-                                      end: Offset.zero)
-                                  .animate(animation),
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
+                        );
+                      });
                     }
                   },
                 ),
