@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:julia/const/const.dart';
 import 'package:julia/views/chat/chat_screen.dart';
 import 'package:julia/views/explore/explore.dart';
 import 'package:julia/views/home/home_screen.dart';
@@ -138,16 +137,21 @@ class _HomeState extends State<Home> {
                   label: 'Message',
                 ),
                 BottomNavigationBarItem(
-                  icon: CircleAvatar(
-                    backgroundColor: greenColor,
-                    radius: 30,
-                    child: const Icon(
-                      Ionicons.add,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-                  label: 'Create Post',
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Image.asset('assets/sell.png'),
+                  )
+                  // icon: CircleAvatar(
+                  //   backgroundColor: greenColor,
+                  //   radius: 30,
+                  //   child: const Icon(
+                  //     Ionicons.add,
+                  //     color: Colors.white,
+                  //     size: 35,
+                  //   ),
+                  // ),
+                  ,
+                  label: '',
                 ),
                 const BottomNavigationBarItem(
                   activeIcon: Icon(

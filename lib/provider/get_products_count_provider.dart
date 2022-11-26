@@ -3,11 +3,12 @@ import 'package:julia/data/model/category_count_model.dart';
 import 'package:julia/data/repository/get_products_count_repo.dart';
 
 class GetProductsCountProvider extends ChangeNotifier {
-  late List<ProductsCountModel> productsCount;
+  List<ProductsCountModel> productsCount = [];
   late List<ProductsCountModel> subproductsCount;
   getnumberofProducts() async {
     try {
       productsCount = await getProductsCount();
+      print('count id ----->${productsCount[0].id}');
     } catch (e) {
       print(e);
     }

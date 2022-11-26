@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -8,7 +7,6 @@ import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
-import 'package:julia/views/home/components/test.dart';
 import 'package:julia/views/notification/notification_screen.dart';
 import 'package:julia/views/search/search_screen.dart';
 import 'package:provider/provider.dart';
@@ -237,10 +235,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       value.isEmpty
                           ? null
                           : setState(() {
-                              Timer(const Duration(seconds: 3), () {
-                                offset = offset + 10;
-                                productsData = getProduct(offset.toString());
-                              });
+                              offset = offset + 10;
+                              productsData = getProduct(offset.toString());
+                              //Timer(const Duration(seconds: 1), () {});
                             });
                     },
                   );

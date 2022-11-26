@@ -7,6 +7,7 @@ import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/category_provider.dart';
 import 'package:julia/provider/filter_by_location_provider.dart';
 import 'package:julia/provider/get_all_products_provider.dart';
+import 'package:julia/provider/get_products_count_provider.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
@@ -49,6 +50,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => LocationFilterProvider()),
         ChangeNotifierProvider(create: (context) => PriceFilterProvider()),
         ChangeNotifierProvider(create: (context) => AllProductProvider()),
+        ChangeNotifierProvider(
+          create: (context) => GetProductsCountProvider(),
+        )
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -66,6 +70,7 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
+              // supportedLocales: LanguageTranslator.all,
               home: const SplashScreen(),
             );
           }),
@@ -110,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void startTimer() {
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 1), () {
       navigateUser(); //It will redirect  after 3 seconds
     });
   }

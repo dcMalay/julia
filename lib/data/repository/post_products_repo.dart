@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:julia/data/model/upload_data_respose_model.dart';
 import '../../const/const.dart';
 
 Dio dio = Dio();
@@ -72,8 +73,13 @@ void postProductData(
       }));
   print('json encoded data------>${json.encode(imageName)}');
   if (response.statusCode == 200) {
+    List jsonRes = json.decode(response.body);
+    var data = jsonRes.map((e) => UploadDataResponse.fromJson(e)).toList();
     print('status code 200 is ---->${response.body}');
+
+    // return data;
   } else {
     print('getting error ------>${response.body}');
+    throw Exception();
   }
 }

@@ -94,10 +94,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
     final authprovider = Provider.of<AuthProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: greenColor,
           title: const Text(
             'Verify Your Account',
-            style: TextStyle(fontSize: 25, color: Colors.black),
+            style: TextStyle(fontSize: 25, color: Colors.white),
           ),
         ),
         body: ListView(
