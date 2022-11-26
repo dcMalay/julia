@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1093055286277",
-    "project_id": "olx-flutter123",
-    "storage_bucket": "olx-flutter123.appspot.com"
+    "project_number": "876864772959",
+    "project_id": "fluted-environs-367007",
+    "storage_bucket": "fluted-environs-367007.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1093055286277:android:be343b032aee713eebe06c",
+        "mobilesdk_app_id": "1:876864772959:android:f870eb4496baa782e4b4ea",
         "android_client_info": {
           "package_name": "com.example.julia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1093055286277-6fije1jb405dee47o4qumidv9qjlckb4.apps.googleusercontent.com",
+          "client_id": "876864772959-lg84dnunt4frajo52mv5pdqrlm5nd2un.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbzEYoaAjJFuG8KAMyAb5xODg3BrljHAw"
+          "current_key": "AIzaSyBDEO8ass1QEdSlTTG4nuXCLyo2DK31liQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1093055286277-6fije1jb405dee47o4qumidv9qjlckb4.apps.googleusercontent.com",
+              "client_id": "876864772959-h2p2vkit6qkd8n7pg3j2t453suiu1grk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

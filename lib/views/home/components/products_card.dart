@@ -71,7 +71,7 @@ class _ProductsState extends State<Products> {
                       child: ProductCard(
                         imageUrl: currentItem.postImage!.isEmpty
                             ? ''
-                            : "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                            : currentItem.postImage![0],
                         time: timepre,
                         title: currentItem.postTitle!,
                         location: currentItem.postLocation.toString() ==

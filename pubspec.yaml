@@ -72,6 +72,7 @@ dependencies:
   google_maps_flutter: ^2.2.1
   top_snackbar_flutter: ^3.0.0
   another_flushbar: ^1.12.29
+  firebase_messaging: ^13.1.0
  
   
 

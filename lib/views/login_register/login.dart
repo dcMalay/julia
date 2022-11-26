@@ -1,18 +1,17 @@
 import 'dart:async';
-
 import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
+import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/views/home.dart';
+import 'package:julia/views/home/home_screen.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/tap_bounce_container.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../const/const.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -216,7 +215,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Continue with Google',
                         style: TextStyle(color: Colors.black),
                       )),
-                  onPressed: () {},
+                  onPressed: () {
+                    final provider = Provider.of<GoogleSignInProvider>(context,
+                        listen: false);
+
+                    provider.googleLogin(context);
+
+                    // Timer(const Duration(seconds: 2), () {
+                    //   Navigator.of(context).pushReplacement(
+                    //     PageRouteBuilder(
+                    //       transitionDuration: const Duration(milliseconds: 500),
+                    //       pageBuilder:
+                    //           (context, animation, secondaryAnimation) =>
+                    //               const Home(),
+                    //       transitionsBuilder:
+                    //           (context, animation, secondaryAnimation, child) {
+                    //         return SlideTransition(
+                    //           position: Tween<Offset>(
+                    //                   begin: const Offset(1, 0),
+                    //                   end: Offset.zero)
+                    //               .animate(animation),
+                    //           child: child,
+                    //         );
+                    //       },
+                    //     ),
+                    //   );
+                    // });
+                  },
                 ),
               ),
             ),

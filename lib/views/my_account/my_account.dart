@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/profile_details_model.dart';
 import 'package:julia/data/repository/get_user_details_repo.dart';
+import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/help_support/helpsupport_webview.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
@@ -17,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../data/repository/create_post_repo.dart';
+import '../../data/repository/create_ticket_repo.dart';
 import '../../provider/auth_provider.dart';
 import '../login_register/login.dart';
 
@@ -53,6 +54,7 @@ class _MyAccountState extends State<MyAccount> {
     super.initState();
 
     isloggedIn();
+
     setState(() {
       getUserData = getUserDetails();
     });
@@ -117,8 +119,12 @@ class _MyAccountState extends State<MyAccount> {
                                   ));
                                 }),
                             TextButton(
-                              onPressed: () async {
-                                await authProvider.logout();
+                              onPressed: () {
+                                authProvider.logout();
+                                var provider =
+                                    Provider.of<GoogleSignInProvider>(context,
+                                        listen: false);
+                                provider.logOut();
 
                                 ///using phoenix to restart the app after log out
                                 // ignore: use_build_context_synchronously
@@ -424,27 +430,27 @@ class _MyAccountState extends State<MyAccount> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.rate_review_outlined,
-                                color: redColor,
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              const Text(
-                                'Review & Rating',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 30.0, top: 20),
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         Icons.rate_review_outlined,
+                        //         color: redColor,
+                        //       ),
+                        //       const SizedBox(
+                        //         width: 20,
+                        //       ),
+                        //       const Text(
+                        //         'Review & Rating',
+                        //         style: TextStyle(
+                        //           color: Colors.black,
+                        //           fontSize: 20,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -495,7 +501,7 @@ class _MyAccountState extends State<MyAccount> {
                                       ),
                                     ),
                                     Text(
-                                      ' change your account Settings',
+                                      'change your account Settings',
                                       style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 14,

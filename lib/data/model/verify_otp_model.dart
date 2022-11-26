@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-VerifyOtp verifyUserFromJson(String str) =>
-    VerifyOtp.fromJson(json.decode(str));
+VerifyModel verifyUserFromJson(String str) =>
+    VerifyModel.fromJson(json.decode(str));
 
-String verifyUserToJson(VerifyOtp data) => json.encode(data.toJson());
+String verifyUserToJson(VerifyModel data) => json.encode(data.toJson());
 
-class VerifyOtp {
-  VerifyOtp({
+class VerifyModel {
+  VerifyModel({
     required this.userId,
     required this.token,
   });
@@ -14,7 +14,7 @@ class VerifyOtp {
   String userId;
   String token;
 
-  factory VerifyOtp.fromJson(Map<String, dynamic> json) => VerifyOtp(
+  factory VerifyModel.fromJson(Map<String, dynamic> json) => VerifyModel(
         userId: json["user_id"],
         token: json["token"],
       );

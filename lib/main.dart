@@ -9,6 +9,7 @@ import 'package:julia/provider/filter_by_location_provider.dart';
 import 'package:julia/provider/get_all_products_provider.dart';
 import 'package:julia/provider/get_products_count_provider.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
+import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/provider/location_provider.dart';
 import 'package:julia/provider/plans_provider.dart';
 import 'package:julia/provider/product_details_provider.dart';
@@ -17,9 +18,11 @@ import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'provider/filtered_by_price_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     Phoenix(
       child: const MyApp(),
@@ -52,7 +55,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AllProductProvider()),
         ChangeNotifierProvider(
           create: (context) => GetProductsCountProvider(),
-        )
+        ),
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),

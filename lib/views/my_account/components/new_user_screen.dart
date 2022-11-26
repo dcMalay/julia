@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import 'package:julia/const/const.dart';
 import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../provider/google_sign_in_provider.dart';
 
 class NewUserScreen extends StatefulWidget {
   const NewUserScreen({super.key});
@@ -42,6 +45,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
     _districtController = TextEditingController();
     _areaController = TextEditingController();
     _emailController = TextEditingController();
+
     super.initState();
   }
 
@@ -87,10 +91,13 @@ class _NewUserScreenState extends State<NewUserScreen> {
       },
       body: json.encode(
         {
-          "user_name": _nameController.text,
+          "user_name": FirebaseAuth.instance.currentUser!.displayName ??
+              _nameController.text,
           "user_phone": _numberController.text,
-          "user_email": _emailController.text,
-          "user_image": imageName,
+          "user_email":
+              FirebaseAuth.instance.currentUser!.email ?? _emailController.text,
+          "user_image":
+              FirebaseAuth.instance.currentUser!.photoURL ?? imageName,
           "user_about": _descController.text,
           "user_city": _areaController.text,
           "user_address1": _districtController.text,
@@ -122,6 +129,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -160,11 +168,24 @@ class _NewUserScreenState extends State<NewUserScreen> {
                               image = File(img!.path);
                             });
                           },
-                          child: const CircleAvatar(
+                          child: CircleAvatar(
                             radius: 40,
-                            backgroundImage: NetworkImage(
-                              'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                            backgroundColor: Colors.grey,
+                            // backgroundImage: NetworkImage(
+                            //   user!.photoURL ??
+                            //       'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                            // ),
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.network(
+                                user!.photoURL ??
+                                    'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                                fit: BoxFit.cover,
+                              ),
                             ),
+                            //  NetworkImage(
+                            //     provider.user.photoUrl.toString()),
                           ),
                         )
                       : InkWell(
@@ -190,8 +211,9 @@ class _NewUserScreenState extends State<NewUserScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                      hintText: 'Full Name', border: OutlineInputBorder()),
+                  decoration: InputDecoration(
+                      hintText: user!.displayName ?? 'Full Name',
+                      border: const OutlineInputBorder()),
                 ),
               ),
               Padding(
@@ -206,8 +228,9 @@ class _NewUserScreenState extends State<NewUserScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                      hintText: 'Email ', border: OutlineInputBorder()),
+                  decoration: InputDecoration(
+                      hintText: user.email ?? "Email",
+                      border: const OutlineInputBorder()),
                   validator: (input) =>
                       input!.isValidEmail() ? null : "Check your email",
                 ),
@@ -216,8 +239,9 @@ class _NewUserScreenState extends State<NewUserScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
                   controller: _numberController,
-                  decoration: const InputDecoration(
-                      hintText: 'Contact Number', border: OutlineInputBorder()),
+                  decoration: InputDecoration(
+                      hintText: user.phoneNumber ?? 'Contact Number',
+                      border: const OutlineInputBorder()),
                 ),
               ),
               Padding(

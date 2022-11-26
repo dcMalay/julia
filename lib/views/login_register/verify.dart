@@ -33,7 +33,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       print(jsonResponse);
-      final userData = VerifyOtp.fromJson(jsonResponse);
+      final userData = VerifyModel.fromJson(jsonResponse);
       await _secureStorage.write(key: 'token', value: userData.token);
       await _secureStorage.write(key: 'userId', value: userData.userId);
 

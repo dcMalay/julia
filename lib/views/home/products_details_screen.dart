@@ -129,8 +129,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     List<ProductDetails>? data = snapshot.data;
                     return InkWell(
                       onTap: () async {
-                        final urlImage =
-                            "https://julia.sr/uploads/${data![0].postImage[0]}";
+                        final urlImage = data![0].postImage[0];
                         final url = Uri.parse(urlImage);
                         final response = await http.get(url);
                         final bytes = response.bodyBytes;
@@ -190,7 +189,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       : Container(
                                           color: Colors.grey,
                                           child: Image.network(
-                                            "https://julia.sr/uploads/${currentItem.postImage[index]}",
+                                            currentItem.postImage[index],
                                             height: 200,
                                             width: MediaQuery.of(context)
                                                 .size

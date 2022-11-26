@@ -23,7 +23,7 @@ Future verifyEmailOtp(String otp, String email) async {
   final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
     final jsonResponse = json.decode(response.body);
-    final userData = VerifyOtp.fromJson(jsonResponse);
+    final userData = VerifyModel.fromJson(jsonResponse);
     await _secureStorage.write(key: 'token', value: userData.token);
     await _secureStorage.write(key: 'userId', value: userData.userId);
 
