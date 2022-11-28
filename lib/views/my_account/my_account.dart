@@ -170,8 +170,8 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleAvatar(
                                   radius: 40,
                                   backgroundColor: Colors.grey,
-                                  backgroundImage: NetworkImage(
-                                      'https://julia.sr/uploads/${userData!.data[0].userImage}'),
+                                  backgroundImage:
+                                      NetworkImage(userData!.data[0].userImage),
                                 ),
                               ),
                             ),
