@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/reting_model.dart';
@@ -19,7 +20,6 @@ import 'package:quickalert/quickalert.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../login_register/login.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -34,6 +34,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  LatLng currentlocation = LatLng(22.572645, 88.363892);
+
   var status;
   void isloggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -758,7 +760,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             height: 300,
                             child: SimilarProductsScreen(
                                 subcategoryId: dataP[index].postSubcategory),
-                          )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: SizedBox(
+                                height: 250,
+                                width: MediaQuery.of(context).size.width,
+                                child: GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target: currentlocation,
+                                    zoom: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     });
