@@ -2,10 +2,8 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/repository/products_repo.dart';
-import 'package:julia/main.dart';
 import 'package:julia/views/addtowishlist/wishlist_products_screen.dart';
 import 'package:julia/views/explore/category_screen.dart';
 import 'package:julia/views/home/components/category.dart';
@@ -25,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var data = AllProductProvider();
+  bool isgetNotification = false;
   @override
   void initState() {
     // data.getallProducts(offset.toString());
@@ -33,65 +32,19 @@ class _HomeScreenState extends State<HomeScreen> {
       String? token = value;
       print("token ------>$token");
     });
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   RemoteNotification? notification = message.notification;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     flutterLocalNotificationsPlugin.show(
-    //       notification.hashCode,
-    //       notification.title,
-    //       notification.body,
-    //       NotificationDetails(
-    //         android: AndroidNotificationDetails(
-    //           channel.id,
-    //           channel.name,
-    //           channelDescription: channel.description,
-    //           color: greenColor,
-    //           playSound: true,
-    //         ),
-    //       ),
-    //     );
-    //   }
-    // });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title!),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            });
+        setState(() {
+          isgetNotification = true;
+        });
       }
     });
 
-    //  AllProductProvider.getallProducts(offset.toString());
     super.initState();
   }
-
-  // void showNotification() {
-  //   flutterLocalNotificationsPlugin.show(
-  //       0,
-  //       "Testing ",
-  //       "How you doin ?",
-  //       NotificationDetails(
-  //           android: AndroidNotificationDetails(channel.id, channel.name,
-  //               channelDescription: channel.description,
-  //               importance: Importance.high,
-  //               color: Colors.blue,
-  //               playSound: true,
-  //               icon: '@mipmap/ic_launcher')));
-  // }
 
   late Future<List<Product>> productsData;
   int offset = 0;

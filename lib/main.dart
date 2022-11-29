@@ -90,18 +90,20 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.blue,
-                icon: "@mipmap/ic_launcher",
-              ),
-            ));
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              color: Colors.blue,
+              icon: "@mipmap/ic_launcher",
+              playSound: true,
+            ),
+          ),
+        );
       }
     });
 
