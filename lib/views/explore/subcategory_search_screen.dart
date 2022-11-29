@@ -95,8 +95,7 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                                     style: TextStyle(color: Colors.black),
                                   ))
                                 : ProductCard(
-                                    imageUrl:
-                                        "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                                    imageUrl: currentItem.postImage![0],
                                     time: timepre,
                                     title: currentItem.postTitle!,
                                     location: currentItem.postLocation

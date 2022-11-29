@@ -19,33 +19,26 @@ import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'data/repository/send_fcm_token_repo.dart';
 import 'provider/filtered_by_price_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print(message.data.toString);
-  print(message.notification!.title);
-}
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   print("Handling a background message: ${message.messageId}");
+// }
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_important_channel',
-  'High importance Notificaions',
-  importance: Importance.high,
-  playSound: true,
-);
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//   'high_important_channel',
+//   'High importance Notificaions',
+//   importance: Importance.high,
+//   playSound: true,
+// );
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
   runApp(
     Phoenix(
       child: const MyApp(),
@@ -61,9 +54,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
