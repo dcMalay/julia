@@ -52,6 +52,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data 
+            android:name="com.google.android.geo.API_KEY"    
+            android:value="AIzaSyB3cGAZqnXaZIm_Nks0yQ3vIdhfJR9Xtgc" />
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERBNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

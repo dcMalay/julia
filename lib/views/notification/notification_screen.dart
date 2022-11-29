@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_details_model.dart';
@@ -18,6 +19,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     notificationData = getNotification();
     super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      print('FirebaseMessaging.instance.getInitialMessage');
+      if (message != null) {
+        print('New Notification');
+      }
+    });
   }
 
   @override

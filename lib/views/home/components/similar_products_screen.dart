@@ -50,16 +50,13 @@ class _SimilarProductsScreenState extends State<SimilarProductsScreen> {
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
                       var timepre = time[0].trim();
-                      print(snapshot.data);
-                      print(" post ID ------->${currentItem.sId}");
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 5),
                         child: Center(
                           child: InkWell(
                             onTap: () {
-                              print(snapshot.data);
-                              print(" post ID ------->${currentItem.sId}");
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return ProductDetailsScreen(
@@ -74,8 +71,7 @@ class _SimilarProductsScreenState extends State<SimilarProductsScreen> {
                                     style: TextStyle(color: Colors.black),
                                   ))
                                 : ProductCard(
-                                    imageUrl:
-                                        "http://52.67.149.51/uploads/${currentItem.postImage![0]}",
+                                    imageUrl: currentItem.postImage![0],
                                     time: timepre,
                                     title: currentItem.postTitle!,
                                     location: currentItem.postLocation
