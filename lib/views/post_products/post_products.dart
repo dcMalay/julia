@@ -491,18 +491,19 @@ class _PostProductsViewState extends State<PostProductsView> {
                                       i++) {
                                     _upload(File(imageFileList![i].path));
                                   }
-                                  postProducts(
-                                    data,
-                                    widget.categoryId,
-                                    widget.subCategoryId,
-                                    _dropDownValue,
-                                    cityController.text,
-                                    titleController.text,
-                                    priceController.text,
-                                    descController.text,
-                                    profiledata.getUserData.data[0].userName,
-                                  );
-                                  Timer(const Duration(seconds: 2), () {});
+                                  Timer(const Duration(seconds: 2), () {
+                                    postProducts(
+                                      data,
+                                      widget.categoryId,
+                                      widget.subCategoryId,
+                                      _dropDownValue,
+                                      cityController.text,
+                                      titleController.text,
+                                      priceController.text,
+                                      descController.text,
+                                      profiledata.getUserData.data[0].userName,
+                                    );
+                                  });
 
                                   Navigator.pop(context);
                                   QuickAlert.show(

@@ -85,8 +85,8 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                               width: 360,
                               height: 60,
                               child: ListTile(
-                                leading: Image.network(
-                                    'http://52.67.149.51/uploads/${currentItem.postImage[0]}'),
+                                leading:
+                                    Image.network(currentItem.postImage[0]),
                                 title: Text(
                                   currentItem.postTitle,
                                   maxLines: 2,
