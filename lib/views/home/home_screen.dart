@@ -33,16 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
       print("token ------>$token");
     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        setState(() {
-          isgetNotification = true;
-        });
-      }
-    });
-
     super.initState();
   }
 
@@ -54,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var productsList = Provider.of<AllProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: greenColor,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

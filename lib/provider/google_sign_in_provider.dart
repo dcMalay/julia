@@ -24,9 +24,10 @@ class GoogleSignInProvider extends ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      print("credential ---->>${credential.accessToken}");
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-
+      notifyListeners();
       if (FirebaseAuth.instance.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool("isLoggedIn", true);
