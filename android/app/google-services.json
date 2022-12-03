@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "876864772959",
-    "project_id": "fluted-environs-367007",
-    "storage_bucket": "fluted-environs-367007.appspot.com"
+    "project_number": "1050228237719",
+    "project_id": "juliaweb-7fcb9",
+    "storage_bucket": "juliaweb-7fcb9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:876864772959:android:f870eb4496baa782e4b4ea",
+        "mobilesdk_app_id": "1:1050228237719:android:96c1eecd40ecf06a69d0d2",
         "android_client_info": {
           "package_name": "com.example.julia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "876864772959-lg84dnunt4frajo52mv5pdqrlm5nd2un.apps.googleusercontent.com",
+          "client_id": "1050228237719-8gnrd7b64tahghabht9kisfiteq3crqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.julia",
+            "certificate_hash": "dcc8ab394438e01feebe8619afa4196f968ad704"
+          }
+        },
+        {
+          "client_id": "1050228237719-8tbjtgktbqo44kh4e8hdvri21bmmerrr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDEO8ass1QEdSlTTG4nuXCLyo2DK31liQ"
+          "current_key": "AIzaSyDD5p0gdfhJlZqqQXhpvwa3jjQIeDIkEXQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "876864772959-h2p2vkit6qkd8n7pg3j2t453suiu1grk.apps.googleusercontent.com",
+              "client_id": "1050228237719-8tbjtgktbqo44kh4e8hdvri21bmmerrr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -8,10 +7,8 @@ import 'package:julia/helper/email_checker.dart';
 import 'package:julia/provider/auth_provider.dart';
 import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/views/home.dart';
-import 'package:julia/views/home/home_screen.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../const/const.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -96,7 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 30,
             ),
-
             Center(
               child: SizedBox(
                 width: 250,
@@ -112,55 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       : const Text('Login'),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Flushbar(
-                      //   flushbarPosition: FlushbarPosition.TOP,
-                      //   message: "Email send successfully",
-                      //   duration: Duration(seconds: 3),
-                      // ).show(context);
-                      // showTopSnackBar(
-                      //   context,
-                      //   const CustomSnackBar.success(
-                      //     message: 'Email send successfully',
-                      //   ),
-                      // );
-
-                      //showDialog(context: context, builder:(context) => ,));
-                      // QuickAlert.show(
-                      //   context: context,
-                      //   type: QuickAlertType.success,
-                      //   text: 'Email send successfully',
-                      // );
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   SnackBar(
-                      //     duration: const Duration(seconds: 3),
-                      //     behavior: SnackBarBehavior.floating,
-                      //     backgroundColor: greenColor,
-                      //     margin: EdgeInsets.only(
-                      //         bottom: MediaQuery.of(context).size.height - 200,
-                      //         right: 20,
-                      //         left: 20),
-                      //     // margin: const EdgeInsets.only(
-                      //     //     top: 400, bottom: 400, left: 30, right: 30),
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(30)),
-                      //     content: const Center(
-                      //       child: Text(
-                      //         'Email send successfully',
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // );
-
                       Flushbar(
                         borderRadius: BorderRadius.circular(10),
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),
                         backgroundColor: yellowColor,
                         messageColor: Colors.black,
-                        // titleText: Text(
-                        //   "Great !",
-                        // ),
                         flushbarPosition: FlushbarPosition.TOP,
                         messageSize: 20,
                         message: "Email send successfully",
@@ -205,7 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   color: const Color.fromARGB(255, 210, 210, 210),
-                  // color: const Color.fromARGB(255, 191, 231, 190),
                   child: ListTile(
                       leading: Image.asset(
                         'assets/google.png',
@@ -220,27 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         listen: false);
 
                     provider.googleLogin(context);
-
-                    // Timer(const Duration(seconds: 2), () {
-                    //   Navigator.of(context).pushReplacement(
-                    //     PageRouteBuilder(
-                    //       transitionDuration: const Duration(milliseconds: 500),
-                    //       pageBuilder:
-                    //           (context, animation, secondaryAnimation) =>
-                    //               const Home(),
-                    //       transitionsBuilder:
-                    //           (context, animation, secondaryAnimation, child) {
-                    //         return SlideTransition(
-                    //           position: Tween<Offset>(
-                    //                   begin: const Offset(1, 0),
-                    //                   end: Offset.zero)
-                    //               .animate(animation),
-                    //           child: child,
-                    //         );
-                    //       },
-                    //     ),
-                    //   );
-                    // });
                   },
                 ),
               ),
@@ -248,7 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 30,
             ),
-
             Center(
               child: TextButton(
                   onPressed: () {
@@ -274,52 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   )),
             ),
-            // Center(
-            //   child: TextButton(
-            //     onPressed: () {
-            //       Navigator.of(context).push(
-            //         PageRouteBuilder(
-            //           pageBuilder: (context, animation, secondaryAnimation) =>
-            //               const Registration(),
-            //           transitionsBuilder:
-            //               (context, animation, secondaryAnimation, child) {
-            //             return SlideTransition(
-            //               position: Tween<Offset>(
-            //                       begin: const Offset(1, 0), end: Offset.zero)
-            //                   .animate(animation),
-            //               child: child,
-            //             );
-            //           },
-            //         ),
-            //       );
-            //     },
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         const Text(
-            //           "Don't have a account?",
-            //           style: TextStyle(
-            //             fontSize: 16,
-            //             color: Colors.black,
-            //           ),
-            //         ),
-            //         Container(
-            //           decoration: const BoxDecoration(
-            //               border: Border(
-            //                   bottom:
-            //                       BorderSide(color: Colors.blue, width: 2))),
-            //           child: const Text(
-            //             "Register",
-            //             style: TextStyle(
-            //               fontSize: 16,
-            //               color: Colors.blue,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),

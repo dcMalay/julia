@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:julia/views/chat/chat_screen.dart';
@@ -15,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  bool isgetNotification = false;
 
   List<Widget> currentWidget = [
     const HomeScreen(),
@@ -23,6 +25,21 @@ class _HomeState extends State<Home> {
     const Explore(),
     const MyAccount(),
   ];
+
+  @override
+  void initState() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        setState(() {
+          isgetNotification = true;
+        });
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,17 +140,34 @@ class _HomeState extends State<Home> {
                   ),
                   label: 'Home',
                 ),
-                const BottomNavigationBarItem(
-                  activeIcon: Icon(
+                BottomNavigationBarItem(
+                  activeIcon: const Icon(
                     Icons.message,
                     size: 28,
                     color: Colors.black,
                   ),
-                  icon: Icon(
-                    Icons.message_outlined,
-                    size: 28,
-                    color: Colors.black,
-                  ),
+                  icon: isgetNotification && _selectedIndex != 1
+                      ? const Icon(
+                          Icons.message_outlined,
+                          size: 28,
+                          color: Colors.black,
+                        )
+                      : Stack(
+                          children: [
+                            const Icon(
+                              Icons.message_outlined,
+                              size: 28,
+                              color: Colors.black,
+                            ),
+                            Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(50)),
+                            )
+                          ],
+                        ),
                   label: 'Message',
                 ),
                 BottomNavigationBarItem(
