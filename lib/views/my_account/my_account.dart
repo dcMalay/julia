@@ -615,7 +615,12 @@ class _MyAccountState extends State<MyAccount> {
                                         ),
                                         TextButton(
                                           onPressed: () async {
-                                            await authProvider.logout();
+                                            final provider = Provider.of<
+                                                    GoogleSignInProvider>(
+                                                context,
+                                                listen: false);
+
+                                            provider.logOut();
 
                                             ///using phoenix to restart the app after log out
                                             // ignore: use_build_context_synchronously

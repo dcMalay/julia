@@ -140,34 +140,17 @@ class _HomeState extends State<Home> {
                   ),
                   label: 'Home',
                 ),
-                BottomNavigationBarItem(
-                  activeIcon: const Icon(
+                const BottomNavigationBarItem(
+                  activeIcon: Icon(
                     Icons.message,
                     size: 28,
                     color: Colors.black,
                   ),
-                  icon: isgetNotification && _selectedIndex != 1
-                      ? const Icon(
-                          Icons.message_outlined,
-                          size: 28,
-                          color: Colors.black,
-                        )
-                      : Stack(
-                          children: [
-                            const Icon(
-                              Icons.message_outlined,
-                              size: 28,
-                              color: Colors.black,
-                            ),
-                            Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(50)),
-                            )
-                          ],
-                        ),
+                  icon: Icon(
+                    Icons.message_outlined,
+                    size: 28,
+                    color: Colors.black,
+                  ),
                   label: 'Message',
                 ),
                 BottomNavigationBarItem(
