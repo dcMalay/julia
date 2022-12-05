@@ -7,7 +7,7 @@ import 'package:julia/data/model/upload_data_respose_model.dart';
 import '../../const/const.dart';
 
 Dio dio = Dio();
-final _secureStorage = FlutterSecureStorage();
+const _secureStorage = FlutterSecureStorage();
 List imageNames = [];
 
 Future postProducts(
@@ -23,7 +23,7 @@ Future postProducts(
 ) {
   return
 //using dio to post imagename to the mongodg api and the name we get from the php server
-      dio.post("https://julia.sr/upload.php", data: data).then((response) {
+      dio.post("https://www.julia.sr/upload.php", data: data).then((response) {
     imageNames.add(response.data);
     print('image list -------->$imageNames');
     postProductData(
@@ -72,6 +72,7 @@ void postProductData(
         "auth_name": username,
       }));
   print('json encoded data------>${json.encode(imageName)}');
+
   if (response.statusCode == 200) {
     List jsonRes = json.decode(response.body);
     var data = jsonRes.map((e) => UploadDataResponse.fromJson(e)).toList();

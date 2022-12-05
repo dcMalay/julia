@@ -86,11 +86,11 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 radius: 20,
                 backgroundImage: widget.sellerprofileImage.isEmpty
                     ? const NetworkImage(
-                        'https://api.minimalavatars.com/avatar/random/png')
+                        'https://www.julia.sr/assets/images/loginEntryPointChat.webp')
                     : NetworkImage(
                         widget.sellerprofileImage.contains('http')
-                            ? 'https://api.minimalavatars.com/avatar/random/png'
-                            : "http://52.67.149.51/uploads/${widget.sellerprofileImage}",
+                            ? 'https://www.julia.sr/assets/images/loginEntryPointChat.webp'
+                            : widget.sellerprofileImage,
                       ),
               ),
             ),

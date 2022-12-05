@@ -47,7 +47,7 @@ void main() async {
   );
   var token = await FirebaseMessaging.instance.getToken();
   sendFcmToken(token!);
-  print(token);
+
   runApp(
     Phoenix(
       child: const MyApp(),
