@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/repository/products_repo.dart';
@@ -24,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var data = AllProductProvider();
   bool isgetNotification = false;
+  var productNo = 1;
   @override
   void initState() {
     // data.getallProducts(offset.toString());
@@ -32,7 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
       String? token = value;
       print("token ------>$token");
     });
-
+    productsData.then((value) {
+      setState(() {
+        productNo = (value.length / 2).ceil();
+      });
+    });
     super.initState();
   }
 
@@ -228,29 +232,30 @@ class _HomeScreenState extends State<HomeScreen> {
             // ProductsTest(productsDataoffset: productsList.list),
             Products(
               productsDataoffset: productsData,
+              productsNo: productNo,
               // height: height.toString(),
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
-              child: CupertinoButton(
-                color: greenColor,
-                child: const Text('load more'),
-                onPressed: () {
-                  productsData.then(
-                    (value) {
-                      value.isEmpty
-                          ? null
-                          : setState(() {
-                              offset = offset + 10;
-                              productsData = getProduct(offset.toString());
-                              //Timer(const Duration(seconds: 1), () {});
-                            });
-                    },
-                  );
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
+            //   child: CupertinoButton(
+            //     color: greenColor,
+            //     child: const Text('load more'),
+            //     onPressed: () {
+            //       productsData.then(
+            //         (value) {
+            //           value.isEmpty
+            //               ? null
+            //               : setState(() {
+            //                   offset = offset + 10;
+            //                   productsData = getProduct(offset.toString());
+            //                   //Timer(const Duration(seconds: 1), () {});
+            //                 });
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
             const SizedBox(
               height: 20,
             ),

@@ -26,7 +26,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
     super.initState();
     filteredData = getProductBycategory(widget.categoryId);
     //filteredData = filterbylocation('locationId', widget.categoryId);
-    print('widget category ---->${widget.categoryId}');
+    // print('widget category ---->${widget.categoryId}');
   }
 
   @override

@@ -25,6 +25,7 @@ Future postProducts(
 //using dio to post imagename to the mongodg api and the name we get from the php server
       dio.post("https://www.julia.sr/upload.php", data: data).then((response) {
     imageNames.add(response.data);
+    print('image list -------->${data.toString()}');
     print('image list -------->$imageNames');
     postProductData(
       imageNames,
@@ -44,7 +45,7 @@ void postProductData(
   imageName,
   categoryId,
   subCategoryId,
-  _dropDownValue,
+  dropDownValue,
   city,
   title,
   price,
@@ -63,7 +64,7 @@ void postProductData(
         "post_subcategory": subCategoryId,
         "post_user_id": authUser,
         "fields": '{}',
-        "location": _dropDownValue,
+        "location": dropDownValue,
         'city': city,
         "post_title": title,
         "post_image": json.encode(imageName),

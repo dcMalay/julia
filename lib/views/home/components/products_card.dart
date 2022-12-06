@@ -11,8 +11,10 @@ class Products extends StatefulWidget {
     Key? key,
     //  required this.height,
     required this.productsDataoffset,
+    required this.productsNo,
   }) : super(key: key);
   final Future<List<Product>> productsDataoffset;
+  final num productsNo;
   //final String height;
   @override
   State<Products> createState() => _ProductsState();
@@ -33,17 +35,18 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1190.h,
+      height: 292.0 * widget.productsNo,
       // height: double.parse(widget.height).h,
       child: FutureBuilder<List<Product>>(
           future: widget.productsDataoffset,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Product>? data = snapshot.data;
+
               return GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: data!.length,
-                  // shrinkWrap: true,
+                  shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                     childAspectRatio: 3.05 / 4.9,

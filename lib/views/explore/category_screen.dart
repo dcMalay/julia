@@ -180,13 +180,12 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
     },
   ];
   late Future<List<AllCategory>> apidata;
-  late Future<List<ProductsCountModel>> countdata;
+
   @override
   void initState() {
     super.initState();
     setState(() {
       apidata = getAllCategory();
-      countdata = getProductsCount();
     });
   }
 

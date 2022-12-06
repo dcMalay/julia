@@ -185,9 +185,8 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     super.initState();
-    countdata.getnumberofProducts();
+
     setState(() {
-      categorycountdata = getProductsCount();
       apidata = getAllCategory();
     });
   }
@@ -227,7 +226,6 @@ class _ExploreState extends State<Explore> {
                     itemBuilder: (context, index) {
                       var titleData = data[index];
                       var currentItem = categoryData[index];
-                      print(titleData.id);
 
                       return Container(
                         height: 20,
