@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
@@ -47,11 +50,9 @@ void main() async {
   );
   var token = await FirebaseMessaging.instance.getToken();
   sendFcmToken(token!);
-
+  await EasyLocalization.ensureInitialized();
   runApp(
-    Phoenix(
-      child: const MyApp(),
-    ),
+    Phoenix(child: const MyApp()),
   );
 }
 
@@ -165,7 +166,17 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              // supportedLocales: LanguageTranslator.all,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', 'US'), // English, no country code
+                // Locale('nl', 'NL'), // Spanish, no country code
+                Locale('es', ''),
+              ],
+
               home: const SplashScreen(),
             );
           }),

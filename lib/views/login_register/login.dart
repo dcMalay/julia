@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:julia/helper/email_checker.dart';
@@ -10,6 +11,50 @@ import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
 import '../../const/const.dart';
+
+class DemoLocalizations {
+  DemoLocalizations(this.locale);
+
+  final Locale locale;
+
+  static DemoLocalizations of(BuildContext context) {
+    return Localizations.of<DemoLocalizations>(context, DemoLocalizations)!;
+  }
+
+  static const _localizedValues = <String, Map<String, String>>{
+    'en': {
+      'title': 'Hello World',
+    },
+    'es': {
+      'title': 'Hola Mundo',
+    },
+  };
+
+  static List<String> languages() => _localizedValues.keys.toList();
+
+  String get title {
+    return _localizedValues[locale.languageCode]!['title']!;
+  }
+}
+
+class DemoLocalizationsDelegate
+    extends LocalizationsDelegate<DemoLocalizations> {
+  const DemoLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) =>
+      DemoLocalizations.languages().contains(locale.languageCode);
+
+  @override
+  Future<DemoLocalizations> load(Locale locale) {
+    // Returning a SynchronousFuture here because an async "load" operation
+    // isn't needed to produce an instance of DemoLocalizations.
+    return SynchronousFuture<DemoLocalizations>(DemoLocalizations(locale));
+  }
+
+  @override
+  bool shouldReload(DemoLocalizationsDelegate old) => false;
+}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -33,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  var _dropDownValue;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -50,9 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Text(
-          'Login',
-          style: TextStyle(
+        title: Text(
+          DemoLocalizations.of(context).title,
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -64,6 +110,22 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const SizedBox(
               height: 20,
+            ),
+            Center(
+              child: DropdownButton(
+                borderRadius: BorderRadius.circular(6),
+                value: _dropDownValue,
+                hint: const Text('Language'),
+                items: const [
+                  DropdownMenuItem<String>(value: 'en', child: Text('English')),
+                  DropdownMenuItem<String>(value: 'nl', child: Text('Dutch')),
+                ],
+                onChanged: (val) {
+                  setState(() {
+                    _dropDownValue = val;
+                  });
+                },
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 8.0),

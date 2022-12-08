@@ -10,6 +10,7 @@ import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/help_support/helpsupport_webview.dart';
+import 'package:julia/views/invoices/invoices_screen.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
@@ -306,6 +307,50 @@ class _MyAccountState extends State<MyAccount> {
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const InVoicesScreen(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero)
+                                        .animate(animation),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 30.0, top: 20),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.receipt,
+                                  color: greenColor,
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text(
+                                  'InVoices',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

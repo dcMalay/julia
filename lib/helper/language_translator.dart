@@ -1,7 +1,4 @@
-import 'package:intl/locale.dart';
 
-class LanguageTranslator {
-  static final all = [
-   
-  ];
-}
+import 'package:flutter_localization/flutter_localization.dart';
+
+
