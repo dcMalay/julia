@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -60,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 25,
               ),
             ),
-            const Text(
-              'Buy or Sell',
-              style: TextStyle(
+            Text(
+              'buy_or_sell'.tr(),
+              style: const TextStyle(
                 fontSize: 15,
               ),
             ),
@@ -154,12 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 textAlign: TextAlign.start,
                 readOnly: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   isDense: true,
-                  contentPadding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.search_rounded),
-                  hintText: 'Find Vehicles,Furniture and more ... ',
+                  contentPadding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.search_rounded),
+                  hintText: 'find_vehicles_furniture'.tr(),
                 ),
               ),
             ),
@@ -169,9 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'What are you looking for?',
-                  style: TextStyle(
+                Text(
+                  'what_are_you_looking_for'.tr(),
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -208,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     child: Text(
-                      "See All",
+                      "see_all".tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: greenColor,
@@ -219,9 +220,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const Category(),
-            const Text(
-              'Best Recommendations',
-              style: TextStyle(
+            Text(
+              'best_recommendation'.tr(),
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

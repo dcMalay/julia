@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -65,6 +66,7 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
+  var _dropDownValue;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,28 @@ class _MyAccountState extends State<MyAccount> {
                   'Profile',
                   style: TextStyle(color: Colors.white),
                 ),
+                actions: [
+                  PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      itemBuilder: (context) => [
+                            PopupMenuItem(
+                                onTap: () {
+                                  setState(() {
+                                    context.setLocale(const Locale(
+                                      'en',
+                                    ));
+                                  });
+                                },
+                                child: Text("english".tr())),
+                            PopupMenuItem(
+                                onTap: () {
+                                  setState(() {
+                                    context.setLocale(const Locale('nl'));
+                                  });
+                                },
+                                child: Text("dutch".tr())),
+                          ]),
+                ],
               ),
               body: FutureBuilder<Userdetails>(
                   future: getUserData,

@@ -37,6 +37,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  await EasyLocalization.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
@@ -52,7 +53,20 @@ void main() async {
   sendFcmToken(token!);
   await EasyLocalization.ensureInitialized();
   runApp(
-    Phoenix(child: const MyApp()),
+    Phoenix(
+        child: EasyLocalization(
+            supportedLocales: const [
+          Locale(
+            'en',
+          ),
+          Locale(
+            'nl',
+          )
+        ],
+            path:
+                'assets/translations', // <-- change the path of the translation files
+            fallbackLocale: const Locale('en', 'US'),
+            child: const MyApp())),
   );
 }
 
@@ -166,17 +180,9 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', 'US'), // English, no country code
-                // Locale('nl', 'NL'), // Spanish, no country code
-                Locale('es', ''),
-              ],
-
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               home: const SplashScreen(),
             );
           }),

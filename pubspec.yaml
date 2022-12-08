@@ -151,8 +151,9 @@ flutter:
     - assets/motorcycle.png
     - assets/google.png
     - assets/sell.png
-    - assets/lang/en-EN.json
-    - assets/lang/nl-NL.json
+    - assets/translations/
+    # - assets/lang/en-EN.json
+    # - assets/lang/nl-NL.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

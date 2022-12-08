@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:julia/helper/email_checker.dart';
@@ -11,50 +11,6 @@ import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/verify.dart';
 import 'package:provider/provider.dart';
 import '../../const/const.dart';
-
-class DemoLocalizations {
-  DemoLocalizations(this.locale);
-
-  final Locale locale;
-
-  static DemoLocalizations of(BuildContext context) {
-    return Localizations.of<DemoLocalizations>(context, DemoLocalizations)!;
-  }
-
-  static const _localizedValues = <String, Map<String, String>>{
-    'en': {
-      'title': 'Hello World',
-    },
-    'es': {
-      'title': 'Hola Mundo',
-    },
-  };
-
-  static List<String> languages() => _localizedValues.keys.toList();
-
-  String get title {
-    return _localizedValues[locale.languageCode]!['title']!;
-  }
-}
-
-class DemoLocalizationsDelegate
-    extends LocalizationsDelegate<DemoLocalizations> {
-  const DemoLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) =>
-      DemoLocalizations.languages().contains(locale.languageCode);
-
-  @override
-  Future<DemoLocalizations> load(Locale locale) {
-    // Returning a SynchronousFuture here because an async "load" operation
-    // isn't needed to produce an instance of DemoLocalizations.
-    return SynchronousFuture<DemoLocalizations>(DemoLocalizations(locale));
-  }
-
-  @override
-  bool shouldReload(DemoLocalizationsDelegate old) => false;
-}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -97,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         title: Text(
-          DemoLocalizations.of(context).title,
+          "login".tr(),
           style: const TextStyle(
             color: Colors.white,
           ),
@@ -115,14 +71,28 @@ class _LoginScreenState extends State<LoginScreen> {
               child: DropdownButton(
                 borderRadius: BorderRadius.circular(6),
                 value: _dropDownValue,
-                hint: const Text('Language'),
-                items: const [
-                  DropdownMenuItem<String>(value: 'en', child: Text('English')),
-                  DropdownMenuItem<String>(value: 'nl', child: Text('Dutch')),
+                hint: Text('language'.tr()),
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'en', child: Text('english'.tr())),
+                  DropdownMenuItem<String>(
+                      value: 'nl', child: Text('dutch'.tr())),
                 ],
                 onChanged: (val) {
                   setState(() {
                     _dropDownValue = val;
+                    // ignore: deprecated_member_us
+                    if (val == 'en') {
+                      setState(() {
+                        context.setLocale(const Locale(
+                          'en',
+                        ));
+                      });
+                    } else if (val == 'nl') {
+                      setState(() {
+                        context.setLocale(const Locale('nl'));
+                      });
+                    }
                   });
                 },
               ),
@@ -143,12 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: "Enter Email",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: "enter_email".tr(),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (input) =>
-                    input!.isValidEmail() ? null : "Check your email",
+                    input!.isValidEmail() ? null : "check_your_email".tr(),
                 onChanged: (value) => _formKey.currentState!.validate(),
               ),
             ),
@@ -167,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : const Text('Login'),
+                      : Text(
+                          "login".tr(),
+                        ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       Flushbar(
@@ -178,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         messageColor: Colors.black,
                         flushbarPosition: FlushbarPosition.TOP,
                         messageSize: 20,
-                        message: "Email send successfully",
+                        message: "email_send_successfully".tr(),
                       ).show(context);
                       authProvider.sentEmail(_emailController.text);
 
@@ -225,9 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         'assets/google.png',
                         height: 30,
                       ),
-                      title: const Text(
-                        'Continue with Google',
-                        style: TextStyle(color: Colors.black),
+                      title: Text(
+                        'continue_with_google'.tr(),
+                        style: const TextStyle(color: Colors.black),
                       )),
                   onPressed: () {
                     final provider = Provider.of<GoogleSignInProvider>(context,
@@ -261,9 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   },
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  child: Text(
+                    'skip'.tr(),
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
                   )),
             ),
           ],

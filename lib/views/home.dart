@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -49,7 +50,7 @@ class _HomeState extends State<Home> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Do you want to go close the app?'),
+              title: Text('do_you_want_to_close_the_app'.tr()),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [
                 TextButton(
@@ -66,9 +67,9 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(4)),
-                    child: const Text(
-                      "No",
-                      style: TextStyle(
+                    child: Text(
+                      "no".tr(),
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
@@ -88,9 +89,9 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(4)),
-                    child: const Text(
-                      "Yes",
-                      style: TextStyle(
+                    child: Text(
+                      "yes".tr(),
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
@@ -127,31 +128,31 @@ class _HomeState extends State<Home> {
                 _selectedIndex = index;
               }),
               items: [
-                const BottomNavigationBarItem(
-                  activeIcon: Icon(
+                BottomNavigationBarItem(
+                  activeIcon: const Icon(
                     Icons.home,
                     size: 28,
                     color: Colors.black,
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.home_outlined,
                     size: 28,
                     color: Colors.black,
                   ),
-                  label: 'Home',
+                  label: 'home'.tr(),
                 ),
-                const BottomNavigationBarItem(
-                  activeIcon: Icon(
+                BottomNavigationBarItem(
+                  activeIcon: const Icon(
                     Icons.message,
                     size: 28,
                     color: Colors.black,
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.message_outlined,
                     size: 28,
                     color: Colors.black,
                   ),
-                  label: 'Message',
+                  label: 'message'.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: Padding(
@@ -170,31 +171,31 @@ class _HomeState extends State<Home> {
                   ,
                   label: '',
                 ),
-                const BottomNavigationBarItem(
-                  activeIcon: Icon(
+                BottomNavigationBarItem(
+                  activeIcon: const Icon(
                     Ionicons.planet,
                     size: 35,
                     color: Colors.black,
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Ionicons.planet_outline,
                     size: 35,
                     color: Colors.black,
                   ),
-                  label: 'Explore',
+                  label: 'explore'.tr(),
                 ),
-                const BottomNavigationBarItem(
-                  activeIcon: Icon(
+                BottomNavigationBarItem(
+                  activeIcon: const Icon(
                     Icons.person,
                     size: 35,
                     color: Colors.black,
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person_outline,
                     color: Colors.black,
                     size: 28,
                   ),
-                  label: 'Account',
+                  label: 'account'.tr(),
                 ),
               ],
             ),
