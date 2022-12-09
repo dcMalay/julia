@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/product_model.dart';
@@ -36,9 +37,9 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
             ),
             automaticallyImplyLeading: false,
             backgroundColor: greenColor,
-            title: const Text(
-              'Subcategory wise Products',
-              style: TextStyle(color: Colors.white),
+            title: Text(
+              'subcategory_wise_products'.tr(),
+              style: const TextStyle(color: Colors.white),
             )),
         body: FutureBuilder<List<Product>>(
             future: subcategorywiseData,
@@ -49,8 +50,8 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                   color: greenColor,
                 ));
               } else if (snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text('NO product in this category'),
+                return Center(
+                  child: Text('no_product_in_this_category'.tr()),
                 );
               } else if (snapshot.hasData) {
                 List<Product>? data = snapshot.data;
@@ -89,10 +90,10 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                               }));
                             },
                             child: snapshot.data!.isEmpty
-                                ? const Center(
+                                ? Center(
                                     child: Text(
-                                    "no data found",
-                                    style: TextStyle(color: Colors.black),
+                                    "no_data_foun".tr(),
+                                    style: const TextStyle(color: Colors.black),
                                   ))
                                 : ProductCard(
                                     imageUrl: currentItem.postImage![0],
@@ -148,7 +149,7 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                       );
                     });
               } else if (snapshot.hasError) {
-                return const Center(child: Text("Error occur"));
+                return Center(child: Text("error_occur".tr()));
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(
@@ -156,11 +157,9 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                   ),
                 );
               } else if (snapshot.data!.isEmpty) {
-                return const Center(
-                    child: Text('No Product available in this Category'));
+                return Center(child: Text('no_product_in_this_category'.tr()));
               } else {
-                return const Center(
-                    child: Text('No Product available in this Category'));
+                return Center(child: Text('no_product_in_this_category'.tr()));
               }
             }),
       ),

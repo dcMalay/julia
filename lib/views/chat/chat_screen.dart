@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -37,9 +38,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 appBar: AppBar(
                   backgroundColor: greenColor,
                   centerTitle: true,
-                  title: const Text(
-                    'Chat',
-                    style: TextStyle(color: Colors.white),
+                  title: Text(
+                    'chat'.tr(),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
                 body: ListView(

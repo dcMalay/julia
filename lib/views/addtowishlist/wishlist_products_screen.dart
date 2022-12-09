@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/wishlist_product_model.dart';
@@ -37,9 +38,9 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
           automaticallyImplyLeading: false,
           backgroundColor: greenColor,
           centerTitle: true,
-          title: const Text(
-            "Wishlist",
-            style: TextStyle(color: Colors.white),
+          title: Text(
+            "wishlist".tr(),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         body: FutureBuilder<WishListProduct>(
@@ -51,8 +52,8 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
                   color: greenColor,
                 ));
               } else if (snapshot.data!.products.isEmpty) {
-                return const Center(
-                  child: Text('Wishlist is empty'),
+                return Center(
+                  child: Text('wishlist_is_empty'.tr()),
                 );
               } else if (snapshot.hasData) {
                 WishListProduct? data = snapshot.data;
@@ -140,7 +141,7 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
                       }),
                 );
               } else if (snapshot.hasError) {
-                return const Text('Falied to load data ');
+                return Text('failed_to_load'.tr());
               } else {
                 return Center(
                   child: CircularProgressIndicator(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -88,9 +89,9 @@ class _BuyBusinessState extends State<BuyBusiness> {
           ),
         ),
         backgroundColor: Colors.white,
-        title: const Text(
-          'Buy Business Package',
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          'buy_business_package'.tr(),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: FutureBuilder<List<Plans>>(
@@ -116,11 +117,11 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                 height: 90,
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Heavy Discount',
-                                style: TextStyle(
+                                'heavy_discount'.tr(),
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold),
@@ -129,21 +130,21 @@ class _BuyBusinessState extends State<BuyBusiness> {
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'POST MORE ADS AND AUTO BOOST',
-                          style: TextStyle(
+                          'post_more_ads'.tr(),
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '\u2022 Post more ads and ads get boosted to the top every few days',
-                          style: TextStyle(
+                          '\u2022 ${"post_more_ads_and_get_boosted".tr()}',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
@@ -155,11 +156,11 @@ class _BuyBusinessState extends State<BuyBusiness> {
                           color: Colors.grey,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          '\u2022 Reach upto 4 times more buyers',
-                          style: TextStyle(
+                          '\u2022 ${"reach_upto_more_buyers".tr()}',
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                           ),
@@ -184,7 +185,8 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                 return Container(
                                   height: 100,
                                   width: 150,
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   decoration: const BoxDecoration(
                                       color: Colors.white,
                                       boxShadow: [
@@ -209,7 +211,7 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "${currentItem.postAvailable.toString()} ADS",
+                                            "${currentItem.postAvailable.toString()} ${"ads".tr()}",
                                             style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15,
@@ -244,7 +246,7 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                         height: 30,
                                       ),
                                       Text(
-                                        'Valid for ${day.toInt()} days',
+                                        '${"valid_for".tr()} ${day.toInt()} ${"days".tr()}',
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 15,
@@ -260,8 +262,8 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                             color: Colors.yellow,
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        child:
-                                            Text('${discount.toInt()} % off'),
+                                        child: Text(
+                                            '${discount.toInt()} % ${"off".tr()}'),
                                       ),
                                       const SizedBox(
                                         height: 20,
@@ -270,9 +272,10 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 0, horizontal: 5),
                                           color: greenColor,
-                                          child: const Text(
-                                            'Get active \n your package',
-                                            style: TextStyle(fontSize: 14),
+                                          child: Text(
+                                            ' ${"get_active".tr()} \n ${"your_package".tr()}',
+                                            style:
+                                                const TextStyle(fontSize: 14),
                                             textAlign: TextAlign.center,
                                           ),
                                           onPressed: () {

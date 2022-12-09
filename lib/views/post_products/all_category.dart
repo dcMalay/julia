@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -209,9 +210,9 @@ class _CategoriesState extends State<Categories> {
               appBar: AppBar(
                   backgroundColor: greenColor,
                   centerTitle: true,
-                  title: const Text(
-                    'Select Your Category',
-                    style: TextStyle(
+                  title: Text(
+                    'select_your_category'.tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   )),

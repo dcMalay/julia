@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
@@ -200,9 +201,9 @@ class _ExploreState extends State<Explore> {
         appBar: AppBar(
           backgroundColor: greenColor,
           centerTitle: true,
-          title: const Text(
-            'Category',
-            style: TextStyle(
+          title: Text(
+            'category'.tr(),
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),

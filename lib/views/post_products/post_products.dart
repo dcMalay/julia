@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,9 +123,9 @@ class _PostProductsViewState extends State<PostProductsView> {
                     ),
                   ),
                   backgroundColor: greenColor,
-                  title: const Text(
-                    'Sell Your Products',
-                    style: TextStyle(
+                  title: Text(
+                    'sell_your_products'.tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   )),
@@ -139,10 +140,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Add Title*',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'add_title'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -150,7 +151,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                             TextFormField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the title';
+                                  return 'please_enter_the_title'.tr();
                                 }
                                 return null;
                               },
@@ -170,10 +171,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Brand*',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'brand'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -184,7 +185,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                                   border: OutlineInputBorder()),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the brand name';
+                                  return 'please_enter_the_brand_name'.tr();
                                 }
                                 return null;
                               },
@@ -200,10 +201,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Description of what you sell*',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'description_of_what_you_sell'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -215,7 +216,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                               maxLines: null,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the description';
+                                  return 'please_enter_the_description'.tr();
                                 }
                                 return null;
                               },
@@ -233,10 +234,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Price',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'price'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -248,7 +249,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                               ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the price';
+                                  return 'please_enter_the_price'.tr();
                                 }
                                 return null;
                               },
@@ -314,7 +315,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                               height: 5,
                             ),
                             Text(
-                              '*** Maximum File size 5 MB',
+                              'maximum_file_size'.tr(),
                               style: TextStyle(color: redColor, fontSize: 12),
                             ),
                             CupertinoButton(
@@ -324,10 +325,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  Icon(Icons.image),
+                                children: [
+                                  const Icon(Icons.image),
                                   Text(
-                                    'Upload Image',
+                                    'upload_image'.tr(),
                                   ),
                                 ],
                               ),
@@ -340,17 +341,19 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'District',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'district'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             DropdownButton(
                               value: _dropDownValue,
-                              hint: const Text('District'),
+                              hint: Text(
+                                'district'.tr(),
+                              ),
                               items: [
                                 DropdownMenuItem<String>(
                                     value: '${locationData[0]["_id"]}',
@@ -412,10 +415,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Area',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'area'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -423,7 +426,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                             EasyAutocomplete(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter city';
+                                  return 'please_enter_city'.tr();
                                 }
                                 return null;
                               },
@@ -444,10 +447,10 @@ class _PostProductsViewState extends State<PostProductsView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Your Name',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
+                            Text(
+                              'your_name'.tr(),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             const SizedBox(
                               height: 5,
@@ -473,9 +476,9 @@ class _PostProductsViewState extends State<PostProductsView> {
                           width: MediaQuery.of(context).size.width,
                           child: CupertinoButton(
                             color: greenColor,
-                            child: const Text(
-                              'Submit',
-                              style: TextStyle(color: Colors.white),
+                            child: Text(
+                              'submit'.tr(),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
@@ -483,7 +486,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.warning,
-                                    text: 'Please select a image!',
+                                    text: 'please_select_image'.tr(),
                                   );
                                 } else {
                                   for (var i = 0;
@@ -509,7 +512,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.success,
-                                    text: 'Posted successfully',
+                                    text: 'post_success'.tr(),
                                   );
                                 }
                               }
@@ -525,7 +528,7 @@ class _PostProductsViewState extends State<PostProductsView> {
           : Center(
               child: CupertinoButton(
                   color: greenColor,
-                  child: const Text('Login'),
+                  child: Text('login'.tr()),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(PageRouteBuilder(
                       transitionDuration: const Duration(milliseconds: 500),

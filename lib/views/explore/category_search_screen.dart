@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,9 +50,11 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
           ),
           automaticallyImplyLeading: false,
           backgroundColor: greenColor,
-          title: const Text(
-            "Category wise Products",
-            style: TextStyle(color: Colors.white),
+          title: Text(
+            "category_wise_product_search".tr(),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
           actions: [
             Padding(
@@ -82,9 +85,9 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                         Icons.close,
                                         size: 35,
                                       )),
-                                  const Text(
-                                    "Location",
-                                    style: TextStyle(
+                                  Text(
+                                    "location".tr(),
+                                    style: const TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -157,9 +160,9 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                             Icons.close,
                                             size: 35,
                                           )),
-                                      const Text(
-                                        "Choose Price",
-                                        style: TextStyle(
+                                      Text(
+                                        "choose_price".tr(),
+                                        style: const TextStyle(
                                             fontSize: 25,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -176,14 +179,14 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                     ],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter the price';
+                                        return 'please_enter_the_price'.tr();
                                       }
                                       return null;
                                     },
                                     controller: minvalController,
-                                    decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: 'min val'),
+                                    decoration: InputDecoration(
+                                        border: const OutlineInputBorder(),
+                                        hintText: 'min_val'.tr()),
                                   ),
                                 ),
                                 Padding(
@@ -196,14 +199,14 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                     ],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter the price';
+                                        return 'please_enter_the_price'.tr();
                                       }
                                       return null;
                                     },
                                     controller: maxvalController,
-                                    decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        hintText: "Max val"),
+                                    decoration: InputDecoration(
+                                        border: const OutlineInputBorder(),
+                                        hintText: "max_val".tr()),
                                   ),
                                 ),
                                 Padding(
@@ -217,7 +220,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 10),
                                           color: greenColor,
-                                          child: const Text('Clear Changes'),
+                                          child: Text('clear_changes'.tr()),
                                           onPressed: () {
                                             minvalController.clear();
                                             maxvalController.clear();
@@ -226,7 +229,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 10),
                                           color: greenColor,
-                                          child: const Text('Apply Changes'),
+                                          child: Text('apply_changes'.tr()),
                                           onPressed: () {
                                             // filterbyPrice
                                             //     .getpricefilteredProducts(
@@ -269,8 +272,8 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                   color: greenColor,
                 ));
               } else if (snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text('No Products found in this category'),
+                return Center(
+                  child: Text('no_product_found'.tr()),
                 );
               } else if (snapshot.hasData) {
                 List<Product>? data = snapshot.data;
@@ -308,10 +311,10 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                               }));
                             },
                             child: snapshot.data == [{}]
-                                ? const Center(
+                                ? Center(
                                     child: Text(
-                                    "no data found",
-                                    style: TextStyle(color: Colors.black),
+                                    "no_data_found".tr(),
+                                    style: const TextStyle(color: Colors.black),
                                   ))
                                 : ProductCard(
                                     imageUrl: currentItem.postImage!.isEmpty
@@ -369,7 +372,7 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                       );
                     });
               } else if (snapshot.hasError) {
-                return const Center(child: Text("Error occur"));
+                return Center(child: Text("error_occur".tr()));
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),
