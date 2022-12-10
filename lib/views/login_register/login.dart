@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Center(
               child: SizedBox(
-                width: 250,
+                width: 280,
                 child: CupertinoButton(
                   padding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 0),

@@ -368,7 +368,7 @@ class _MyAccountState extends State<MyAccount> {
                                   width: 20,
                                 ),
                                 Text(
-                                  'invoices'.tr(),
+                                  'bought_packages'.tr(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
