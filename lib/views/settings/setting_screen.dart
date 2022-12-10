@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
-
 import '../notification/notification_screen.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -20,9 +20,9 @@ class SettingScreen extends StatelessWidget {
                 Icons.arrow_back,
                 color: Colors.white,
               )),
-          title: const Text(
-            'Settings',
-            style: TextStyle(
+          title: Text(
+            'settings'.tr(),
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),
@@ -35,11 +35,11 @@ class SettingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Privacy',
-                  style: TextStyle(fontSize: 18),
+                  'privacy'.tr(),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
               const Divider(
@@ -64,11 +64,11 @@ class SettingScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Notification',
-                    style: TextStyle(fontSize: 18),
+                    'notification'.tr(),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ),
@@ -85,11 +85,11 @@ class SettingScreen extends StatelessWidget {
               const Divider(
                 color: Colors.grey,
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Delete Account',
-                  style: TextStyle(fontSize: 18),
+                  'delete_account'.tr(),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
               const Divider(

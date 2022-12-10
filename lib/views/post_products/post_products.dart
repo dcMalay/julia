@@ -484,6 +484,7 @@ class _PostProductsViewState extends State<PostProductsView> {
                               if (_formKey.currentState!.validate()) {
                                 if (imageFileList!.isEmpty) {
                                   QuickAlert.show(
+                                    confirmBtnText: "okay".tr(),
                                     context: context,
                                     type: QuickAlertType.warning,
                                     text: 'please_select_image'.tr(),

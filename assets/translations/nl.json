@@ -103,6 +103,16 @@
           "days":"dagen",
           "off":"uit",
           "get_active":"Word actief",
-          "your_package":"Jouw pakket"
+          "your_package":"Jouw pakket",
+          "package":"Pakket",
+          "boosts":"Verhoogt",
+          "message_available":"Berichat beschikbaar",
+          "advertisement":"20 ADVERTENTIES",
+          "action":"Actiet:",
+          "expaired":"Verlopen:",
+          "post_id":"Post Id",
+          "privacy":"Privacy",
+          "delete_account":"Account verwijderen",
+          "okay":"Oké"
 
 }

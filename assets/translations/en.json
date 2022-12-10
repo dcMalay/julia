@@ -103,7 +103,18 @@
           "days":"days",
           "off":"off",
           "get_active":"Get active",
-          "your_package":"your package"
+          "your_package":"your package",
+          "package":"Package",
+          "boosts":"Boosts",
+          "message_available":"Message available",
+          "advertisement":"20 ADVERTISEMENTS",
+          "action":"Action:",
+          "expaired":"Expired:",
+          "post_id":"Post Id",
+          "privacy":"Privacy",
+          "delete_account":"Delete Account",
+          "okay":"Oké"
+          
           
          
 }

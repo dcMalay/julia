@@ -60,17 +60,19 @@ class _HomeState extends State<Home> {
                   child: Container(
                     height: 30,
                     width: 40,
-                    padding: const EdgeInsets.only(
-                      top: 6,
-                      left: 10,
-                    ),
+                    // padding: const EdgeInsets.only(
+                    //   top: 6,
+                    //   left: 10,
+                    // ),
                     decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(4)),
-                    child: Text(
-                      "no".tr(),
-                      style: const TextStyle(
-                        color: Colors.white,
+                    child: Center(
+                      child: Text(
+                        "no".tr(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -82,17 +84,19 @@ class _HomeState extends State<Home> {
                   child: Container(
                     height: 30,
                     width: 40,
-                    padding: const EdgeInsets.only(
-                      top: 6,
-                      left: 8,
-                    ),
+                    // padding: const EdgeInsets.only(
+                    //   top: 6,
+                    //   left: 8,
+                    // ),
                     decoration: BoxDecoration(
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(4)),
-                    child: Text(
-                      "yes".tr(),
-                      style: const TextStyle(
-                        color: Colors.white,
+                    child: Center(
+                      child: Text(
+                        "yes".tr(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

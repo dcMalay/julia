@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -102,19 +103,19 @@ class _ChattingScreenState extends State<ChattingScreen> {
             ),
           ],
         ),
-        actions: [
-          PopupMenuButton<int>(
-            icon: Icon(
-              Icons.more_vert,
-              color: redColor,
-            ),
-            itemBuilder: (context) => [
-              const PopupMenuItem(value: 1, child: Text("Delete Chat")),
-              const PopupMenuItem(value: 2, child: Text("Report User")),
-              const PopupMenuItem(value: 3, child: Text("Block User")),
-            ],
-          ),
-        ],
+        // actions: [
+        // PopupMenuButton<int>(
+        //   icon: Icon(
+        //     Icons.more_vert,
+        //     color: redColor,
+        //   ),
+        //   itemBuilder: (context) => [
+        //     const PopupMenuItem(value: 1, child: Text("Delete Chat")),
+        //     const PopupMenuItem(value: 2, child: Text("Report User")),
+        //     const PopupMenuItem(value: 3, child: Text("Block User")),
+        //   ],
+        // ),
+        // ],
       ),
       body: ListView(
         // reverse: true,
@@ -256,9 +257,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 child: TextField(
                   style: const TextStyle(fontSize: 20),
                   controller: messageController,
-                  decoration: const InputDecoration(
-                    hintText: 'Type Your message',
-                    hintStyle: TextStyle(
+                  decoration: InputDecoration(
+                    hintText: 'type_your_message'.tr(),
+                    hintStyle: const TextStyle(
                       color: Colors.grey,
                       fontSize: 20,
                     ),

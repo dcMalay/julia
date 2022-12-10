@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:julia/views/invoices/widgets/invoice_details_screen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../const/const.dart';
 
 class InVoicesScreen extends StatefulWidget {
@@ -33,14 +33,14 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                       ispackage = true;
                     });
                   },
-                  child: const Text("Package")),
+                  child: Text("package".tr())),
               PopupMenuItem(
                   onTap: () {
                     setState(() {
                       ispackage = false;
                     });
                   },
-                  child: const Text("Boosts")),
+                  child: Text("boosts".tr())),
             ],
           ),
         ],
@@ -58,10 +58,10 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
-                        "Package",
-                        style: TextStyle(
+                        "package".tr(),
+                        style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
@@ -82,9 +82,9 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
-                                    "Berichat beschikbaar",
-                                    style: TextStyle(
+                                  Text(
+                                    "message_available".tr(),
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17),
@@ -93,7 +93,7 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "20 ADVERTENTIES",
+                                    "advertisement".tr(),
                                     style: TextStyle(
                                         color: greenColor,
                                         fontWeight: FontWeight.bold,
@@ -111,15 +111,15 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "Actiet:",
-                                        style: TextStyle(
+                                        "action".tr(),
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17),
                                       ),
-                                      Text(
+                                      const Text(
                                         "2-12-2022",
                                         style: TextStyle(
                                             color: Colors.grey,
@@ -131,15 +131,15 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "Verlopen:",
-                                        style: TextStyle(
+                                        "expaired".tr(),
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17),
                                       ),
-                                      Text(
+                                      const Text(
                                         "1-1-2023",
                                         style: TextStyle(
                                             color: Colors.grey,
@@ -158,10 +158,10 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
               : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
-                        "Boost",
-                        style: TextStyle(
+                        "boosts".tr(),
+                        style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
@@ -182,9 +182,9 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text(
-                                    "Post Id",
-                                    style: TextStyle(
+                                  Text(
+                                    "post_id".tr(),
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17),
@@ -211,15 +211,15 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "Actiet:",
-                                        style: TextStyle(
+                                        "action".tr(),
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17),
                                       ),
-                                      Text(
+                                      const Text(
                                         "2-12-2022",
                                         style: TextStyle(
                                             color: Colors.grey,
@@ -231,15 +231,15 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
-                                        "Verlopen:",
-                                        style: TextStyle(
+                                        "expaired".tr(),
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 17),
                                       ),
-                                      Text(
+                                      const Text(
                                         "1-1-2023",
                                         style: TextStyle(
                                             color: Colors.grey,
