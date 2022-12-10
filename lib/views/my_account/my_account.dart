@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -10,6 +11,7 @@ import 'package:julia/data/repository/get_user_details_repo.dart';
 import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/help_support/helpsupport_webview.dart';
+import 'package:julia/views/invoices/invoices_screen.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
 import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
@@ -64,6 +66,7 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
+  var _dropDownValue;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -76,10 +79,32 @@ class _MyAccountState extends State<MyAccount> {
                 elevation: 2,
                 backgroundColor: greenColor,
                 centerTitle: true,
-                title: const Text(
-                  'Profile',
-                  style: TextStyle(color: Colors.white),
+                title: Text(
+                  'profile'.tr(),
+                  style: const TextStyle(color: Colors.white),
                 ),
+                actions: [
+                  PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      itemBuilder: (context) => [
+                            PopupMenuItem(
+                                onTap: () {
+                                  setState(() {
+                                    context.setLocale(const Locale(
+                                      'en',
+                                    ));
+                                  });
+                                },
+                                child: Text("english".tr())),
+                            PopupMenuItem(
+                                onTap: () {
+                                  setState(() {
+                                    context.setLocale(const Locale('nl'));
+                                  });
+                                },
+                                child: Text("dutch".tr())),
+                          ]),
+                ],
               ),
               body: FutureBuilder<Userdetails>(
                   future: getUserData,
@@ -98,7 +123,7 @@ class _MyAccountState extends State<MyAccount> {
                           children: [
                             CupertinoButton(
                                 color: greenColor,
-                                child: const Text("Set your profile"),
+                                child: Text("set_your_profile".tr()),
                                 onPressed: () {
                                   Navigator.of(context).push(PageRouteBuilder(
                                     transitionDuration:
@@ -140,9 +165,9 @@ class _MyAccountState extends State<MyAccount> {
                                 decoration: BoxDecoration(
                                     color: redColor,
                                     borderRadius: BorderRadius.circular(4)),
-                                child: const Text(
-                                  "Log Out",
-                                  style: TextStyle(
+                                child: Text(
+                                  "log_out".tr(),
+                                  style: const TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
@@ -297,15 +322,59 @@ class _MyAccountState extends State<MyAccount> {
                                   const SizedBox(
                                     width: 20,
                                   ),
-                                  const Text(
-                                    'My Ads',
-                                    style: TextStyle(
+                                  Text(
+                                    'my_ads'.tr(),
+                                    style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
                                     ),
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const InVoicesScreen(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                            begin: const Offset(1, 0),
+                                            end: Offset.zero)
+                                        .animate(animation),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 30.0, top: 20),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.receipt,
+                                  color: greenColor,
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  'invoices'.tr(),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -342,9 +411,9 @@ class _MyAccountState extends State<MyAccount> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                const Text(
-                                  'Buy Business',
-                                  style: TextStyle(
+                                Text(
+                                  'buy_buisness'.tr(),
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
                                   ),
@@ -361,15 +430,15 @@ class _MyAccountState extends State<MyAccount> {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: AlertDialog(
-                                      title: const Text('Create Ticket'),
+                                      title: Text('create_ticket'.tr()),
                                       content: TextFormField(
                                         controller: _createMessage,
                                         keyboardType: TextInputType.multiline,
                                         minLines: 4,
                                         maxLines: null,
-                                        decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            hintText: 'type your message'),
+                                        decoration: InputDecoration(
+                                            border: const OutlineInputBorder(),
+                                            hintText: 'type_your_message'.tr()),
                                       ),
                                       actions: [
                                         InkWell(
@@ -383,7 +452,7 @@ class _MyAccountState extends State<MyAccount> {
                                                 context: context,
                                                 type: QuickAlertType.success,
                                                 text:
-                                                    'You successfully created a ticket',
+                                                    'you_create_a_ticket'.tr(),
                                               );
                                             }
                                           },
@@ -395,9 +464,9 @@ class _MyAccountState extends State<MyAccount> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10)),
-                                              child: const Text(
-                                                'Send your message',
-                                                style: TextStyle(
+                                              child: Text(
+                                                'send_your_message'.tr(),
+                                                style: const TextStyle(
                                                     color: Colors.white),
                                               ),
                                             ),
@@ -419,9 +488,9 @@ class _MyAccountState extends State<MyAccount> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                const Text(
-                                  'Ask your Question',
-                                  style: TextStyle(
+                                Text(
+                                  'ask_your_question'.tr(),
+                                  style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
                                   ),
@@ -492,17 +561,17 @@ class _MyAccountState extends State<MyAccount> {
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
-                                      'Settings',
-                                      style: TextStyle(
+                                      'settings'.tr(),
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
                                       ),
                                     ),
                                     Text(
-                                      'change your account Settings',
-                                      style: TextStyle(
+                                      'change_your_account_settings'.tr(),
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 14,
                                       ),
@@ -550,17 +619,17 @@ class _MyAccountState extends State<MyAccount> {
                                         },
                                       ));
                                     },
-                                    child: const Text(
-                                      'Help & Support',
-                                      style: TextStyle(
+                                    child: Text(
+                                      'help_support'.tr(),
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
                                       ),
                                     ),
                                   ),
-                                  const Text(
-                                    ' Get help with account',
-                                    style: TextStyle(
+                                  Text(
+                                    'get_help_with_account'.tr(),
+                                    style: const TextStyle(
                                       color: Colors.grey,
                                       fontSize: 14,
                                     ),
@@ -586,9 +655,8 @@ class _MyAccountState extends State<MyAccount> {
                                   showDialog(
                                     context: context,
                                     builder: (ctx) => AlertDialog(
-                                      title: const Text("Log Out"),
-                                      content: const Text(
-                                          "Are you sure you want to logout?"),
+                                      title: Text("log_out".tr()),
+                                      content: Text("want_to_log_out".tr()),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
@@ -605,9 +673,9 @@ class _MyAccountState extends State<MyAccount> {
                                                 color: Colors.green,
                                                 borderRadius:
                                                     BorderRadius.circular(4)),
-                                            child: const Text(
-                                              "No",
-                                              style: TextStyle(
+                                            child: Text(
+                                              "no".tr(),
+                                              style: const TextStyle(
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -637,9 +705,9 @@ class _MyAccountState extends State<MyAccount> {
                                                 color: Colors.blue,
                                                 borderRadius:
                                                     BorderRadius.circular(4)),
-                                            child: const Text(
-                                              "Yes",
-                                              style: TextStyle(
+                                            child: Text(
+                                              "yes".tr(),
+                                              style: const TextStyle(
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -651,17 +719,17 @@ class _MyAccountState extends State<MyAccount> {
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
-                                      'Logout',
-                                      style: TextStyle(
+                                      'log_out'.tr(),
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
                                       ),
                                     ),
                                     Text(
-                                      'logout your profile',
-                                      style: TextStyle(
+                                      'log_out_your_profile'.tr(),
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 14,
                                       ),
@@ -687,22 +755,24 @@ class _MyAccountState extends State<MyAccount> {
           : Center(
               child: CupertinoButton(
                   color: greenColor,
-                  child: const Text('Login to continue'),
+                  child: Text('login_to_continue'.tr()),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
-                      transitionDuration: const Duration(milliseconds: 500),
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const LoginScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                                  begin: const Offset(1, 0), end: Offset.zero)
-                              .animate(animation),
-                          child: child,
-                        );
-                      },
-                    ));
+                    Navigator.of(context).pushReplacement(
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 500),
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const LoginScreen(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                                    begin: const Offset(1, 0), end: Offset.zero)
+                                .animate(animation),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
                   }),
             ),
     );

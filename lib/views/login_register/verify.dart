@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -95,19 +96,19 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: greenColor,
-          title: const Text(
-            'Verify Your Account',
-            style: TextStyle(fontSize: 25, color: Colors.white),
+          title: Text(
+            'verify_your_account'.tr(),
+            style: const TextStyle(fontSize: 25, color: Colors.white),
           ),
         ),
         body: ListView(
           children: [
             const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.only(left: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Enter the OTP sent to your email address',
-                style: TextStyle(
+                'enter_the_otp_sent_to_your_email_address'.tr(),
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
@@ -136,7 +137,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   authprovider.sentEmail(widget.email);
                   controller.startTimer();
                 },
-                text: const Text('Resend OTP'),
+                text: Text('resend_otp'.tr()),
                 duration: 60,
               ),
             ),
@@ -154,7 +155,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: CupertinoButton(
               color: greenColor,
-              child: const Text("Verify Otp"),
+              child: Text("verify_otp".tr()),
               onPressed: () async {
                 print('verify otp pressed ');
                 print('otp--->${_otpController.text}');

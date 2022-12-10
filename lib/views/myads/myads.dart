@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/my_ads_model.dart';
@@ -38,9 +39,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
         ),
         backgroundColor: greenColor,
         centerTitle: true,
-        title: const Text(
-          'My Ads',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          'my_ads'.tr(),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: FutureBuilder<List<Myads>>(
@@ -114,9 +115,9 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
                                         color: greenColor,
-                                        child: const Text(
-                                          'Get More Views',
-                                          style: TextStyle(fontSize: 11),
+                                        child: Text(
+                                          'get_more_view'.tr(),
+                                          style: const TextStyle(fontSize: 11),
                                         ),
                                         onPressed: () {
                                           Navigator.of(context)
@@ -160,8 +161,8 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                                 : greenColor,
                                         child: Text(
                                           currentItem.postSold == 1.toString()
-                                              ? "Repost"
-                                              : 'Mark As Sold',
+                                              ? "repost".tr()
+                                              : 'mark_as_sold'.tr(),
                                           style: const TextStyle(fontSize: 11),
                                         ),
                                         onPressed: () {

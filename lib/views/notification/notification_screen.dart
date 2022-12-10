@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
@@ -44,9 +45,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
           automaticallyImplyLeading: false,
           backgroundColor: greenColor,
           centerTitle: true,
-          title: const Text(
-            "Notificatios",
-            style: TextStyle(color: Colors.white),
+          title: Text(
+            "notification".tr(),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         body: FutureBuilder<List<ProductDetails>>(
@@ -60,7 +61,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 color: greenColor,
               ));
             } else if (snapshot.data!.isEmpty) {
-              return const Center(child: Text('Notification is Empty'));
+              return Center(child: Text('notification_is_empty'.tr()));
             } else if (snapshot.hasData) {
               List<ProductDetails>? data = snapshot.data;
 
@@ -83,20 +84,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           elevation: 8,
                           child: ListTile(
                             title: Text(
-                              "Post title : ${data[0].postTitle}",
+                              "${'post_title'.tr()} : ${data[0].postTitle}",
                               maxLines: 1,
                             ),
                             trailing: postStatus == 0.toString()
-                                ? const Text('Post Submitted')
+                                ? Text('post_submit'.tr())
                                 : postStatus == 1.toString()
-                                    ? const Text("post approved")
+                                    ? Text("post_approved".tr())
                                     : postStatus == 2.toString()
-                                        ? const Text('Post rejected')
+                                        ? Text('post_rejected'.tr())
                                         : postStatus == 8.toString()
-                                            ? const Text('Post deleted')
+                                            ? Text('post_deleted'.tr())
                                             : null,
-                            subtitle: const Text(
-                                'Post is live click to view product'),
+                            subtitle: Text('post_is_live'.tr()),
                           ),
                         ),
                       ),

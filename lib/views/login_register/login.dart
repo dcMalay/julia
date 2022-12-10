@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -33,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  var _dropDownValue;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Text(
-          'Login',
-          style: TextStyle(
+        title: Text(
+          "login".tr(),
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
@@ -64,6 +66,36 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const SizedBox(
               height: 20,
+            ),
+            Center(
+              child: DropdownButton(
+                borderRadius: BorderRadius.circular(6),
+                value: _dropDownValue,
+                hint: Text('language'.tr()),
+                items: [
+                  DropdownMenuItem<String>(
+                      value: 'en', child: Text('english'.tr())),
+                  DropdownMenuItem<String>(
+                      value: 'nl', child: Text('dutch'.tr())),
+                ],
+                onChanged: (val) {
+                  setState(() {
+                    _dropDownValue = val;
+                    // ignore: deprecated_member_us
+                    if (val == 'en') {
+                      setState(() {
+                        context.setLocale(const Locale(
+                          'en',
+                        ));
+                      });
+                    } else if (val == 'nl') {
+                      setState(() {
+                        context.setLocale(const Locale('nl'));
+                      });
+                    }
+                  });
+                },
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 8.0),
@@ -81,12 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: "Enter Email",
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: "enter_email".tr(),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (input) =>
-                    input!.isValidEmail() ? null : "Check your email",
+                    input!.isValidEmail() ? null : "check_your_email".tr(),
                 onChanged: (value) => _formKey.currentState!.validate(),
               ),
             ),
@@ -105,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
-                      : const Text('Login'),
+                      : Text(
+                          "login".tr(),
+                        ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       Flushbar(
@@ -116,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         messageColor: Colors.black,
                         flushbarPosition: FlushbarPosition.TOP,
                         messageSize: 20,
-                        message: "Email send successfully",
+                        message: "email_send_successfully".tr(),
                       ).show(context);
                       authProvider.sentEmail(_emailController.text);
 
@@ -163,9 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         'assets/google.png',
                         height: 30,
                       ),
-                      title: const Text(
-                        'Continue with Google',
-                        style: TextStyle(color: Colors.black),
+                      title: Text(
+                        'continue_with_google'.tr(),
+                        style: const TextStyle(color: Colors.black),
                       )),
                   onPressed: () {
                     final provider = Provider.of<GoogleSignInProvider>(context,
@@ -199,9 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   },
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  child: Text(
+                    'skip'.tr(),
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
                   )),
             ),
           ],

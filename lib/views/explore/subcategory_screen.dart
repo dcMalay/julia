@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/sub_category_model.dart';
@@ -39,8 +40,8 @@ class _SubCategoryScreenforSearchState
             ),
             backgroundColor: greenColor,
             centerTitle: true,
-            title: const Text(
-              "Choose Subcategory",
+            title: Text(
+              "choose_subcategory".tr(),
               style: TextStyle(color: Colors.white),
             )),
         body: FutureBuilder<List<SubCategories>>(

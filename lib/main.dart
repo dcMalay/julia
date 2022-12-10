@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
@@ -34,6 +37,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  await EasyLocalization.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
@@ -47,11 +51,22 @@ void main() async {
   );
   var token = await FirebaseMessaging.instance.getToken();
   sendFcmToken(token!);
-
+  await EasyLocalization.ensureInitialized();
   runApp(
     Phoenix(
-      child: const MyApp(),
-    ),
+        child: EasyLocalization(
+            supportedLocales: const [
+          Locale(
+            'en',
+          ),
+          Locale(
+            'nl',
+          )
+        ],
+            path:
+                'assets/translations', // <-- change the path of the translation files
+            fallbackLocale: const Locale('en', 'US'),
+            child: const MyApp())),
   );
 }
 
@@ -165,7 +180,9 @@ class _MyAppState extends State<MyApp> {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
-              // supportedLocales: LanguageTranslator.all,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               home: const SplashScreen(),
             );
           }),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/message_sender_model.dart';
@@ -74,7 +75,7 @@ class _ListTileChatState extends State<ListTileChat> {
                                       backgroundImage: NetworkImage(
                                         seller[index].userImage.contains('http')
                                             ? 'https://api.minimalavatars.com/avatar/random/png'
-                                            : "https://julia.sr/uploads/${seller[index].userImage}",
+                                            : seller[index].userImage,
                                       )),
                                   const SizedBox(
                                     width: 20,
@@ -87,9 +88,9 @@ class _ListTileChatState extends State<ListTileChat> {
                                         seller[index].userName,
                                         style: const TextStyle(fontSize: 16),
                                       ),
-                                      const Text(
-                                        'click to view message',
-                                        style: TextStyle(
+                                      Text(
+                                        'click_to_view_message'.tr(),
+                                        style: const TextStyle(
                                             fontSize: 10, color: Colors.grey),
                                       )
                                     ],

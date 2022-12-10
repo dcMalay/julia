@@ -1,12 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
 import 'package:julia/data/model/category_count_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
-import 'package:julia/data/repository/get_products_count_repo.dart';
-import 'package:julia/provider/get_products_count_provider.dart';
+
 import 'package:julia/views/explore/subcategory_screen.dart';
-import 'package:provider/provider.dart';
 
 class CategoryscreenforSearch extends StatefulWidget {
   const CategoryscreenforSearch({Key? key}) : super(key: key);
@@ -207,9 +206,9 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
             ),
             backgroundColor: greenColor,
             centerTitle: true,
-            title: const Text(
-              'Select Your Category to search',
-              style: TextStyle(
+            title: Text(
+              'select_your_category_to_search'.tr(),
+              style: const TextStyle(
                 color: Colors.white,
               ),
             )),

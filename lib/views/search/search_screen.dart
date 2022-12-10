@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/product_model.dart';
 import 'package:julia/data/repository/products_repo.dart';
@@ -38,10 +39,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: TextFormField(
               autofocus: true,
               controller: searchController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search_rounded),
-                hintText: 'Find Vehicles,Furniture and more ... ',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search_rounded),
+                hintText: 'find_vehicles_furniture'.tr(),
               ),
               onChanged: (value) {
                 setState(() {
@@ -147,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         );
                       });
                 } else if (snapshot.hasError) {
-                  return const Center(child: Text("search bar is empty"));
+                  return Center(child: Text("search_bar_is_empty".tr()));
                 } else {
                   return const Center(
                     child: CircularProgressIndicator(),
