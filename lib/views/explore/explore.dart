@@ -180,6 +180,40 @@ class _ExploreState extends State<Explore> {
       'title': 'Zwaarmateriaal',
     },
   ];
+  List categories = const [
+    'Audio, Tv and Photo',
+    'Auto',
+    'Bodycare',
+    'Boats and accessories',
+    'Construction and materials',
+    'Moped / Motorcycle',
+    'Computers and Software',
+    'Daily fresh',
+    'Animals',
+    'Bicycles',
+    'Free',
+    'Hobby and leisure',
+    'Home Appliance',
+    'Office equipment',
+    "Children and Babies",
+    'Clothing | Ladies',
+    'Clothing | Men',
+    'Medical',
+    'Music and Instruments',
+    'Personnel and Professionals',
+    'Jewelry, Bags and luxury products',
+    'Toys',
+    'Sports and Fitness',
+    'Telecommunications',
+    'Tickets and Tickets',
+    'Tourism & Vacation',
+    'Garden and Patio',
+    'Washing Machines, White Goods and Equipment',
+    'Houses and plots',
+    'Business Goods',
+    'Heavy Equipment / Trucks',
+    'Foods'
+  ];
   late Future<List<AllCategory>> apidata;
   late Future<List<ProductsCountModel>> categorycountdata;
   var countdata = GetProductsCountProvider();
@@ -281,7 +315,9 @@ class _ExploreState extends State<Explore> {
                                       height: 40,
                                     ),
                               Text(
-                                titleData.postCategoryName!,
+                                context.locale.toString() == "nl"
+                                    ? titleData.postCategoryName!
+                                    : categories[index],
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 12),
                               ),

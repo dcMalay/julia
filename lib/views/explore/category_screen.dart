@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
-import 'package:julia/data/model/category_count_model.dart';
 import 'package:julia/data/repository/all_category_repo.dart';
-
 import 'package:julia/views/explore/subcategory_screen.dart';
 
 class CategoryscreenforSearch extends StatefulWidget {
@@ -178,6 +176,40 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
       'title': 'Zwaarmateriaal',
     },
   ];
+  List categories = const [
+    'Audio, Tv and Photo',
+    'Auto',
+    'Bodycare',
+    'Boats and accessories',
+    'Construction and materials',
+    'Moped / Motorcycle',
+    'Computers and Software',
+    'Daily fresh',
+    'Animals',
+    'Bicycles',
+    'Free',
+    'Hobby and leisure',
+    'Home Appliance',
+    'Office equipment',
+    "Children and Babies",
+    'Clothing | Ladies',
+    'Clothing | Men',
+    'Medical',
+    'Music and Instruments',
+    'Personnel and Professionals',
+    'Jewelry, Bags and luxury products',
+    'Toys',
+    'Sports and Fitness',
+    'Telecommunications',
+    'Tickets and Tickets',
+    'Tourism & Vacation',
+    'Garden and Patio',
+    'Washing Machines, White Goods and Equipment',
+    'Houses and plots',
+    'Business Goods',
+    'Heavy Equipment / Trucks',
+    'Foods'
+  ];
   late Future<List<AllCategory>> apidata;
 
   @override
@@ -281,7 +313,9 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
                                     height: 35,
                                   ),
                             Text(
-                              currentItem.postCategoryName!,
+                              context.locale.toString() == 'nl'
+                                  ? currentItem.postCategoryName!
+                                  : categories[index],
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: TextStyle(

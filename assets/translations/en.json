@@ -37,7 +37,7 @@
           "please_enter_the_brand_name":"Please enter the brand name",
           "description_of_what_you_sell":"Description*",
           "please_enter_the_description":"Please enter the description",
-          "price":"Product Price",
+          "price":"Product Price*",
           "please_enter_the_price":"Please enter the price",
           "maximum_file_size":"*** Maximum File size 5 MB",
           "upload_image":"Select Images",
@@ -116,8 +116,14 @@
           "post_id":"Post Id",
           "privacy":"Privacy",
           "delete_account":"Delete Account",
-          "okay":"Oké"
-          
-          
+          "okay":"Oké",
+          "audio_tv":"Audio, Tv en Foto",
+          "auto":"Auto",
+          "body_care":"Bodycare",
+          "boats_and_accessories":"Boats and accessories",
+          "construction_and_materials":"Construction and materials",
+          "motor_cycle":"Moped / Motorcycle",
+          "computer":"Computers and Software",
+          "daily_fresh":"Daily fresh"
          
 }

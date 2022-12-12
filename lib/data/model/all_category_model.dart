@@ -1,15 +1,3 @@
-// To parse this JSON data, do
-//
-//     final allCategory = allCategoryFromJson(jsonString);
-
-import 'dart:convert';
-
-List<AllCategory> allCategoryFromJson(String str) => List<AllCategory>.from(
-    json.decode(str).map((x) => AllCategory.fromJson(x)));
-
-String allCategoryToJson(List<AllCategory> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class AllCategory {
   AllCategory({
     this.id,

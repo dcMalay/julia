@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/all_category_model.dart';
@@ -14,15 +15,14 @@ class Category extends StatefulWidget {
 
 class _CategoryState extends State<Category> {
   List imageurl = [
-    'assets/motorcycle.png',
-    // 'assets/category/Brommer_Motorfiets.png',
+    'assets/category/Boot.png',
     'assets/category/Auto.png',
     'assets/category/Body.png',
-    'assets/category/Boot.png',
     'assets/category/Bouw en materialen.png',
     'assets/category/Brommer_Motorfiets.png',
-    'assets/category/Computers en Software.png',
     'assets/category/Dieren.png',
+    'assets/category/Computers en Software.png',
+    "assets/category/Fietsen.png",
     // 'https://mpng.subpng.com/20190706/pqh/kisspng-motorcycle-ducati-superquadro-engine-superbike-rac-5d20f325a63085.1396549115624404856807.jpg',
     // 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Arduino_ftdi_chip-1.jpg/800px-Arduino_ftdi_chip-1.jpg',
     // 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -33,14 +33,14 @@ class _CategoryState extends State<Category> {
   ];
 
   List categories = const [
-    'Brommer_Motorfiets',
-    'Computers en Software',
-    'Kleding Dames',
-    'Kantoorbenodigdheden',
-    'Dieren',
-    'Telecommunicatie',
-    'Hobby en Vrije Tijd',
-    'Muziek',
+    'Audio, Tv and Photo',
+    'Auto',
+    'Bodycare',
+    'Boats and accessories',
+    'Construction and materials',
+    'Moped / Motorcycle',
+    'Computers and Software',
+    'Daily fresh',
   ];
 
   late Future<List<AllCategory>> categorydata;
@@ -59,16 +59,19 @@ class _CategoryState extends State<Category> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<AllCategory>? data = snapshot.data;
+              print(context.locale.toString());
               return SizedBox(
                 height: 100,
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
+                  itemCount: 8,
                   itemBuilder: (context, index) {
                     var curentItem = data![index];
                     return CategoryIcons(
-                      categoryTitle: curentItem.postCategoryName!,
+                      categoryTitle: context.locale.toString() == "nl"
+                          ? curentItem.postCategoryName!
+                          : categories[index],
                       image: imageurl[index],
                       categoryId: curentItem.id!,
                     );

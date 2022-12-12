@@ -37,7 +37,7 @@
           "please_enter_the_brand_name":"Voer de merknaam in",
           "description_of_what_you_sell":"Beschrijving*",
           "please_enter_the_description":"Voer de beschrijving in",
-          "price":"Product Prijs",
+          "price":"Product Prijs*",
           "please_enter_the_price":"Voer de prijs in",
           "maximum_file_size":"*** Maximale bestandsgrootte 5 MB",
           "upload_image":"Selecteer Afbeeldingen",
@@ -116,6 +116,14 @@
           "post_id":"Post Id",
           "privacy":"Privacy",
           "delete_account":"Account verwijderen",
-          "okay":"Oké"
+          "okay":"Oké",
+          "audio_tv":"Audio, Tv en Foto",
+          "auto":"Auto",
+          "body_care":"Bodycare",
+          "boats_and_accessories":"Boten en toebehoren",
+          "construction_and_materials":"Bouw en materialen",
+          "motor_cycle":"Brommer / Motorfiets",
+          "computer":"Computers en Software",
+          "daily_fresh":"Dagvers"
 
 }

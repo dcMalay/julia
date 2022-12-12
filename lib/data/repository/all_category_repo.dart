@@ -7,7 +7,9 @@ Future<List<AllCategory>> getAllCategory() async {
   final response = await http.get(Uri.parse('$baseUrl/user/all/category'));
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((e) => AllCategory.fromJson(e)).toList();
+    var data = jsonResponse.map((e) => AllCategory.fromJson(e)).toList();
+
+    return data;
   } else {
     return throw Exception('Could not able to get categories');
   }
