@@ -49,6 +49,7 @@ class _ListTileChatState extends State<ListTileChat> {
                                   sellerprofileImage: seller[index].userImage,
                                   sellerName: seller[index].userName,
                                   sellerId: seller[index].userId,
+                                  productTitle: 'Seller',
                                 ),
                                 transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {

@@ -12,10 +12,12 @@ class ChattingScreen extends StatefulWidget {
       {super.key,
       required this.sellerName,
       required this.sellerId,
-      required this.sellerprofileImage});
+      required this.sellerprofileImage,
+      required this.productTitle});
   final String sellerName;
   final String sellerId;
   final String sellerprofileImage;
+  final String productTitle;
   @override
   State<ChattingScreen> createState() => _ChattingScreenState();
 }
@@ -98,7 +100,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
             Expanded(
               child: ListTile(
                 title: Text(widget.sellerName),
-                subtitle: const Text('Seller'),
+                subtitle: Text(widget.productTitle),
               ),
             ),
           ],

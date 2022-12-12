@@ -176,6 +176,7 @@ class _CategoryscreenforSearchState extends State<CategoryscreenforSearch> {
       'title': 'Zwaarmateriaal',
     },
   ];
+
   List categories = const [
     'Audio, Tv and Photo',
     'Auto',

@@ -885,6 +885,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             .authName,
                                                         sellerId: currentItem
                                                             .postUserId,
+                                                        productTitle:
+                                                            currentItem
+                                                                .postTitle,
                                                       ),
                                                       transitionsBuilder:
                                                           (context,
