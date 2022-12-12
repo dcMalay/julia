@@ -16,12 +16,6 @@ class SubCategoryScreenforSearch extends StatefulWidget {
 class _SubCategoryScreenforSearchState
     extends State<SubCategoryScreenforSearch> {
   late Future<List<SubCategories>> sCategory;
-  @override
-  void initState() {
-    sCategory = getSubcategory(widget.categoryId);
-
-    super.initState();
-  }
 
   final List<Map<String, dynamic>> subcategorydata = [
     {
@@ -98,20 +92,20 @@ class _SubCategoryScreenforSearchState
       "__v": 0
     },
     //previous json data made by malay
-    {
-      "id": "634cf67834b3e19013baedcb",
-      "subcategory": ['Audio, Tv and Photo', 'Other']
-    },
-    {
-      "id": "634cf68a34b3e19013baedcd",
-      "subcategory": [
-        'Auto hifi',
-        'Auto',
-        'Auto Parts',
-        'Car miscellaneous',
-        'Other'
-      ]
-    },
+    // {
+    //   "id": "634cf67834b3e19013baedcb",
+    //   "subcategory": ['Audio, Tv and Photo', 'Other']
+    // },
+    // {
+    //   "id": "634cf68a34b3e19013baedcd",
+    //   "subcategory": [
+    //     'Auto hifi',
+    //     'Auto',
+    //     'Auto Parts',
+    //     'Car miscellaneous',
+    //     'Other'
+    //   ]
+    // },
     // {
     //   "id": "634cf69434b3e19013baedcf",
     //   "subcategory": ['Body care', 'Other']
@@ -200,6 +194,16 @@ class _SubCategoryScreenforSearchState
     // },
   ];
 
+  List<Map<String, dynamic>> filterData = [];
+
+  @override
+  void initState() {
+    sCategory = getSubcategory(widget.categoryId);
+    filterData.addAll(subcategorydata);
+    filterData.retainWhere((e) => e.containsValue(widget.categoryId));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.categoryId);
@@ -285,8 +289,9 @@ class _SubCategoryScreenforSearchState
                               );
                             },
                             title: Text(
-                              // context.locale.toString() == 'nl'
-                              currentItem.postSubcategoryName
+                              context.locale.toString() == 'nl'
+                                  ? currentItem.postSubcategoryName
+                                  : "${filterData[index]["post_subcategory_name"]}"
                               // : subcategorydata
                               //             .where((e) =>
                               //                 (e['post_parent_catagory']

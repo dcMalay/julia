@@ -15,14 +15,14 @@ class Category extends StatefulWidget {
 
 class _CategoryState extends State<Category> {
   List imageurl = [
-    'assets/category/Boot.png',
+    'assets/category/Audio.png',
     'assets/category/Auto.png',
     'assets/category/Body.png',
+    'assets/category/Boot.png',
     'assets/category/Bouw en materialen.png',
     'assets/category/Brommer_Motorfiets.png',
-    'assets/category/Dieren.png',
     'assets/category/Computers en Software.png',
-    "assets/category/Fietsen.png",
+    "assets/category/Dagvers.png",
     // 'https://mpng.subpng.com/20190706/pqh/kisspng-motorcycle-ducati-superquadro-engine-superbike-rac-5d20f325a63085.1396549115624404856807.jpg',
     // 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Arduino_ftdi_chip-1.jpg/800px-Arduino_ftdi_chip-1.jpg',
     // 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
