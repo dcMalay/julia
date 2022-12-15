@@ -150,7 +150,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => PlanProider()),
-        ChangeNotifierProvider(create: (context) => ProducrDetailsProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(
             create: (context) => GetProfileDetailsProvider()),
@@ -168,11 +167,7 @@ class _MyAppState extends State<MyApp> {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp(
-              // initialRoute: '/',
-              // routes: {
-              //   '/': (context) =>
-              //       ProductDetailsScreen(productID: "6373d70338034b02fa75d681"),
-              // },
+           
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: ThemeData(
