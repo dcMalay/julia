@@ -16,197 +16,90 @@ class SubCategoryScreenforSearch extends StatefulWidget {
 class _SubCategoryScreenforSearchState
     extends State<SubCategoryScreenforSearch> {
   late Future<List<SubCategories>> sCategory;
-
-  final List<Map<String, dynamic>> subcategorydata = [
-    {
-      "_id": "634cf85134b3e19013baee9a",
-      "post_subcategory_name": "Audio, Tv en Foto",
-      "post_parent_catagory": "634cf67834b3e19013baedcb",
-      "__v": 0
-    },
-    {
-      "_id": "63769109d0c1286c08222f1b",
-      "post_subcategory_name": "Overig",
-      "post_parent_catagory": "634cf67834b3e19013baedcb",
-      "__v": 0
-    },
-
-    {
-      "_id": "634cf86334b3e19013baee9d",
-      "post_subcategory_name": "Autohifi",
-      "post_parent_catagory": "634cf68a34b3e19013baedcd",
-      "__v": 0
-    },
-    {
-      "_id": "634cf86f34b3e19013baee9f",
-      "post_subcategory_name": "Auto",
-      "post_parent_catagory": "634cf68a34b3e19013baedcd",
-      "__v": 0
-    },
-    {
-      "_id": "634cf87a34b3e19013baeea2",
-      "post_subcategory_name": "Auto-onderdelen",
-      "post_parent_catagory": "634cf68a34b3e19013baedcd",
-      "__v": 0
-    },
-    {
-      "_id": "634cf88434b3e19013baeea4",
-      "post_subcategory_name": "Auto diversen",
-      "post_parent_catagory": "634cf68a34b3e19013baedcd",
-      "__v": 0
-    },
-    {
-      "_id": "6376910fd0c1286c08222f1e",
-      "post_subcategory_name": "Overig",
-      "post_parent_catagory": "634cf68a34b3e19013baedcd",
-      "__v": 0
-    },
-    {
-      "_id": "634cf8ac34b3e19013baeeb2",
-      "post_subcategory_name": "Lichaamsverzorging",
-      "post_parent_catagory": "634cf69434b3e19013baedcf",
-      "__v": 0
-    },
-    {
-      "_id": "63769112d0c1286c08222f21",
-      "post_subcategory_name": "Overig",
-      "post_parent_catagory": "634cf69434b3e19013baedcf",
-      "__v": 0
-    },
-    {
-      "_id": "634cf8d434b3e19013baeeb4",
-      "post_subcategory_name": "Boten",
-      "post_parent_catagory": "634cf69e34b3e19013baedd1",
-      "__v": 0
-    },
-    {
-      "_id": "634cf8fc34b3e19013baeeb6",
-      "post_subcategory_name": "Boot onderdelen",
-      "post_parent_catagory": "634cf69e34b3e19013baedd1",
-      "__v": 0
-    },
-    {
-      "_id": "63769117d0c1286c08222f24",
-      "post_subcategory_name": "Overig",
-      "post_parent_catagory": "634cf69e34b3e19013baedd1",
-      "__v": 0
-    },
-    //previous json data made by malay
-    // {
-    //   "id": "634cf67834b3e19013baedcb",
-    //   "subcategory": ['Audio, Tv and Photo', 'Other']
-    // },
-    // {
-    //   "id": "634cf68a34b3e19013baedcd",
-    //   "subcategory": [
-    //     'Auto hifi',
-    //     'Auto',
-    //     'Auto Parts',
-    //     'Car miscellaneous',
-    //     'Other'
-    //   ]
-    // },
-    // {
-    //   "id": "634cf69434b3e19013baedcf",
-    //   "subcategory": ['Body care', 'Other']
-    // },
-    // {
-    //   "id": "634cf69e34b3e19013baedd1",
-    //   "subcategory": ['Nothing', 'Boat parts', 'Other']
-    // },
-    // {
-    //   "id": "634cf6a734b3e19013baedd3",
-    //   "subcategory": ['Tools', 'Materials', 'Other']
-    // },
-    // {
-    //   "id": "634cf6af34b3e19013baedd5",
-    //   "subcategory": ['Moped/Motorcycle for Sale', 'Moped Parts ', 'Other']
-    // },
-    // {
-    //   "id": "634cf6b834b3e19013baedd7",
-    //   "subcategory": ['Computer games ', 'Computers and Laptops ', 'Other']
-    // },
-    // {
-    //   "id": "634cf6c334b3e19013baedd9",
-    //   "subcategory": ['Vegetables and Fruits ', 'Poultry and Other ', 'Other']
-    // },
-    // {
-    //   "id": "634cf6d634b3e19013baede0",
-    //   "subcategory": ['Animal Accessories', 'Other']
-    // },
-    // {
-    //   "id": "634cf6e034b3e19013baede6",
-    //   "subcategory": ['Bicycles for Sale ', 'Bicycle parts', 'Other']
-    // },
-    // {
-    //   "id": "634cf6eb34b3e19013baede8",
-    //   "subcategory": ['Free', 'Other']
-    // },
-    // {
-    //   "id": "634cf6f234b3e19013baedea",
-    //   "subcategory": ['Curious', 'Other']
-    // },
-    // {
-    //   "id": "634cf6f934b3e19013baedec",
-    //   "subcategory": [
-    //     'Household wanted ',
-    //     'Kitchen and accessories ',
-    //     'Furniture ',
-    //     'Other'
-    //   ]
-    // },
-    // {
-    //   "id": "634cf70134b3e19013baedf7",
-    //   "subcategory": ['Office furniture', 'Other']
-    // },
-    // {
-    //   "id": "634cf70b34b3e19013baedff",
-    //   "subcategory": ['Clothing', 'Furniture ', 'Other']
-    // },
-    // {
-    //   "id": "634cf71134b3e19013baee01",
-    //   "subcategory": ['Girls', 'Clothing ', 'Other']
-    // },
-    // {
-    //   "id": "634cf71934b3e19013baee03",
-    //   "subcategory": ['Boys', ' Clothing', 'Other']
-    // },
-    // {
-    //   "id": "634cf72634b3e19013baee05",
-    //   "subcategory": ['Medical equipment ', 'Other']
-    // },
-    // {
-    //   "id": "634cf72e34b3e19013baee07",
-    //   "subcategory": ['Music and Instruments ', 'Other']
-    // },
-    // {
-    //   "id": "634cf73734b3e19013baee09",
-    //   "subcategory": [
-    //     'Wanted handymen',
-    //     'Handymen offered',
-    //     'Vacancies',
-    //     'Other'
-    //   ]
-    // },
-    // {
-    //   "id": "634cf74034b3e19013baee0b",
-    //   "subcategory": ['Jewellery, Bags and luxury products', 'Other']
-    // },
-  ];
-
-  List<Map<String, dynamic>> filterData = [];
-
   @override
   void initState() {
     sCategory = getSubcategory(widget.categoryId);
-    filterData.addAll(subcategorydata);
-    filterData.retainWhere((e) => e.containsValue(widget.categoryId));
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.categoryId);
+    
+  List<String> filterData = widget.categoryId == '634cf67834b3e19013baedcb'
+        ? ['Audio, Tv and Photo', 'Other']
+        : widget.categoryId == '634cf68a34b3e19013baedcd'
+         ? ['Auto hifi', 'Auto', 'Auto Parts', 'Car miscellaneous', 'Other']:widget.categoryId == '634cf69434b3e19013baedcf'
+            ? ['Body care', 'Other']: widget.categoryId == '634cf69e34b3e19013baedd1'
+              ? ['Nothing', 'Boat parts', 'Other'] : widget.categoryId == '634cf6a734b3e19013baedd3'
+                    ? ['Tools', 'Materials', 'Other']
+        : widget.categoryId == '634cf6af34b3e19013baedd5'
+                            ? [
+                                'Moped/Motorcycle for Sale',
+                                'Moped Parts ',
+                                'Other'
+                              ]: widget.categoryId == '634cf6b834b3e19013baedd7'
+                                ? [
+                                    'Computer games ',
+                                    'Computers and Laptops ',
+                                    'Other'
+                                  ]
+                                : widget.categoryId ==
+                                        '634cf6c334b3e19013baedd9'
+                                    ? [
+                                        'Vegetables and Fruits ',
+                                        'Poultry and Other ',
+                                        'Other'
+                                      ]
+                                    : widget.categoryId ==
+                                            '634cf6d634b3e19013baede0'
+                                        ? ['Animal Accessories', 'Other']: widget.categoryId ==
+                                                '634cf6e034b3e19013baede6'
+                                            ?  ['Bicycles for Sale ', 'Bicycle parts', 'Other']
+                                            : widget.categoryId ==
+                                                    '634cf6eb34b3e19013baede8'
+                                                ? ['Free', 'Other']
+                                                : widget.categoryId ==
+                                                        '634cf6f234b3e19013baedea'
+                                                    ? ['Curious', 'Other']
+                                                    : widget.categoryId ==
+                                                            '634cf6f934b3e19013baedec'
+                                                        ?  [
+                                                              'Household wanted ',
+                                                              'Kitchen and accessories ',
+                                                              'Furniture ',
+                                                              'Other'
+                                                            ]   : widget.categoryId ==
+                                                                '634cf70134b3e19013baedf7'
+                                                            ?['Office furniture', 'Other']
+                                                            : widget.categoryId ==
+                                                                    '634cf70b34b3e19013baedff'
+                                                                ?  ['Clothing', 'Furniture ', 'Other']
+                                                                : widget.categoryId ==
+                                                                    '634cf71134b3e19013baee01'
+                                                                ? ['Girls', 'Clothing ', 'Other']
+                                                                : widget.categoryId ==
+                                                                    '634cf71934b3e19013baee03'
+                                                                ? ['Boys', ' Clothing', 'Other']
+                                                                : widget.categoryId ==
+                                                                    '634cf72634b3e19013baee05'
+                                                                ? ['Medical equipment ', 'Other']
+                                                                : widget.categoryId ==
+                                                                    '634cf72e34b3e19013baee07'
+                                                                ? ['Music and Instruments ', 'Other']
+                                                                : widget.categoryId ==
+                                                                    '634cf73734b3e19013baee09'
+                                                                ? [
+                                                                    'Wanted handymen',
+                                                                    'Handymen offered',
+                                                                    'Vacancies',
+                                                                    'Other'
+                                                                          ]
+                                                                  : widget.categoryId ==
+                                                                    '634cf74034b3e19013baee0b'
+                                                                ? ['Jewellery, Bags and luxury products', 'Other']
+                                                               :[];
+  
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -243,7 +136,7 @@ class _SubCategoryScreenforSearchState
                     itemCount: data!.length,
                     itemBuilder: (context, index) {
                       var currentItem = data[index];
-                      print("${subcategorydata[index]['subcategory'][index]}");
+
                       // print(subcategorydata[index]['subcategory'][index]);
                       // print('api --->${currentItem.postSubcategoryName}');
                       return Container(
@@ -289,9 +182,9 @@ class _SubCategoryScreenforSearchState
                               );
                             },
                             title: Text(
-                              context.locale.toString() == 'nl'
-                                  ? currentItem.postSubcategoryName
-                                  : "${filterData[index]["post_subcategory_name"]}"
+                             context.locale.toString() == 'nl'?
+                                   currentItem.postSubcategoryName
+                                 : filterData[index]
                               // : subcategorydata
                               //             .where((e) =>
                               //                 (e['post_parent_catagory']
