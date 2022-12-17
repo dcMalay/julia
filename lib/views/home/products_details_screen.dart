@@ -21,6 +21,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../login_register/login.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
@@ -92,8 +94,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               color: Colors.white,
             ),
           ),
-          title: const Text(
-            'Ads Details',
+          title:  Text(
+            'ads_details'.tr(),
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -254,8 +256,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'About the Product',
+                                     Text(
+                                      'description'.tr(),
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 20),
                                     ),
@@ -286,10 +288,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(left: 20.0),
                             child: Text(
-                              'Seller Description',
+                              'seller_description'.tr(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -431,9 +433,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               left: 20, right: 20),
                                           padding: const EdgeInsets.only(
                                               left: 20, right: 20),
-                                          child: const Center(
+                                          child:  Center(
                                             child: Text(
-                                              'rate the seller',
+                                              'rate_the_seller'.tr(),
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 20),
@@ -441,8 +443,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ),
                                         ),
                                       ),
-                                      const Center(
-                                        child: Text('No reviews yet'),
+                                      Center(
+                                        child: Text('no_review_yet'.tr()),
                                       )
                                     ]);
                                   } else if (snapshot.hasData) {
@@ -481,8 +483,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                         height: 100,
                                                       ),
                                                       AlertDialog(
-                                                        title: const Text(
-                                                            'Write a review for the seller'),
+                                                        title:  Text(
+                                                            'write_a_review_for_seller'.tr()),
                                                         content: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -490,8 +492,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           mainAxisSize:
                                                               MainAxisSize.min,
                                                           children: [
-                                                            const Text(
-                                                                'Give star out of 5'),
+                                                            Text(
+                                                                'give_star'.tr()),
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
@@ -516,8 +518,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
-                                                            const Text(
-                                                              'Review',
+                                                             Text(
+                                                              'review'.tr(),
                                                               style: TextStyle(
                                                                   fontSize: 15),
                                                             ),
@@ -545,8 +547,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                 color:
                                                                     greenColor,
                                                                 child:
-                                                                    const Text(
-                                                                  'Submit',
+                                                                     Text(
+                                                                  'smit'.tr(),
                                                                 ),
                                                                 onPressed: () {
                                                                   print(
@@ -584,7 +586,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                       type: QuickAlertType
                                                                           .warning,
                                                                       text:
-                                                                          'Please complete your profile to rate the seller ',
+                                                                          'please_complete_your_profile'.tr(),
                                                                     );
                                                                   }
                                                                 })
@@ -607,9 +609,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 left: 20, right: 20),
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
-                                            child: const Center(
+                                            child:  Center(
                                               child: Text(
-                                                'rate the seller',
+                                                'rate_the_seller'.tr(),
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 20),
@@ -625,7 +627,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             // mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const Text('Reviews'),
+                                               Text('review'.tr()),
                                               TextButton(
                                                   onPressed: () {
                                                     Navigator.of(context).push(
@@ -664,8 +666,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                       ),
                                                     );
                                                   },
-                                                  child: const Text(
-                                                    'see all',
+                                                  child:  Text(
+                                                    'see_all'.tr(),
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         decoration:
@@ -752,8 +754,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const SizedBox(
                             height: 24,
                           ),
-                          const Text(
-                            "Similar Products",
+                          Text(
+                            "similar_product".tr(),
                             style: TextStyle(color: Colors.black, fontSize: 20),
                           ),
                           SizedBox(
@@ -859,9 +861,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         : currentItem.postUserId == authUser
                                             ? Container()
                                             : CupertinoButton(
+                                             padding: const EdgeInsets.only(
+                                    top: 10, left: 10, right: 10, bottom: 10),
                                                 color: greenColor,
-                                                child: const Text(
-                                                  'Chat',
+                                                child:  Text(
+                                                  'chat_with-seller'.tr(),
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15),

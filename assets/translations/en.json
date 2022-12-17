@@ -124,6 +124,18 @@
           "construction_and_materials":"Construction and materials",
           "motor_cycle":"Moped / Motorcycle",
           "computer":"Computers and Software",
-          "daily_fresh":"Daily fresh"
+          "daily_fresh":"Daily fresh",
+          "ads_details":"Ads Details",
+          "description":"Description:",
+          "chat_with-seller":"Chat with seller",
+          "seller_description":"Seller Description",
+          "rate_the_seller":"Rate the seller",
+          "no_review_yet":"No review yet",
+          "similar_product":"Similar Products",
+          "review":"Reviews",
+          "please_complete_your_profile":"Please complete your profile to rate the seller",
+          "smit":"Submit",
+          "write_a_review_for_seller":"Write a review for the seller",
+          "give_star":"Give star out of 5"
          
 }

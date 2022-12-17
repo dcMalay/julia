@@ -124,6 +124,18 @@
           "construction_and_materials":"Bouw en materialen",
           "motor_cycle":"Brommer / Motorfiets",
           "computer":"Computers en Software",
-          "daily_fresh":"Dagvers"
+          "daily_fresh":"Dagvers",
+          "ads_details":"Advertentiegegevens",
+          "description":"Description:",
+          "chat_with-seller":"Chatten met verkoper",
+          "seller_description":"Verkoper Beschrijving",
+          "rate_the_seller":"Beoordeel de verkoper",
+          "no_review_yet":"Nog geen beoordelingen",
+          "similar_product":"vergelijkbare producten",
+          "review":"Recensies",
+          "please_complete_your_profile":"Vul uw profiel in om de verkoper te beoordelen",
+          "smit":"Indienen",
+          "write_a_review_for_seller":"Schrijf een review voor de verkoper",
+          "give_star":"Geef een ster op 5"
 
 }
