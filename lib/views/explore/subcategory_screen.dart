@@ -15,12 +15,8 @@ class SubCategoryScreenforSearch extends StatefulWidget {
 
 class _SubCategoryScreenforSearchState
     extends State<SubCategoryScreenforSearch> {
-
-
   late Future<List<SubCategories>> sCategory;
-
-
-
+  late Future<List<SubCategories>> ensCategory;
   // List<String> filterData = widget.categoryId == '634cf67834b3e19013baedcb'
   //       ? ['Audio, Tv and Photo', 'Other']
   //       : widget.categoryId == '634cf68a34b3e19013baedcd'
@@ -94,18 +90,18 @@ class _SubCategoryScreenforSearchState
   //                                                                   '634cf74034b3e19013baee0b'
   //                                                               ? ['Jewellery, Bags and luxury products', 'Other']
   //                                                              :[];
-  
+
   @override
   void initState() {
-    sCategory = getSubcategory(widget.categoryId);
-
+    sCategory = getSubcategory(
+      widget.categoryId,
+    );
+    ensCategory = getenSubcategory(widget.categoryId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-  
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -126,7 +122,7 @@ class _SubCategoryScreenforSearchState
               style: const TextStyle(color: Colors.white),
             )),
         body: FutureBuilder<List<SubCategories>>(
-            future: sCategory,
+            future: context.locale.toString() == 'nl' ? sCategory : ensCategory,
             builder: (context, snapshot) {
               List<SubCategories>? data = snapshot.data;
 
@@ -188,8 +184,7 @@ class _SubCategoryScreenforSearchState
                               );
                             },
                             title: Text(
-                                   currentItem.postSubcategoryName
-                              ,
+                              currentItem.postSubcategoryName,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.black,

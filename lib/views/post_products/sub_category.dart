@@ -18,17 +18,18 @@ class SubCategoryScreen extends StatefulWidget {
 
 class _SubCategoryScreenState extends State<SubCategoryScreen> {
   late Future<List<SubCategories>> sCategory;
+  late Future<List<SubCategories>> ensCategory;
   @override
   void initState() {
-    sCategory = getSubcategory(widget.categoryId);
-
+    sCategory = getSubcategory(
+      widget.categoryId,
+    );
+    ensCategory = getenSubcategory(widget.categoryId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-   
     final location = Provider.of<LocationProvider>(context);
     final profiledata = Provider.of<GetProfileDetailsProvider>(context);
     return MediaQuery(
@@ -52,7 +53,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           ),
         ),
         body: FutureBuilder<List<SubCategories>>(
-            future: sCategory,
+            future: context.locale.toString() == 'nl' ? sCategory : ensCategory,
             builder: (context, snapshot) {
               List<SubCategories>? data = snapshot.data;
               if (snapshot.hasData) {
