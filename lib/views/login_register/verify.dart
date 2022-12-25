@@ -24,8 +24,7 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   OtpTimerButtonController controller = OtpTimerButtonController();
   final _secureStorage = const FlutterSecureStorage();
-  TextEditingController _otpController = TextEditingController();
-  late Future<dynamic> _otpRes;
+  final TextEditingController _otpController = TextEditingController();
 
   Future verifyEmailOtp(String otp, String email) async {
     final url = '$baseUrl/user/getprofile/email/$email/$otp';
@@ -33,7 +32,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      print(jsonResponse);
       final userData = VerifyModel.fromJson(jsonResponse);
       await _secureStorage.write(key: 'token', value: userData.token);
       await _secureStorage.write(key: 'userId', value: userData.userId);
@@ -124,7 +122,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               validator: (s) {},
               pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
               showCursor: true,
-              onCompleted: (pin) => print(pin),
+              onCompleted: (pin) {},
             ),
             const SizedBox(
               height: 20,
@@ -157,9 +155,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
               color: greenColor,
               child: Text("verify_otp".tr()),
               onPressed: () async {
-                print('verify otp pressed ');
-                print('otp--->${_otpController.text}');
-                print(widget.email);
                 verifyEmailOtp(_otpController.text, widget.email);
               },
             )));

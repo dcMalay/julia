@@ -6,7 +6,7 @@ class Item {
   Item({required this.itemId});
   final String itemId;
 
-  StreamController<Item> _controller = StreamController<Item>.broadcast();
+  final StreamController<Item> _controller = StreamController<Item>.broadcast();
   Stream<Item> get onChanged => _controller.stream;
 
   late String _status;

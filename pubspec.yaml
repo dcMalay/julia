@@ -98,7 +98,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/julia-logo-png.png"
+  image_path: "assets/logo.png"
   #adaptive_icon_background: "#ffffff"
   #adaptive_icon_foreground: "assets/julia_foreground.png" 
 # For information on the generic Dart part of this file, see the

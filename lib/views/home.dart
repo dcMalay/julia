@@ -60,10 +60,6 @@ class _HomeState extends State<Home> {
                   child: Container(
                     height: 30,
                     width: 40,
-                    // padding: const EdgeInsets.only(
-                    //   top: 6,
-                    //   left: 10,
-                    // ),
                     decoration: BoxDecoration(
                         color: Colors.green,
                         borderRadius: BorderRadius.circular(4)),
@@ -84,10 +80,6 @@ class _HomeState extends State<Home> {
                   child: Container(
                     height: 30,
                     width: 40,
-                    // padding: const EdgeInsets.only(
-                    //   top: 6,
-                    //   left: 8,
-                    // ),
                     decoration: BoxDecoration(
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(4)),
@@ -162,17 +154,7 @@ class _HomeState extends State<Home> {
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Image.asset('assets/sell.png'),
-                  )
-                  // icon: CircleAvatar(
-                  //   backgroundColor: greenColor,
-                  //   radius: 30,
-                  //   child: const Icon(
-                  //     Ionicons.add,
-                  //     color: Colors.white,
-                  //     size: 35,
-                  //   ),
-                  // ),
-                  ,
+                  ),
                   label: '',
                 ),
                 BottomNavigationBarItem(

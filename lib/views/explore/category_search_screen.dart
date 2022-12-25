@@ -26,17 +26,13 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
   void initState() {
     super.initState();
     filteredData = getProductBycategory(widget.categoryId);
-    //filteredData = filterbylocation('locationId', widget.categoryId);
-    // print('widget category ---->${widget.categoryId}');
   }
 
   @override
   Widget build(BuildContext context) {
-    // final filterbyLocation = Provider.of<LocationFilterProvider>(context);
-    // final filterbyPrice = Provider.of<PriceFilterProvider>(context);
     TextEditingController minvalController = TextEditingController();
     TextEditingController maxvalController = TextEditingController();
-    print('refreshing page ....');
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: Scaffold(
@@ -103,12 +99,6 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                                           filteredData = filterbylocation(
                                               '${locationData[index]["_id"]}',
                                               widget.categoryId);
-
-                                          // filteredData.then(
-                                          //   (value) {
-                                          //     print(value.length);
-                                          //   },
-                                          // );
 
                                           Timer(const Duration(seconds: 2), () {
                                             setState(() {});
@@ -301,8 +291,6 @@ class _CategorySearchScreenState extends State<CategorySearchScreen> {
                         child: Center(
                           child: InkWell(
                             onTap: () {
-                              print(snapshot.data);
-                              print(" post ID ------->${currentItem.sId}");
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return ProductDetailsScreen(

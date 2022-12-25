@@ -76,7 +76,6 @@ class _WishListProductsScreenState extends State<WishListProductsScreen> {
                         var time = prefix.split('.');
                         var timepre = time[0].trim();
                         var currentItem = data.products[index];
-                        print(timepre);
 
                         return InkWell(
                           onTap: () {

@@ -20,7 +20,7 @@ class AllBoostScreen extends StatefulWidget {
 
 class _AllBoostScreenState extends State<AllBoostScreen> {
   late Future<List<AllBoost>> getboostData;
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   Future<bool> openUrl(String link) async {
     try {
@@ -28,7 +28,6 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
       await launchUrl(url);
       return true;
     } catch (e) {
-      print(e.toString());
       return false;
     }
   }
@@ -38,16 +37,13 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
     super.initState();
     setState(() {
       getboostData = getparticularboost(widget.subcategoryId);
-      //getboostData = getallboost();
     });
-    print('postid------->${widget.postId}');
   }
 
   Future boostPost(String boostId, postId) async {
     var url = '$baseUrl/user/build/boost';
     var authUser = await _secureStorage.read(key: 'userId');
-    print(boostId);
-    print(authUser);
+
     var res = await http
         .post(Uri.parse(url),
             headers: {
@@ -61,11 +57,9 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
         .then((value) async {
       var res = json.decode(value.body);
       var payres = BoostMopeDetails.fromJson(res);
-      print(payres.data.url);
 
       openUrl(payres.data.url);
-    }).catchError((error) => print(error));
-    print(res.statusCode);
+    }).catchError((error) {});
   }
 
   @override
@@ -146,7 +140,6 @@ class _AllBoostScreenState extends State<AllBoostScreen> {
                                   ),
                                 ],
                               ),
-                              // const Text('19 Sep 2022 - 06:00 PM'),
                               trailing: Text(
                                 'Valid for ${day.toInt()} days',
                                 style: const TextStyle(

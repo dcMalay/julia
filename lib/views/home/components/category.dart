@@ -23,13 +23,6 @@ class _CategoryState extends State<Category> {
     'assets/category/Brommer_Motorfiets.png',
     'assets/category/Computers en Software.png',
     "assets/category/Dagvers.png",
-    // 'https://mpng.subpng.com/20190706/pqh/kisspng-motorcycle-ducati-superquadro-engine-superbike-rac-5d20f325a63085.1396549115624404856807.jpg',
-    // 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Arduino_ftdi_chip-1.jpg/800px-Arduino_ftdi_chip-1.jpg',
-    // 'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400',
-    // 'https://akm-img-a-in.tosshub.com/businesstoday/images/story/202010/jobs_660_130920052343_291020052310.jpg?size=948:533',
-    // 'https://img.freepik.com/free-photo/lovely-pet-portrait-isolated_23-2149192357.jpg?size=626&ext=jpg',
-    // 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fG1vYmlsZSUyMHBob25lfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-    // 'https://image.shutterstock.com/image-photo/closeup-books-stacked-on-tablebeside-260nw-1088861939.jpg',
   ];
 
   List categories = const [
@@ -59,7 +52,6 @@ class _CategoryState extends State<Category> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<AllCategory>? data = snapshot.data;
-              print(context.locale.toString());
               return SizedBox(
                 height: 100,
                 child: ListView.builder(

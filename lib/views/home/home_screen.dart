@@ -10,9 +10,7 @@ import 'package:julia/views/home/components/category.dart';
 import 'package:julia/views/home/components/products_card.dart';
 import 'package:julia/views/notification/notification_screen.dart';
 import 'package:julia/views/search/search_screen.dart';
-import 'package:provider/provider.dart';
 import '../../data/model/product_model.dart';
-import '../../provider/get_all_products_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,17 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var data = AllProductProvider();
   bool isgetNotification = false;
   var productNo = 1;
   @override
   void initState() {
-    // data.getallProducts(offset.toString());
     productsData = getProduct(offset.toString());
-    FirebaseMessaging.instance.getToken().then((value) {
-      String? token = value;
-      print("token ------>$token");
-    });
+    FirebaseMessaging.instance.getToken().then((value) {});
     productsData.then((value) {
       setState(() {
         productNo = (value.length / 2).ceil();
@@ -43,10 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<Product>> productsData;
   int offset = 0;
-  // int height = 1190;
   @override
   Widget build(BuildContext context) {
-    var productsList = Provider.of<AllProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -230,33 +221,10 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            // ProductsTest(productsDataoffset: productsList.list),
             Products(
               productsDataoffset: productsData,
               productsNo: productNo,
-              // height: height.toString(),
             ),
-
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
-            //   child: CupertinoButton(
-            //     color: greenColor,
-            //     child: const Text('load more'),
-            //     onPressed: () {
-            //       productsData.then(
-            //         (value) {
-            //           value.isEmpty
-            //               ? null
-            //               : setState(() {
-            //                   offset = offset + 10;
-            //                   productsData = getProduct(offset.toString());
-            //                   //Timer(const Duration(seconds: 1), () {});
-            //                 });
-            //         },
-            //       );
-            //     },
-            //   ),
-            // ),
             const SizedBox(
               height: 20,
             ),

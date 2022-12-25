@@ -73,15 +73,12 @@ class _SubcategorySearchScreenState extends State<SubcategorySearchScreen> {
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
                       var timepre = time[0].trim();
-                      print(snapshot.data);
-                      print(" post ID ------->${currentItem.sId}");
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Center(
                           child: InkWell(
                             onTap: () {
-                              print(snapshot.data);
-                              print(" post ID ------->${currentItem.sId}");
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return ProductDetailsScreen(

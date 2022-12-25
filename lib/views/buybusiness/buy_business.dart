@@ -50,8 +50,6 @@ class _BuyBusinessState extends State<BuyBusiness> {
   Future placeorder(String planId) async {
     var url = '$baseUrl/user/build/order';
     var authUser = await _secureStorage.read(key: 'userId');
-    print(planId);
-    print(authUser);
     final response = await http
         .post(Uri.parse(url),
             headers: {
@@ -64,9 +62,9 @@ class _BuyBusinessState extends State<BuyBusiness> {
         .then((value) async {
       var res = json.decode(value.body);
       var payres = Mopedetails.fromJson(res);
-      print(payres.data.url);
+
       openUrl(payres.data.url);
-    }).catchError((error) => print(error));
+    }).catchError((error) {});
   }
 
   @override
@@ -113,7 +111,7 @@ class _BuyBusinessState extends State<BuyBusiness> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.network(
-                                'http://52.67.149.51/assets/images/tag.png',
+                                'https://www.julia.sr/assets/images/tag.png',
                                 height: 90,
                               ),
                             ),
@@ -279,7 +277,6 @@ class _BuyBusinessState extends State<BuyBusiness> {
                                             textAlign: TextAlign.center,
                                           ),
                                           onPressed: () {
-                                            print('${data[index].id}+ $index');
                                             placeorder(data[index].id);
                                           }),
                                     ],

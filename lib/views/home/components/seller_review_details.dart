@@ -39,8 +39,8 @@ class _SellerReviewSectionState extends State<SellerReviewSection> {
                     backgroundColor: Colors.grey,
                     backgroundImage: NetworkImage(
                       snapshot.data!.data[0].userImage.contains('http')
-                          ? 'https://api.minimalavatars.com/avatar/random/png'
-                          : 'https://julia.sr/uploads/${snapshot.data!.data[0].userImage}',
+                          ? 'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png'
+                          : snapshot.data!.data[0].userImage,
                     ),
                   ),
                   Expanded(

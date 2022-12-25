@@ -10,10 +10,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/helper/email_checker.dart';
-import 'package:julia/provider/auth_provider.dart';
-import 'package:provider/provider.dart';
-
-import '../../../provider/google_sign_in_provider.dart';
 
 class NewUserScreen extends StatefulWidget {
   const NewUserScreen({super.key});
@@ -26,7 +22,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
   File? image;
   final _picker = ImagePicker();
   bool showSpinner = false;
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   late final TextEditingController _nameController;
   late final TextEditingController _descController;
@@ -57,9 +53,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       setState(() {});
-    } else {
-      print('no image selected');
-    }
+    } else {}
   }
 
 //function to upload the image to php server
@@ -74,9 +68,9 @@ class _NewUserScreenState extends State<NewUserScreen> {
 
     Dio dio = Dio();
 
-    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+    dio.post("https:www.julia.sr/upload.php", data: data).then((response) {
       return editProfileDetails(response.data);
-    }).catchError((error) => print(error));
+    }).catchError((error) {});
   }
 
   editProfileDetails(String imageName) async {
@@ -105,12 +99,6 @@ class _NewUserScreenState extends State<NewUserScreen> {
         },
       ),
     );
-
-    if (response.statusCode == 200) {
-      print("response from send profile name------->${response.body}");
-    } else {
-      print('getting error--->${response.statusCode}');
-    }
   }
 
   @override
@@ -128,7 +116,6 @@ class _NewUserScreenState extends State<NewUserScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
@@ -171,11 +158,6 @@ class _NewUserScreenState extends State<NewUserScreen> {
                           child: CircleAvatar(
                             radius: 40,
                             backgroundColor: Colors.grey,
-                            // backgroundImage: NetworkImage(
-                            //   user!.photoURL ??
-                            //       'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
-                            // ),
-
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: Image.network(
@@ -184,8 +166,6 @@ class _NewUserScreenState extends State<NewUserScreen> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            //  NetworkImage(
-                            //     provider.user.photoUrl.toString()),
                           ),
                         )
                       : InkWell(
@@ -278,7 +258,6 @@ class _NewUserScreenState extends State<NewUserScreen> {
                     ),
                     onPressed: () {
                       _upload(File(image!.path));
-                      // uploadImage();
                       Timer(const Duration(seconds: 1), () {
                         Navigator.pop(context);
                       });

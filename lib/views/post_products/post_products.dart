@@ -69,8 +69,6 @@ class _PostProductsViewState extends State<PostProductsView> {
     }
     //using set state to refresh the page to show the image to the grid
     setState(() {});
-    print("Image List Length:  ${imageFileList!.length.toString()}");
-    print("Image List:  $imageFileList");
   }
 
   void clearImages() {
@@ -290,7 +288,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                                             onTap: () {
                                               setState(() {
                                                 imageFileList!.removeAt(index);
-                                                print(imageFileList!.length);
                                               });
                                             },
                                             child: Container(
@@ -401,8 +398,6 @@ class _PostProductsViewState extends State<PostProductsView> {
                                   () {
                                     _dropDownValue = items.toString();
                                     location.getCityName(_dropDownValue);
-                                    print("city ------>${location.cityData}");
-                                    print(_dropDownValue);
                                   },
                                 );
                               },

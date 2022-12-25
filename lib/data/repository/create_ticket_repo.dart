@@ -16,10 +16,4 @@ void createTicket(String message) async {
         HttpHeaders.contentTypeHeader: "application/json"
       },
       body: jsonEncode({"user_id": authUser, "message": message}));
-
-  if (res.statusCode == 200) {
-    print(res.body);
-  } else {
-    print(res.statusCode);
-  }
 }

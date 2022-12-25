@@ -43,12 +43,11 @@ class _MyAccountState extends State<MyAccount> {
   //Get from gallery
   XFile? image;
   late Future<Userdetails> getUserData;
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   final TextEditingController _createMessage = TextEditingController();
   void getUser() async {
     var authUser = await _secureStorage.read(key: 'userId');
-    print('authUser ------>$authUser');
   }
 
   @override
@@ -61,9 +60,7 @@ class _MyAccountState extends State<MyAccount> {
       getUserData = getUserDetails();
     });
     getUser();
-    getUserData.then(
-      (value) => print("userid ------->>>${value.data[0].userId}"),
-    );
+    getUserData.then((value) {});
   }
 
   var _dropDownValue;
@@ -499,27 +496,6 @@ class _MyAccountState extends State<MyAccount> {
                             ),
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 30.0, top: 20),
-                        //   child: Row(
-                        //     children: [
-                        //       Icon(
-                        //         Icons.rate_review_outlined,
-                        //         color: redColor,
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 20,
-                        //       ),
-                        //       const Text(
-                        //         'Review & Rating',
-                        //         style: TextStyle(
-                        //           color: Colors.black,
-                        //           fontSize: 20,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -606,7 +582,7 @@ class _MyAccountState extends State<MyAccount> {
                                                 secondaryAnimation) =>
                                             const HelpandSupport(
                                                 url:
-                                                    'https://julia.sr/help.php'),
+                                                    'https://www.julia.sr/help.php'),
                                         transitionsBuilder: (context, animation,
                                             secondaryAnimation, child) {
                                           return SlideTransition(
@@ -665,10 +641,6 @@ class _MyAccountState extends State<MyAccount> {
                                           child: Container(
                                             height: 30,
                                             width: 40,
-                                            // padding: const EdgeInsets.only(
-                                            //   top: 6,
-                                            //   left: 10,
-                                            // ),
                                             decoration: BoxDecoration(
                                                 color: Colors.green,
                                                 borderRadius:
@@ -699,10 +671,6 @@ class _MyAccountState extends State<MyAccount> {
                                           child: Container(
                                             height: 30,
                                             width: 40,
-                                            // padding: const EdgeInsets.only(
-                                            //   top: 6,
-                                            //   left: 8,
-                                            // ),
                                             decoration: BoxDecoration(
                                                 color: Colors.blue,
                                                 borderRadius:

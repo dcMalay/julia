@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:julia/data/model/package_details_model.dart';
 import 'package:julia/data/repository/package_details_repo.dart';
-import 'package:julia/views/invoices/widgets/invoice_details_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../const/const.dart';
 
@@ -82,7 +81,6 @@ class _InVoicesScreenState extends State<InVoicesScreen> {
                         future: packagedetails,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            print(snapshot.data);
                             List<Package>? data = snapshot.data;
 
                             return SizedBox(

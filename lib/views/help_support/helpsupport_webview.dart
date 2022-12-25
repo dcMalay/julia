@@ -5,7 +5,8 @@ class HelpandSupport extends StatefulWidget {
   const HelpandSupport({super.key, this.url});
   final url;
   @override
-  State<HelpandSupport> createState() => _HelpandSupportState(this.url);
+  // ignore: no_logic_in_create_state
+  State<HelpandSupport> createState() => _HelpandSupportState(url);
 }
 
 class _HelpandSupportState extends State<HelpandSupport> {

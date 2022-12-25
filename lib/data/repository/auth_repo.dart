@@ -41,7 +41,6 @@ Future verifyEmailOtp(String otp, String email) async {
 void userLogout() async {
   await _secureStorage.delete(key: 'token');
   await _secureStorage.delete(key: 'userId');
-  print("user log out!");
 }
 
 void logoutUser() async {

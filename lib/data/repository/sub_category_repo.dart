@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/sub_category_model.dart';
 import 'dart:convert';

@@ -27,6 +27,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
   TextEditingController messageController = TextEditingController();
   final ScrollController _controller = ScrollController();
+  // ignore: prefer_typing_uninitialized_variables
   var user;
   Timer? timer;
   //store the user in user variable
@@ -35,7 +36,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
     setState(() {
       user = authUser;
     });
-    print('User ------->$user');
   }
 
   @override
@@ -105,23 +105,8 @@ class _ChattingScreenState extends State<ChattingScreen> {
             ),
           ],
         ),
-        // actions: [
-        // PopupMenuButton<int>(
-        //   icon: Icon(
-        //     Icons.more_vert,
-        //     color: redColor,
-        //   ),
-        //   itemBuilder: (context) => [
-        //     const PopupMenuItem(value: 1, child: Text("Delete Chat")),
-        //     const PopupMenuItem(value: 2, child: Text("Report User")),
-        //     const PopupMenuItem(value: 3, child: Text("Block User")),
-        //   ],
-        // ),
-        // ],
       ),
       body: ListView(
-        // reverse: true,
-        // shrinkWrap: true,
         controller: _controller,
         children: [
           Padding(
@@ -279,7 +264,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
                     FlutterRingtonePlayer.stop();
                   });
 
-                  print('send');
                   sendMessages(widget.sellerId, user, messageController.text);
                   messageController.clear();
                   setState(() {

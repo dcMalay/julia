@@ -25,7 +25,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     isloggedIn();
-    print(status);
     super.initState();
   }
 
