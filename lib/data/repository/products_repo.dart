@@ -6,6 +6,7 @@ import 'package:julia/data/model/product_model.dart';
 Future<List<Product>> getProduct(String offset) async {
   final res = await http.get(Uri.parse('$baseUrl/user/all/ads/$offset'));
   if (res.statusCode == 200) {
+    print('offset====>$offset');
     List jsonResponse = json.decode(res.body);
     List<Product> productData = jsonResponse
         .map((dynamic item) => Product.fromJson(item))
@@ -15,6 +16,7 @@ Future<List<Product>> getProduct(String offset) async {
         })
         .values
         .toList();
+    print(productData);
     return productData;
 
     // return jsonResponse.map((e) => Product.fromJson(e)).toList();

@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:julia/const/const.dart';
+import 'package:julia/data/model/get_location_model.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/reting_model.dart';
+import 'package:julia/data/repository/get_latitude_repo.dart';
 import 'package:julia/data/repository/get_seller_rating_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/data/repository/rate_seller_repo.dart';
@@ -35,8 +37,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  LatLng currentlocation = const LatLng(22.572645, 88.363892);
-
   // ignore: prefer_typing_uninitialized_variables
   var status;
   void isloggedIn() async {
@@ -46,8 +46,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
+  late LatLng currentlocation;
   late Future<List<ProductDetails>> productDetails;
   late Future<List<RatingModel>> sellerRating;
+  late Future<List<Geolocation>> getlatLan;
   final _secureStorage = const FlutterSecureStorage();
   TextEditingController review = TextEditingController();
   TextEditingController starerating = TextEditingController();
@@ -67,10 +69,48 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     getuser();
     productDetails = getProductDetails(widget.productID).then((value) {
       sellerRating = getSellerRatingDetails(value[0].postUserId);
+      getlatLan = getlocation(
+        value[0].postLocation.toString() == "6353d8ede596901482a5b1e0"
+            ? 'Brokopondo'
+            : value[0].postLocation.toString() == '6353d8fce596901482a5b1e4'
+                ? 'Commewijne'
+                : value[0].postLocation.toString() == '6353d90fe596901482a5b1e8'
+                    ? 'Coronie'
+                    : value[0].postLocation.toString() ==
+                            '6353d923e596901482a5b1ed'
+                        ? 'Marowijne'
+                        : value[0].postLocation.toString() ==
+                                '6353d934e596901482a5b1ef'
+                            ? 'Nickerie'
+                            : value[0].postLocation.toString() ==
+                                    '6353e63ee596901482a5b1f7'
+                                ? 'Para'
+                                : value[0].postLocation.toString() ==
+                                        '6353e647e596901482a5b1fb'
+                                    ? 'Paramaribo'
+                                    : value[0].postLocation.toString() ==
+                                            '6353e650e596901482a5b1fd'
+                                        ? "Saramacca"
+                                        : value[0].postLocation.toString() ==
+                                                "6353e659e596901482a5b1ff"
+                                            ? 'Sipaliwini'
+                                            : value[0]
+                                                        .postLocation
+                                                        .toString() ==
+                                                    '6353e663e596901482a5b201'
+                                                ? 'Wanica'
+                                                : "no location",
+      );
+      getlatLan.then((e) {
+        setState(
+          () {
+            currentlocation =
+                LatLng(double.parse(e[0].lat!), double.parse(e[0].lon!));
+          },
+        );
+      });
       return value;
     });
-
-    //  productDetails = getProductDetails(widget.productID);
   }
 
   @override
@@ -247,43 +287,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             height: 290,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.help_outline),
-                                const SizedBox(
-                                  width: 10,
+                                Text(
+                                  'description'.tr(),
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 20),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'description'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          3.5 /
-                                          5,
-                                      height: 267,
-                                      child: ListView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        children: [
-                                          Text(
-                                            currentItem.postDescription,
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      3.5 /
+                                      5,
+                                  height: 267,
+                                  child: ListView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: [
+                                      Text(
+                                        currentItem.postDescription,
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -291,11 +321,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             height: 20,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 20.0),
+                            padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'seller_description'.tr(),
-                              style: TextStyle(
-                                fontSize: 20,
+                              style: const TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -437,7 +467,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           child: Center(
                                             child: Text(
                                               'rate_the_seller'.tr(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 20),
                                             ),
@@ -522,8 +552,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             ),
                                                             Text(
                                                               'review'.tr(),
-                                                              style: TextStyle(
-                                                                  fontSize: 15),
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          15),
                                                             ),
                                                             const SizedBox(
                                                               height: 5,
@@ -763,21 +795,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: SimilarProductsScreen(
                                 subcategoryId: dataP[index].postSubcategory),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: SizedBox(
-                                height: 250,
-                                width: MediaQuery.of(context).size.width,
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: currentlocation,
-                                    zoom: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          FutureBuilder<Object>(
+                              future: getlatLan,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: SizedBox(
+                                        height: 250,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: GoogleMap(
+                                          initialCameraPosition: CameraPosition(
+                                            target: currentlocation,
+                                            zoom: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: greenColor,
+                                    ),
+                                  );
+                                }
+                              }),
                         ],
                       );
                     });

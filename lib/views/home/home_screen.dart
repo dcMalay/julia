@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/repository/products_repo.dart';
@@ -228,6 +229,25 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 78.0),
+            //   child: CupertinoButton(
+            //       color: greenColor,
+            //       child: const Text('load more'),
+            //       onPressed: () {
+            //         setState(() {
+            //           getProduct(offset.toString()).then((e) {
+            //             print('e--->$e');
+            //             e == [] ? null : offset = offset + 10;
+            //           });
+            //           productsData = getProduct(offset.toString());
+            //         });
+            //         print('   offset--->$offset');
+            //       }),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
           ],
         ),
       ),
