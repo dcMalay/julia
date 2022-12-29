@@ -31,48 +31,49 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-        child: status == true
-            ? Scaffold(
-                appBar: AppBar(
-                  backgroundColor: greenColor,
-                  centerTitle: true,
-                  title: Text(
-                    'chat'.tr(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: status == true
+          ? Scaffold(
+              appBar: AppBar(
+                backgroundColor: greenColor,
+                centerTitle: true,
+                title: Text(
+                  'chat'.tr(),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                body: ListView(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 8),
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: ListTileChat(),
-                      )
-                    ]),
-              )
-            : Center(
-                child: CupertinoButton(
-                    color: greenColor,
-                    child: const Text('Login to continue'),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(PageRouteBuilder(
-                        transitionDuration: const Duration(milliseconds: 500),
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const LoginScreen(),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                                    begin: const Offset(1, 0), end: Offset.zero)
-                                .animate(animation),
-                            child: child,
-                          );
-                        },
-                      ));
-                    }),
-              ));
+              ),
+              body: ListView(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 8),
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: ListTileChat(),
+                    )
+                  ]),
+            )
+          : Center(
+              child: CupertinoButton(
+                  color: greenColor,
+                  child: Text('register_first'.tr()),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 500),
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const LoginScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                                  begin: const Offset(1, 0), end: Offset.zero)
+                              .animate(animation),
+                          child: child,
+                        );
+                      },
+                    ));
+                  }),
+            ),
+    );
   }
 }

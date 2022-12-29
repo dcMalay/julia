@@ -211,9 +211,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       var currentItem = dataP[index];
                       var str = dataP[index].postDate.toString();
                       var parts = str.split(' ');
+                      var dateSection = parts[0].trim();
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
                       var timepre = time[0].trim();
+                      // print(
+                      //   currentItem.postDescription,
+                      // );
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -249,32 +253,71 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 left: 10.0, top: 20.0, right: 10),
                             child: SizedBox(
                               height: 80,
-                              child: Text(
-                                currentItem.postTitle,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 18),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    currentItem.postTitle,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.calendar_month,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        dateSection,
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 15),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Icon(
+                                        Icons.schedule,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        timepre,
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 15),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, top: 10.0, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  currentItem.postCity,
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
-                                Text(
-                                  timepre,
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       left: 10.0, top: 10.0, right: 10),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         currentItem.postCity,
+                          //         style: const TextStyle(
+                          //             color: Colors.grey, fontSize: 15),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -286,32 +329,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            height: 290,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'description'.tr(),
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      3.5 /
-                                      5,
-                                  height: 267,
-                                  child: ListView(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    children: [
-                                      Text(
-                                        currentItem.postDescription,
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  currentItem.postDescription,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ],

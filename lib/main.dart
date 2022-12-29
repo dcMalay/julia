@@ -16,6 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'provider/get_user_details_proider.dart';
+import 'provider/google_sign_in_provider.dart';
+import 'provider/last_message_provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -141,7 +143,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(
             create: (context) => GetProfileDetailsProvider()),
-        ChangeNotifierProvider(create: (context) => LocationProvider())
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (context) => GetLastMessage()),
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),

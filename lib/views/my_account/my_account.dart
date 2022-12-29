@@ -499,6 +499,42 @@ class _MyAccountState extends State<MyAccount> {
                         const SizedBox(
                           height: 10,
                         ),
+                        Container(
+                          width: 100,
+                          margin: const EdgeInsets.only(left: 50, right: 230),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              value: _dropDownValue,
+                              hint: Text('language'.tr()),
+                              items: [
+                                DropdownMenuItem<String>(
+                                    value: 'en',
+                                    child:
+                                        SizedBox(child: Text('english'.tr()))),
+                                DropdownMenuItem<String>(
+                                    value: 'nl',
+                                    child: SizedBox(child: Text('dutch'.tr()))),
+                              ],
+                              onChanged: (val) {
+                                setState(() {
+                                  _dropDownValue = val;
+                                  // ignore: deprecated_member_us
+                                  if (val == 'en') {
+                                    setState(() {
+                                      context.setLocale(const Locale(
+                                        'en',
+                                      ));
+                                    });
+                                  } else if (val == 'nl') {
+                                    setState(() {
+                                      context.setLocale(const Locale('nl'));
+                                    });
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                        ),
                         const Divider(
                           color: Colors.grey,
                         ),
@@ -727,7 +763,7 @@ class _MyAccountState extends State<MyAccount> {
           : Center(
               child: CupertinoButton(
                   color: greenColor,
-                  child: Text('login_to_continue'.tr()),
+                  child: Text('register_first'.tr()),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
                       PageRouteBuilder(
