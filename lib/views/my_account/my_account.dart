@@ -13,7 +13,6 @@ import 'package:julia/views/buybusiness/buy_business.dart';
 import 'package:julia/views/help_support/helpsupport_webview.dart';
 import 'package:julia/views/invoices/invoices_screen.dart';
 import 'package:julia/views/my_account/components/edit_profile.dart';
-import 'package:julia/views/my_account/components/new_user_screen.dart';
 import 'package:julia/views/myads/myads.dart';
 import 'package:julia/views/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/repository/create_ticket_repo.dart';
 import '../../provider/auth_provider.dart';
 import '../login_register/login.dart';
+import 'components/new_user_edit_screen.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -43,12 +43,8 @@ class _MyAccountState extends State<MyAccount> {
   //Get from gallery
   XFile? image;
   late Future<Userdetails> getUserData;
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   final TextEditingController _createMessage = TextEditingController();
-  void getUser() async {
-    var authUser = await _secureStorage.read(key: 'userId');
-  }
 
   @override
   void initState() {
@@ -59,12 +55,12 @@ class _MyAccountState extends State<MyAccount> {
     setState(() {
       getUserData = getUserDetails();
     });
-    getUser();
+
     getUserData.then((value) {});
   }
 
   var _dropDownValue;
-  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -127,7 +123,7 @@ class _MyAccountState extends State<MyAccount> {
                                         const Duration(milliseconds: 500),
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
-                                        const NewUserScreen(),
+                                        const NewUserEditScreen(),
                                     transitionsBuilder: (context, animation,
                                         secondaryAnimation, child) {
                                       return SlideTransition(
@@ -174,7 +170,7 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                       );
                     } else if (snapshot.hasData) {
-                      Userdetails? userData = snapshot.data;
+                      Userdetails userData = snapshot.data!;
                       return ListView(children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,8 +188,8 @@ class _MyAccountState extends State<MyAccount> {
                                 child: CircleAvatar(
                                   radius: 40,
                                   backgroundColor: Colors.grey,
-                                  backgroundImage:
-                                      NetworkImage(userData!.data[0].userImage),
+                                  backgroundImage: NetworkImage(
+                                      userData.data[0].userImage.toString()),
                                 ),
                               ),
                             ),
@@ -760,28 +756,68 @@ class _MyAccountState extends State<MyAccount> {
                     }
                   }),
             )
-          : Center(
-              child: CupertinoButton(
-                  color: greenColor,
-                  child: Text('register_first'.tr()),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      PageRouteBuilder(
-                        transitionDuration: const Duration(milliseconds: 500),
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const LoginScreen(),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          return SlideTransition(
-                            position: Tween<Offset>(
-                                    begin: const Offset(1, 0), end: Offset.zero)
-                                .animate(animation),
-                            child: child,
-                          );
-                        },
+          : Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: greenColor,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Julia',
+                      style: TextStyle(
+                        color: yellowColor,
+                        fontSize: 25,
                       ),
-                    );
-                  }),
+                    ),
+                    Text(
+                      'buy_or_sell'.tr(),
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              body: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'register_first'.tr(),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: CupertinoButton(
+                          color: greenColor,
+                          child: Text('next'.tr()),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(PageRouteBuilder(
+                              transitionDuration:
+                                  const Duration(milliseconds: 500),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const LoginScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero)
+                                      .animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ));
+                          }),
+                    ),
+                  ],
+                ),
+              ),
             ),
     );
   }

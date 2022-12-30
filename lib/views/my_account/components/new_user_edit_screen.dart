@@ -11,15 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/helper/email_checker.dart';
 
-class NewUserScreen extends StatefulWidget {
-  const NewUserScreen({super.key});
+class NewUserEditScreen extends StatefulWidget {
+  const NewUserEditScreen({super.key});
 
   @override
-  State<NewUserScreen> createState() => _NewUserScreenState();
+  State<NewUserEditScreen> createState() => _NewUserEditScreenState();
 }
 
-class _NewUserScreenState extends State<NewUserScreen> {
+class _NewUserEditScreenState extends State<NewUserEditScreen> {
   File? image;
+  bool hasImage = false;
   User? googleCurrentUser = FirebaseAuth.instance.currentUser;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
@@ -56,9 +57,11 @@ class _NewUserScreenState extends State<NewUserScreen> {
 
     Dio dio = Dio();
 
-    dio.post("https:www.julia.sr/upload.php", data: data).then((response) {
+    dio.post("https://www.julia.sr/upload.php", data: data).then((response) {
       return editProfileDetails(response.data);
-    }).catchError((error) {});
+    }).catchError((error) {
+      print("---->>>>>>$error");
+    });
   }
 
   editProfileDetails(String imageName) async {
@@ -73,13 +76,13 @@ class _NewUserScreenState extends State<NewUserScreen> {
       },
       body: json.encode(
         {
-          "user_name": googleCurrentUser!.displayName ?? _nameController.text,
-          // "user_name": _nameController.text,
+          // "user_name": googleCurrentUser!.displayName ?? _nameController.text,
+          "user_name": _nameController.text,
           "user_phone": _numberController.text,
-          "user_email": googleCurrentUser!.email ?? _emailController.text,
-          // "user_email": _emailController.text,
-          "user_image": googleCurrentUser!.photoURL ?? imageName,
-          // "user_image": imageName,
+          // "user_email": googleCurrentUser!.email ?? _emailController.text,
+          "user_email": _emailController.text,
+          // "user_image": googleCurrentUser!.photoURL ?? imageName,
+          "user_image": imageName,
           "user_about": _descController.text,
           "user_city": _areaController.text,
           "user_address1": _districtController.text,
@@ -87,6 +90,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
         },
       ),
     );
+    print(response.statusCode);
   }
 
   @override
@@ -104,7 +108,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -130,54 +134,49 @@ class _NewUserScreenState extends State<NewUserScreen> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: user != null
-                    ? InkWell(
-                        onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final img = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            image = File(img!.path);
-                          });
-                        },
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.grey,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.network(
-                              user.photoURL ??
-                                  'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      )
-                    : InkWell(
-                        onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final img = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            image = File(img!.path);
-                          });
-                        },
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: Image.file(
-                            File(image!.path),
-                            fit: BoxFit.cover,
-                          ).image,
-                        ),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: InkWell(
+                    onTap: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final img =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      setState(() {
+                        image = File(img!.path);
+                        hasImage = true;
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.grey,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: hasImage
+                            ? Image.file(image!)
+                            : Image.network(
+                                'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                                fit: BoxFit.cover,
+                              ),
                       ),
-              ),
+                    ),
+                  )
+                  // : InkWell(
+                  //     onTap: () async {
+                  //       final ImagePicker picker = ImagePicker();
+                  //       final img = await picker.pickImage(
+                  //           source: ImageSource.gallery);
+                  //       setState(() {});
+                  //     },
+                  //     child: CircleAvatar(
+                  //       radius: 40,
+                  //     ),
+                  //   ),
+                  ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
                   controller: _nameController,
                   decoration: InputDecoration(
-                      hintText: user!.displayName ?? 'Full Name',
+                      hintText: 'Full Name',
                       border: const OutlineInputBorder()),
                 ),
               ),
@@ -194,8 +193,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
                 child: TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                      hintText: user.email ?? "Email",
-                      border: const OutlineInputBorder()),
+                      hintText: "Email", border: const OutlineInputBorder()),
                   validator: (input) =>
                       input!.isValidEmail() ? null : "Check your email",
                 ),
@@ -205,7 +203,7 @@ class _NewUserScreenState extends State<NewUserScreen> {
                 child: TextFormField(
                   controller: _numberController,
                   decoration: InputDecoration(
-                      hintText: user.phoneNumber ?? 'Contact Number',
+                      hintText: 'Contact Number',
                       border: const OutlineInputBorder()),
                 ),
               ),
