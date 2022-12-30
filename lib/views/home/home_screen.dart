@@ -23,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isgetNotification = false;
   var productNo = 1;
+  bool isHasMoreData = false;
   @override
   void initState() {
     productsData = getProduct(offset.toString());
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<Product>> productsData;
   int offset = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,25 +231,35 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 78.0),
-            //   child: CupertinoButton(
-            //       color: greenColor,
-            //       child: const Text('load more'),
-            //       onPressed: () {
-            //         setState(() {
-            //           getProduct(offset.toString()).then((e) {
-            //             print('e--->$e');
-            //             e == [] ? null : offset = offset + 10;
-            //           });
-            //           productsData = getProduct(offset.toString());
-            //         });
-            //         print('   offset--->$offset');
-            //       }),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 78.0),
+              child: CupertinoButton(
+                  color: greenColor,
+                  child: const Text('load more'),
+                  onPressed: () {
+                    isHasMoreData
+                        ? setState(() {
+                            offset = offset + 10;
+                          })
+                        : setState(() {
+                            offset = 0;
+                          });
+                    productsData = getProduct(offset.toString()).then((value) {
+                      print(value.length);
+                      value.length == 0
+                          ? setState(() {
+                              isHasMoreData = true;
+                            })
+                          : null;
+                      print(isHasMoreData);
+                      return value;
+                    });
+                    print('   offset--->$offset');
+                  }),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
