@@ -11,14 +11,17 @@ Future<Userdetails> getUserDetails() async {
   var authUser = await _secureStorage.read(key: "userId");
   var authToken = await _secureStorage.read(key: 'token');
   var url = '$baseUrl/user/get/my/profile/$authUser';
-
+  print('$authToken   -->$authUser   ___>>>$baseUrl');
   final response = await http.post(Uri.parse(url), headers: {
     HttpHeaders.authorizationHeader: authToken!,
     HttpHeaders.contentTypeHeader: "application/json"
   });
+
   if (response.statusCode == 200) {
     final jsonResponse = json.decode(response.body);
+    print('----->>${jsonResponse}');
     var data = Userdetails.fromJson(jsonResponse);
+    print('====$data');
     await _secureStorage.write(key: 'userName', value: data.data[0].userName);
     return data;
   } else {

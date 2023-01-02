@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userdetails = userdetailsFromJson(jsonString);
-
 import 'dart:convert';
 
 Userdetails userdetailsFromJson(String str) =>
@@ -37,8 +33,8 @@ class Datum {
     required this.userAbout,
     required this.userImage,
     required this.userCity,
+    required this.userState,
     required this.userAddress1,
-    required this.v,
   });
 
   String id;
@@ -47,8 +43,8 @@ class Datum {
   String userAbout;
   String userImage;
   String userCity;
+  String userState;
   String userAddress1;
-  int v;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["_id"],
@@ -57,8 +53,8 @@ class Datum {
         userAbout: json["user_about"],
         userImage: json["user_image"],
         userCity: json["user_city"],
+        userState: json["user_state"],
         userAddress1: json["user_address1"],
-        v: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,7 +65,6 @@ class Datum {
         "user_image": userImage,
         "user_city": userCity,
         "user_address1": userAddress1,
-        "__v": v,
       };
 }
 
@@ -80,7 +75,7 @@ class User {
     required this.password,
     required this.userStatus,
     required this.postAvailable,
-    required this.v,
+    required this.refresh,
     required this.userPhone,
   });
 
@@ -89,16 +84,15 @@ class User {
   String password;
   int userStatus;
   int postAvailable;
-  int v;
+  DateTime refresh;
   String userPhone;
-
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["_id"],
         userEmail: json["user_email"],
         password: json["password"],
         userStatus: json["user_status"],
         postAvailable: json["post_available"],
-        v: json["__v"],
+        refresh: DateTime.parse(json["refresh"]),
         userPhone: json["user_phone"],
       );
 
@@ -108,7 +102,7 @@ class User {
         "password": password,
         "user_status": userStatus,
         "post_available": postAvailable,
-        "__v": v,
-        "user_phone": userPhone,
+        "refresh": refresh.toIso8601String(),
+        "user_phone": userPhone
       };
 }

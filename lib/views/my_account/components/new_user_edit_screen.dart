@@ -12,8 +12,8 @@ import 'package:julia/const/const.dart';
 import 'package:julia/helper/email_checker.dart';
 
 class NewUserEditScreen extends StatefulWidget {
-  const NewUserEditScreen({super.key});
-
+  const NewUserEditScreen({super.key, required this.isHome});
+  final bool isHome;
   @override
   State<NewUserEditScreen> createState() => _NewUserEditScreenState();
 }
@@ -113,15 +113,17 @@ class _NewUserEditScreenState extends State<NewUserEditScreen> {
       appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          leading: widget.isHome
+              ? null
+              : IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
           backgroundColor: greenColor,
           title: const Text(
             'Edit Profile',
@@ -153,24 +155,12 @@ class _NewUserEditScreenState extends State<NewUserEditScreen> {
                         child: hasImage
                             ? Image.file(image!)
                             : Image.network(
-                                'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png',
+                                'https://www.julia.sr/assets/images/profilepic.webp',
                                 fit: BoxFit.cover,
                               ),
                       ),
                     ),
-                  )
-                  // : InkWell(
-                  //     onTap: () async {
-                  //       final ImagePicker picker = ImagePicker();
-                  //       final img = await picker.pickImage(
-                  //           source: ImageSource.gallery);
-                  //       setState(() {});
-                  //     },
-                  //     child: CircleAvatar(
-                  //       radius: 40,
-                  //     ),
-                  //   ),
-                  ),
+                  )),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(

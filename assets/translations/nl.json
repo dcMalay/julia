@@ -66,7 +66,7 @@
           "no_data_found":"geen data gevonden",
           "error_occur":"Fout opgetreden",
           "profile":"Profiel",
-          "set_your_profile":"Stel je profiel in",
+          "set_your_profile":"bewerk profiel",
           "log_out":"Uitloggen",
           "my_ads":"Mijn advertenties",
           "bought_packages":"Gekocht pakket en facturering",
@@ -141,6 +141,20 @@
           "please_complete_your_profile":"Vul uw profiel in om de verkoper te beoordelen",
           "smit":"Indienen",
           "write_a_review_for_seller":"Schrijf een review voor de verkoper",
-          "give_star":"Geef een ster op 5"
+          "give_star":"Geef een ster op 5",
+
+
+
+          "profile_information":"Profiel informatie",
+          "basic_information":"Basis informatie",
+          "fullname":"Voor-en achternaam",
+          "tell_julia_about_the_things_you_like":"Vertel Julia over de dingen die je leuk vindt"         ,
+          "contact-information":"Contactgegevens",
+          "PhoneNumber":"Telefoonnummer",
+          "email_address":"E-mailadres",
+          "address_data":"Address data",
+          "address":"Adres",
+          "resort":"Ressort", 
+          "District":"District"
 
 }

@@ -80,6 +80,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      'assets/juliaLogo.png',
+                      height: 110,
+                    ),
                     Center(
                       child: Text(
                         'register_first'.tr(),

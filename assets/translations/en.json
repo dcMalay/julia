@@ -66,7 +66,7 @@
           "no_data_found":"no data found",
           "error_occur":"Error occur",
           "profile":"Profile",
-          "set_your_profile":"Set your profile",
+          "set_your_profile":"Edit profile",
           "log_out":"Log Out",
           "my_ads":"My ADS",
           "bought_packages":"Bought Package & Billing",
@@ -141,6 +141,18 @@
           "please_complete_your_profile":"Please complete your profile to rate the seller",
           "smit":"Submit",
           "write_a_review_for_seller":"Write a review for the seller",
-          "give_star":"Give star out of 5"
-         
+          "give_star":"Give star out of 5",
+
+          
+          "profile_information":"Profile information",
+          "basic_information":"Basic Information",
+          "fullname":"Full Name",
+          "tell_julia_about_the_things_you_like":"Tell Julia about the things you like"         ,
+          "contact-information":"Contact information",
+          "PhoneNumber":"PhoneNumber",
+          "email_address":"Email address",
+          "address_data":"Address data",
+          "address":"Address",
+          "resort":"resort", 
+          "District":"District"
 }

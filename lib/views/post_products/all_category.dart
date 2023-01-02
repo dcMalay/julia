@@ -337,6 +337,10 @@ class _CategoriesState extends State<Categories> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      'assets/juliaLogo.png',
+                      height: 110,
+                    ),
                     Center(
                       child: Text(
                         'register_first'.tr(),
