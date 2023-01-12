@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/model/verify_otp_model.dart';
@@ -24,8 +25,7 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   OtpTimerButtonController controller = OtpTimerButtonController();
   final _secureStorage = const FlutterSecureStorage();
-  TextEditingController _otpController = TextEditingController();
-  late Future<dynamic> _otpRes;
+  final TextEditingController _otpController = TextEditingController();
 
   Future verifyEmailOtp(String otp, String email) async {
     final url = '$baseUrl/user/getprofile/email/$email/$otp';
@@ -33,7 +33,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      print(jsonResponse);
       final userData = VerifyModel.fromJson(jsonResponse);
       await _secureStorage.write(key: 'token', value: userData.token);
       await _secureStorage.write(key: 'userId', value: userData.userId);
@@ -105,12 +104,26 @@ class _VerifyScreenState extends State<VerifyScreen> {
           children: [
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'enter_the_otp_sent_to_your_email_address'.tr(),
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  'enter_otp'.tr(),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  'enter_the_otp_sent_to_your_email_address'.tr(),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),
@@ -124,7 +137,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               validator: (s) {},
               pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
               showCursor: true,
-              onCompleted: (pin) => print(pin),
+              onCompleted: (pin) {},
             ),
             const SizedBox(
               height: 20,
@@ -139,6 +152,26 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 },
                 text: Text('resend_otp'.tr()),
                 duration: 60,
+              ),
+            ),
+            SizedBox(
+              height: 300.h,
+            ),
+            Center(
+              child: Text(
+                'all_personal_details'.tr(),
+                style: const TextStyle(color: Colors.black, fontSize: 15),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+              child: Center(
+                child: Text(
+                  'terms_&_condition'.tr(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey, fontSize: 15),
+                ),
               ),
             ),
           ],
@@ -157,9 +190,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
               color: greenColor,
               child: Text("verify_otp".tr()),
               onPressed: () async {
-                print('verify otp pressed ');
-                print('otp--->${_otpController.text}');
-                print(widget.email);
                 verifyEmailOtp(_otpController.text, widget.email);
               },
             )));

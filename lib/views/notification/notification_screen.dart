@@ -22,10 +22,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     super.initState();
 
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-      print('FirebaseMessaging.instance.getInitialMessage');
-      if (message != null) {
-        print('New Notification');
-      }
+      if (message != null) {}
     });
   }
 
@@ -53,8 +50,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
         body: FutureBuilder<List<ProductDetails>>(
           future: notificationData,
           builder: (context, snapshot) {
-            // if (snapshot.data!.isEmpty) {
-            //   return const Center(child: Text('Notification is Empty'));
             if (snapshot.data == null) {
               return Center(
                   child: CircularProgressIndicator(

@@ -72,16 +72,6 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Divider(
-              //   color: Colors.grey,
-              // ),
-              // Padding(
-              //   padding: EdgeInsets.all(8.0),
-              //   child: Text(
-              //     'Log Out From all device',
-              //     style: TextStyle(fontSize: 18),
-              //   ),
-              // ),
               const Divider(
                 color: Colors.grey,
               ),
@@ -95,16 +85,6 @@ class SettingScreen extends StatelessWidget {
               const Divider(
                 color: Colors.grey,
               ),
-              // Padding(
-              //   padding: EdgeInsets.all(8.0),
-              //   child: Text(
-              //     'Chat Safety Tips',
-              //     style: TextStyle(fontSize: 18),
-              //   ),
-              // ),
-              // Divider(
-              //   color: Colors.grey,
-              // ),
             ],
           ),
         ));

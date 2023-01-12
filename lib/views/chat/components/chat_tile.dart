@@ -75,7 +75,7 @@ class _ListTileChatState extends State<ListTileChat> {
                                           255, 233, 233, 233),
                                       backgroundImage: NetworkImage(
                                         seller[index].userImage.contains('http')
-                                            ? 'https://api.minimalavatars.com/avatar/random/png'
+                                            ? 'https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-370-456322-512.png'
                                             : seller[index].userImage,
                                       )),
                                   const SizedBox(
@@ -102,69 +102,6 @@ class _ListTileChatState extends State<ListTileChat> {
                           ),
                         ),
                       );
-                      // return Column(
-                      //   children: [
-                      //     Expanded(
-                      //       child: ListTile(
-                      //         onTap: () {
-                      //           Navigator.of(context).push(
-                      //             PageRouteBuilder(
-                      //               transitionDuration:
-                      //                   const Duration(milliseconds: 500),
-                      //               pageBuilder: (context, animation,
-                      //                       secondaryAnimation) =>
-                      //                   ChattingScreen(
-                      //                 sellerName: seller[index].userName,
-                      //                 sellerId: seller[index].userId,
-                      //               ),
-                      //               transitionsBuilder: (context, animation,
-                      //                   secondaryAnimation, child) {
-                      //                 return SlideTransition(
-                      //                   position: Tween<Offset>(
-                      //                           begin: const Offset(1, 0),
-                      //                           end: Offset.zero)
-                      //                       .animate(animation),
-                      //                   child: child,
-                      //                 );
-                      //               },
-                      //             ),
-                      //           );
-                      //         },
-                      //         leading: Container(
-                      //           height: 50,
-                      //           width: 50,
-                      //           decoration: BoxDecoration(
-                      //             image: DecorationImage(
-                      //                 image: NetworkImage(seller[index]
-                      //                         .userImage
-                      //                         .contains('http')
-                      //                     ? 'https://api.minimalavatars.com/avatar/random/png'
-                      //                     : seller[index].userImage)
-                      //                 // image: NetworkImage(
-                      //                 //     "http://52.67.149.51/uploads/${seller!.data[0].userImage}"),
-                      //                 ),
-                      //           ),
-                      //         ),
-                      //         title: Text(seller[index].userName),
-                      //         subtitle: Column(
-                      //           mainAxisAlignment: MainAxisAlignment.start,
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: const [
-                      //             Text("Click to see the message",
-                      //                 style: TextStyle(color: Colors.grey)),
-                      //             // Text(
-                      //             //   "Hi, I am looking for a new house in the south of the city",
-                      //             //   style: TextStyle(fontSize: 12),
-                      //             // ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     const Divider(
-                      //       color: Colors.grey,
-                      //     )
-                      //   ],
-                      // );
                     }),
               );
             } else if (snapshot.hasError) {

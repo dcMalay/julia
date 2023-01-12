@@ -5,7 +5,6 @@ import 'package:julia/const/const.dart';
 import 'package:julia/data/model/sub_category_model.dart';
 import 'package:julia/data/repository/sub_category_repo.dart';
 import 'package:julia/provider/get_user_details_proider.dart';
-import 'package:julia/provider/location_provider.dart';
 import 'package:julia/views/post_products/post_products.dart';
 import 'package:provider/provider.dart';
 
@@ -18,18 +17,18 @@ class SubCategoryScreen extends StatefulWidget {
 
 class _SubCategoryScreenState extends State<SubCategoryScreen> {
   late Future<List<SubCategories>> sCategory;
+  late Future<List<SubCategories>> ensCategory;
   @override
   void initState() {
-    sCategory = getSubcategory(widget.categoryId);
-
+    sCategory = getSubcategory(
+      widget.categoryId,
+    );
+    ensCategory = getenSubcategory(widget.categoryId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-   
-    final location = Provider.of<LocationProvider>(context);
     final profiledata = Provider.of<GetProfileDetailsProvider>(context);
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
@@ -52,7 +51,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           ),
         ),
         body: FutureBuilder<List<SubCategories>>(
-            future: sCategory,
+            future: context.locale.toString() == 'nl' ? sCategory : ensCategory,
             builder: (context, snapshot) {
               List<SubCategories>? data = snapshot.data;
               if (snapshot.hasData) {

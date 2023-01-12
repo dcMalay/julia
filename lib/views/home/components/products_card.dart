@@ -10,34 +10,26 @@ import 'package:julia/views/home/products_details_screen.dart';
 class Products extends StatefulWidget {
   const Products({
     Key? key,
-    //  required this.height,
     required this.productsDataoffset,
     required this.productsNo,
   }) : super(key: key);
   final Future<List<Product>> productsDataoffset;
   final num productsNo;
-  //final String height;
+
   @override
   State<Products> createState() => _ProductsState();
 }
 
 class _ProductsState extends State<Products> {
-  // late Future<List<Product>> productsData;
-
   @override
   void initState() {
     super.initState();
-
-    // setState(() {
-    //   productsData = getProduct(widget.offset);
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 292.0 * widget.productsNo,
-      // height: double.parse(widget.height).h,
       child: FutureBuilder<List<Product>>(
           future: widget.productsDataoffset,
           builder: (context, snapshot) {
@@ -170,7 +162,6 @@ class _ProductCardState extends State<ProductCard> {
   @override
   void initState() {
     inWishList = isInWishlist(widget.productId);
-    //print("Image ------>${widget.imageUrl}");
     super.initState();
   }
 
@@ -306,7 +297,6 @@ class _ProductCardState extends State<ProductCard> {
                                   : IconButton(
                                       padding: const EdgeInsets.all(0),
                                       onPressed: () {
-                                        print('add to favotire');
                                         setState(() {
                                           addtoFavorite(widget.productId);
                                           inWishList =
@@ -317,25 +307,10 @@ class _ProductCardState extends State<ProductCard> {
                                         Icons.favorite_border,
                                         color: redColor,
                                       ));
-                              // InkWell(
-                              //   onTap: () {
-                              //     print('add to favotire');
-                              //     addtoFavorite(widget.productId);
-                              //     setState(() {
-                              //       inWishList = isInWishlist(widget.productId);
-                              //     });
-                              //   },
-                              //   child: Icon(
-                              //     Icons.favorite_border,
-                              //     color: redColor,
-                              //   ),
-                              // );
                             } else if (snapshot.hasError) {
-                              // return Text("${snapshot.error}");
                               return IconButton(
                                 padding: const EdgeInsets.all(0),
                                 onPressed: () {
-                                  print('add to favotire');
                                   addtoFavorite(widget.productId);
                                   setState(() {
                                     inWishList = isInWishlist(widget.productId);
@@ -351,11 +326,6 @@ class _ProductCardState extends State<ProductCard> {
                                 Icons.favorite_border,
                                 color: redColor,
                               );
-                              // return Center(
-                              //   child: CircularProgressIndicator(
-                              //     color: greenColor,
-                              //   ),
-                              // );
                             }
                           })
                     ],

@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:julia/const/const.dart';
+import 'package:julia/data/model/get_location_model.dart';
 import 'package:julia/data/model/product_details_model.dart';
 import 'package:julia/data/model/reting_model.dart';
+import 'package:julia/data/repository/get_latitude_repo.dart';
 import 'package:julia/data/repository/get_seller_rating_repo.dart';
 import 'package:julia/data/repository/products_details_repo.dart';
 import 'package:julia/data/repository/rate_seller_repo.dart';
@@ -23,7 +25,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../login_register/login.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({
     super.key,
@@ -36,8 +37,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  LatLng currentlocation = LatLng(22.572645, 88.363892);
-
+  // ignore: prefer_typing_uninitialized_variables
   var status;
   void isloggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -46,12 +46,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
+  late LatLng currentlocation;
   late Future<List<ProductDetails>> productDetails;
   late Future<List<RatingModel>> sellerRating;
+  late Future<List<Geolocation>> getlatLan;
   final _secureStorage = const FlutterSecureStorage();
   TextEditingController review = TextEditingController();
   TextEditingController starerating = TextEditingController();
+  // ignore: prefer_typing_uninitialized_variables
   var userName;
+  // ignore: prefer_typing_uninitialized_variables
   var authUser;
   getuser() async {
     authUser = await _secureStorage.read(key: "userId");
@@ -65,10 +69,48 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     getuser();
     productDetails = getProductDetails(widget.productID).then((value) {
       sellerRating = getSellerRatingDetails(value[0].postUserId);
+      getlatLan = getlocation(
+        value[0].postLocation.toString() == "6353d8ede596901482a5b1e0"
+            ? 'Brokopondo'
+            : value[0].postLocation.toString() == '6353d8fce596901482a5b1e4'
+                ? 'Commewijne'
+                : value[0].postLocation.toString() == '6353d90fe596901482a5b1e8'
+                    ? 'Coronie'
+                    : value[0].postLocation.toString() ==
+                            '6353d923e596901482a5b1ed'
+                        ? 'Marowijne'
+                        : value[0].postLocation.toString() ==
+                                '6353d934e596901482a5b1ef'
+                            ? 'Nickerie'
+                            : value[0].postLocation.toString() ==
+                                    '6353e63ee596901482a5b1f7'
+                                ? 'Para'
+                                : value[0].postLocation.toString() ==
+                                        '6353e647e596901482a5b1fb'
+                                    ? 'Paramaribo'
+                                    : value[0].postLocation.toString() ==
+                                            '6353e650e596901482a5b1fd'
+                                        ? "Saramacca"
+                                        : value[0].postLocation.toString() ==
+                                                "6353e659e596901482a5b1ff"
+                                            ? 'Sipaliwini'
+                                            : value[0]
+                                                        .postLocation
+                                                        .toString() ==
+                                                    '6353e663e596901482a5b201'
+                                                ? 'Wanica'
+                                                : "no location",
+      );
+      getlatLan.then((e) {
+        setState(
+          () {
+            currentlocation =
+                LatLng(double.parse(e[0].lat!), double.parse(e[0].lon!));
+          },
+        );
+      });
       return value;
     });
-
-    //  productDetails = getProductDetails(widget.productID);
   }
 
   @override
@@ -94,9 +136,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               color: Colors.white,
             ),
           ),
-          title:  Text(
+          title: Text(
             'ads_details'.tr(),
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           actions: [
             InkWell(
@@ -169,9 +211,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       var currentItem = dataP[index];
                       var str = dataP[index].postDate.toString();
                       var parts = str.split(' ');
+                      var dateSection = parts[0].trim();
                       var prefix = parts[1].trim();
                       var time = prefix.split('.');
                       var timepre = time[0].trim();
+                      // print(
+                      //   currentItem.postDescription,
+                      // );
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -207,32 +253,71 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 left: 10.0, top: 20.0, right: 10),
                             child: SizedBox(
                               height: 80,
-                              child: Text(
-                                currentItem.postTitle,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 18),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    currentItem.postTitle,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.calendar_month,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        dateSection,
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 15),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      const Icon(
+                                        Icons.schedule,
+                                        color: Colors.black,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        timepre,
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 15),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10.0, top: 10.0, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  currentItem.postCity,
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
-                                Text(
-                                  timepre,
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       left: 10.0, top: 10.0, right: 10),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         currentItem.postCity,
+                          //         style: const TextStyle(
+                          //             color: Colors.grey, fontSize: 15),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -244,44 +329,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            height: 290,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Icon(Icons.help_outline),
-                                const SizedBox(
-                                  width: 10,
+                                Text(
+                                  'description'.tr(),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                     Text(
-                                      'description'.tr(),
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          3.5 /
-                                          5,
-                                      height: 267,
-                                      child: ListView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        children: [
-                                          Text(
-                                            currentItem.postDescription,
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  currentItem.postDescription,
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -289,11 +356,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             height: 20,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 20.0),
+                            padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'seller_description'.tr(),
-                              style: TextStyle(
-                                fontSize: 20,
+                              style: const TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -392,7 +459,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             'Submit',
                                                           ),
                                                           onPressed: () {
-                                                            print('submit');
                                                             rateSeller(
                                                               dataP[index].id,
                                                               review.text,
@@ -433,10 +499,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               left: 20, right: 20),
                                           padding: const EdgeInsets.only(
                                               left: 20, right: 20),
-                                          child:  Center(
+                                          child: Center(
                                             child: Text(
                                               'rate_the_seller'.tr(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 20),
                                             ),
@@ -483,8 +549,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                         height: 100,
                                                       ),
                                                       AlertDialog(
-                                                        title:  Text(
-                                                            'write_a_review_for_seller'.tr()),
+                                                        title: Text(
+                                                            'write_a_review_for_seller'
+                                                                .tr()),
                                                         content: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -492,8 +559,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           mainAxisSize:
                                                               MainAxisSize.min,
                                                           children: [
-                                                            Text(
-                                                                'give_star'.tr()),
+                                                            Text('give_star'
+                                                                .tr()),
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
@@ -518,10 +585,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
-                                                             Text(
+                                                            Text(
                                                               'review'.tr(),
-                                                              style: TextStyle(
-                                                                  fontSize: 15),
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          15),
                                                             ),
                                                             const SizedBox(
                                                               height: 5,
@@ -546,13 +615,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                             CupertinoButton(
                                                                 color:
                                                                     greenColor,
-                                                                child:
-                                                                     Text(
+                                                                child: Text(
                                                                   'smit'.tr(),
                                                                 ),
                                                                 onPressed: () {
-                                                                  print(
-                                                                      userName);
                                                                   if (userName !=
                                                                       null) {
                                                                     rateSeller(
@@ -585,8 +651,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                           context,
                                                                       type: QuickAlertType
                                                                           .warning,
-                                                                      text:
-                                                                          'please_complete_your_profile'.tr(),
+                                                                      text: 'please_complete_your_profile'
+                                                                          .tr(),
                                                                     );
                                                                   }
                                                                 })
@@ -609,10 +675,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 left: 20, right: 20),
                                             padding: const EdgeInsets.only(
                                                 left: 20, right: 20),
-                                            child:  Center(
+                                            child: Center(
                                               child: Text(
                                                 'rate_the_seller'.tr(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 20),
                                               ),
@@ -627,7 +693,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             // mainAxisSize: MainAxisSize.min,
                                             children: [
-                                               Text('review'.tr()),
+                                              Text('review'.tr()),
                                               TextButton(
                                                   onPressed: () {
                                                     Navigator.of(context).push(
@@ -666,9 +732,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                       ),
                                                     );
                                                   },
-                                                  child:  Text(
+                                                  child: Text(
                                                     'see_all'.tr(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.black,
                                                         decoration:
                                                             TextDecoration
@@ -756,28 +822,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           Text(
                             "similar_product".tr(),
-                            style: TextStyle(color: Colors.black, fontSize: 20),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 20),
                           ),
                           SizedBox(
                             height: 300,
                             child: SimilarProductsScreen(
                                 subcategoryId: dataP[index].postSubcategory),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: SizedBox(
-                                height: 250,
-                                width: MediaQuery.of(context).size.width,
-                                child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
-                                    target: currentlocation,
-                                    zoom: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          FutureBuilder<Object>(
+                              future: getlatLan,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: SizedBox(
+                                        height: 250,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: GoogleMap(
+                                          initialCameraPosition: CameraPosition(
+                                            target: currentlocation,
+                                            zoom: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: greenColor,
+                                    ),
+                                  );
+                                }
+                              }),
                         ],
                       );
                     });
@@ -861,12 +941,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         : currentItem.postUserId == authUser
                                             ? Container()
                                             : CupertinoButton(
-                                             padding: const EdgeInsets.only(
-                                    top: 10, left: 10, right: 10, bottom: 10),
+                                                padding: const EdgeInsets.only(
+                                                    top: 10,
+                                                    left: 10,
+                                                    right: 10,
+                                                    bottom: 10),
                                                 color: greenColor,
-                                                child:  Text(
+                                                child: Text(
                                                   'chat_with-seller'.tr(),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15),
                                                 ),
@@ -877,7 +960,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           const Duration(
                                                               milliseconds:
                                                                   500),
-                                                      // reverseTransitionDuration: const Duration(seconds: 1),
                                                       pageBuilder: (context,
                                                               animation,
                                                               secondaryAnimation) =>

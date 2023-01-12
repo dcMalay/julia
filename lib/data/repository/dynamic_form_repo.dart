@@ -9,8 +9,7 @@ getdynamicForm() async {
       'http://52.67.149.51:3000/user/extra/field/6332ddd73488c5687a3b38ed'));
   if (response.statusCode == 200) {
     var document = parse(response.body);
-    print('html form ------>${response.body}');
-    print(document.getElementsByTagName('col-12'));
+
     return response.body;
   } else {
     throw Exception('getting error');

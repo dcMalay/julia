@@ -310,26 +310,72 @@ class _CategoriesState extends State<Categories> {
                 ),
               ),
             )
-          : Center(
-              child: CupertinoButton(
-                  color: greenColor,
-                  child: const Text('Login to continue'),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(PageRouteBuilder(
-                      transitionDuration: const Duration(milliseconds: 500),
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const LoginScreen(),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) {
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                                  begin: const Offset(1, 0), end: Offset.zero)
-                              .animate(animation),
-                          child: child,
-                        );
-                      },
-                    ));
-                  }),
+          : Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                backgroundColor: greenColor,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Julia',
+                      style: TextStyle(
+                        color: yellowColor,
+                        fontSize: 25,
+                      ),
+                    ),
+                    Text(
+                      'buy_or_sell'.tr(),
+                      style: const TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              body: SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/juliaLogo.png',
+                      height: 110,
+                    ),
+                    Center(
+                      child: Text(
+                        'register_first'.tr(),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: CupertinoButton(
+                          color: greenColor,
+                          child: Text('next'.tr()),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(PageRouteBuilder(
+                              transitionDuration:
+                                  const Duration(milliseconds: 500),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      const LoginScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                          begin: const Offset(1, 0),
+                                          end: Offset.zero)
+                                      .animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ));
+                          }),
+                    ),
+                  ],
+                ),
+              ),
             ),
     );
   }

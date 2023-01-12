@@ -8,27 +8,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:julia/const/const.dart';
 import 'package:julia/data/repository/send_fcm_token_repo.dart';
 import 'package:julia/provider/auth_provider.dart';
-import 'package:julia/provider/category_provider.dart';
-import 'package:julia/provider/filter_by_location_provider.dart';
-import 'package:julia/provider/get_all_products_provider.dart';
-import 'package:julia/provider/get_products_count_provider.dart';
-import 'package:julia/provider/get_user_details_proider.dart';
-import 'package:julia/provider/google_sign_in_provider.dart';
 import 'package:julia/provider/location_provider.dart';
-import 'package:julia/provider/plans_provider.dart';
-import 'package:julia/provider/product_details_provider.dart';
 import 'package:julia/views/home.dart';
 import 'package:julia/views/login_register/login.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'provider/filtered_by_price_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'provider/get_user_details_proider.dart';
+import 'provider/google_sign_in_provider.dart';
+import 'provider/last_message_provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
 }
 
 void main() async {
@@ -144,22 +138,14 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
-        ChangeNotifierProvider(create: (context) => CategoryProvider()),
-        ChangeNotifierProvider(create: (context) => PlanProider()),
-        ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(
             create: (context) => GetProfileDetailsProvider()),
-        ChangeNotifierProvider(create: (context) => LocationFilterProvider()),
-        ChangeNotifierProvider(create: (context) => PriceFilterProvider()),
-        ChangeNotifierProvider(create: (context) => AllProductProvider()),
-        ChangeNotifierProvider(
-          create: (context) => GetProductsCountProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (context) => GetLastMessage()),
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -167,7 +153,6 @@ class _MyAppState extends State<MyApp> {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp(
-           
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
               theme: ThemeData(
@@ -228,7 +213,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigateUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var status = prefs.getBool('isLoggedIn') ?? false;
-    print(status);
+
     if (status) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(

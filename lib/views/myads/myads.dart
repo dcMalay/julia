@@ -93,7 +93,6 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                                   maxLines: 2,
                                 ),
                                 subtitle: Text("$date  - $timepre"),
-                                // const Text('19 Sep 2022 - 06:00 PM'),
                                 trailing: Text(
                                   '\$ ${currentItem.postPrice}',
                                   style: const TextStyle(color: Colors.black),

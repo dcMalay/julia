@@ -31,9 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       setState(() {});
-    } else {
-      print('no image selected');
-    }
+    } else {}
   }
 
 //function to upload the image to php server
@@ -48,9 +46,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     Dio dio = Dio();
 
-    dio.post("http://mouldstaging.com/upload.php", data: data).then((response) {
+    dio.post("https:www.julia.sr/upload.php", data: data).then((response) {
       return editProfileDetails(response.data);
-    }).catchError((error) => print(error));
+    }).catchError((error) {});
   }
 
   editProfileDetails(String imageName) async {
@@ -71,13 +69,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
       ),
     );
-    print(phoneNumber.text);
-    print(userName.text);
-    if (response.statusCode == 200) {
-      print("response from send profile name------->${response.body}");
-    } else {
-      print('getting error');
-    }
   }
 
   @override
@@ -164,9 +155,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 color: Colors.green,
                 child: const Text("save"),
                 onPressed: () {
-                  print('save pressed');
                   _upload(File(image!.path));
-                  // uploadImage();
+
                   Timer(const Duration(seconds: 1), () {
                     Navigator.pop(context);
                   });
@@ -179,49 +169,3 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-
-
-// function uploadfile(file) {
-
-
-//                 return new Promise((resolve, reject) => {
-//                     if (files.length == 0) {
-//                         alert('Error : No file selected');
-//                         return;
-//                     }
-
-
-//                     let allowed_mime_types = ['image/jpeg', 'image/png'];
-//                     let allowed_size_mb = 2;
-
-//                     if (allowed_mime_types.indexOf(file.type) == -1) {
-//                         alert('Error : Incorrect file type');
-//                         return;
-//                     }
-
-//                     if (file.size > allowed_size_mb * 1024 * 1024) {
-//                         alert('Error : Exceeded size');
-//                         return;
-//                     }
-
-//                     let data = new FormData();
-//                     data.append('file', file);
-
-//                     let request = new XMLHttpRequest();
-
-//                     request.upload.onprogress = function(event) {
-//                         let percent = Math.round(100 * event.loaded / event.total);
-//                         console.log(`File is ${percent}% uploaded.`);
-//                     };
-
-
-
-//                     request.open('POST', 'upload.php');
-//                     request.addEventListener('load', function(e) {
-//                         resolve(request.response)
-//                     });
-//                     request.send(data);
-
-//                 })
-
-//             }
